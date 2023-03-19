@@ -1,0 +1,4 @@
+Parse successful:     4224 lines: C:/Users/ele/Documents/Warcraft III/JassHelper/common.j
+Parse successful:    10812 lines: C:/Users/ele/Documents/Warcraft III/JassHelper/Blizzard.j
+Parse successful:     9163 lines: logs\currentmapscript.j
+Parse successful:    24199 lines: <total>
