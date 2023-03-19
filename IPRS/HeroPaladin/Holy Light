@@ -1,0 +1,83 @@
+//
+function HolyLight_Actions takes nothing returns nothing
+	
+	local unit caster = GetTriggerUnit()
+	local unit target = GetSpellTargetUnit()
+	local unit temp
+	local location generic_point = GetUnitLoc(target)
+	local group generic_group = CreateGroup()
+	//local effect sfx = AddSpecialEffectLoc("Abilities\Spells\Human\HolyBolt\HolyBoltSpecialArt.mdl", generic_point)
+	
+	local real targetHP = GetUnitState(target, UNIT_STATE_LIFE)
+	local real targetMaxHP = GetUnitState(target, UNIT_STATE_MAX_LIFE)
+	local real targetMP = GetUnitState(target, UNIT_STATE_MANA)
+	local real targetMaxMP = GetUnitState(target, UNIT_STATE_MAX_MANA)
+	local real ManaHeal
+	local real temp_real
+	
+
+	local integer level = GetUnitAbilityLevel(caster, 'A005')
+	local real amount = 200 * I2R(level)
+	
+	local boolean generic_bool = false
+	
+	local integer count
+	
+	//--- restore/burn mana + set amount
+	if IsUnitEnemy(target, GetOwningPlayer(caster)) then
+		set ManaHeal = targetMP - (targetMaxMP/20)
+		call SetUnitState(target, UNIT_STATE_MANA, RMaxBJ(0,ManaHeal))
+		set amount = amount/2
+		set temp_real = targetHP - amount
+		if temp_real < 0 then
+			set amount = temp_real
+			set generic_bool = true
+		endif
+	else
+		set ManaHeal = targetMP + (targetMaxMP/20)
+		call SetUnitState(target, UNIT_STATE_MANA, RMaxBJ(0,ManaHeal))
+		set temp_real = targetHP + amount 
+		if temp_real > targetMaxHP then
+			set amount = temp_real - targetMaxHP
+			set generic_bool = true
+		endif
+	endif
+	//---
+	if generic_bool == true then
+		call GroupEnumUnitsInRangeOfLoc(generic_group, generic_point, 200, null)
+		
+		
+		
+		
+	endif
+		
+	
+	
+	//---
+	call DestroyGroup(generic_group)
+	call RemoveLocation(generic_point)
+	//call DestroyEffect(sfx)
+	set caster = null
+	set target = null
+	set temp = null
+	set generic_point = null
+	set generic_group = null
+	//set sfx = null
+	
+
+endfunction
+//-Trigger
+function HolyLight_Conditions takes nothing returns boolean
+	return GetSpellAbilityId() == 'A005'
+endfunction
+
+function InitTrig_HolyLight takes nothing returns nothing
+	local trigger t = CreateTrigger()
+	
+	call TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_SPELL_EFFECT) 
+	
+	call TriggerAddCondition (t, Condition(function HolyLight_Conditions) )
+	call TriggerAddAction (t, function HolyLight_Actions )
+	set t = null
+endfunction
+//
