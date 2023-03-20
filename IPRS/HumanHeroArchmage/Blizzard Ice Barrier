@@ -1,0 +1,51 @@
+//first script made from work, plz don't tell boss 
+
+function Ice_Barrier_Actions
+  local unit caster = GetTriggerUnit()
+  local unit temp
+  //local player p = GetUnitOwner(caster)
+  local real x = GetUnitX(caster)
+  local real y = GetUnitY(caster)
+  
+  local unit temp = CreateUnit(p, 'dummyId, x, y, 0.)  
+  call UnitApplyTimedLife (temp, '', 3.)
+  call UnitAddAbility(temp, 'OG AMShell Id')
+  call IssueTargetOrder (temp, 'shell', caster)
+  
+  set caster = null
+  set temp = null
+  set p = null
+ 
+ endfunction
+
+//- Triggers
+function Ice_Barrier_Conditions takes nothing returns boolean
+  return GetSpellAbilityId()  == ''
+endfunction
+
+//does this work?
+function Ice_Barrier_Conditions2 takes nothing returns boolean
+  local unit caster = GetTriggerUnit()
+  if GetUnitAbilityLevel(caster, 'shell') > 0 then
+    call UnitRemoveAbility(caster, 'shell')
+  endif
+  set caster = null
+  return false
+endfunction
+
+function InitTrig_Ice_Barrier takes nothing returns nothing
+  local trigger t = CreateTrigger()
+  local trigger t2 = CreateTrigger()
+  
+  call TriggerRegisterAnyUnitEventBJ(t2, EVENT_PLAYER_UNIT_FINISH) //test the other events later
+  call TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_SPELL_EFFECT)
+  call TriggerAddConditions(t2, Conditions(Ice_Barrier_Conditions2)
+  call TriggerAddConditions(t, Conditions(Ice_Barrier_Conditions)
+//call TriggerAddActions(t, ?)
+  call TriggerAddActions(t, Ice_Barrier_Actions)
+  
+  
+  
+  set t = null
+endfunction
+//
