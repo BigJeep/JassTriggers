@@ -6,6 +6,13 @@ IPRS Features remaining
 
 // HUMAN
 
+Archmage Presence of Mind
+  Fix locked icons
+  Spirit Walker Astral Recall (Orc Sanctuary)
+  Witch Doctor Devolve
+  Necromancer Dark Transformation
+  
+  
 Mountain King Avatar Fix
 Blood Mage
   Flame Strike
@@ -18,6 +25,9 @@ Ram Rider Voiceline
 
 
 // ORC
+
+Far Seer
+  Feral Spirit (Fix Lightning Wolves. Give a "cast purge on attackers" effect)
 
 Blademaster
   Wind Walk
