@@ -1,0 +1,104 @@
+// Associates each unit code to an integer to be used on the evolve and revolve spells
+// 
+
+function Evolve_Array_Actions takes nothing returns nothing
+
+//global arrays
+
+  global integer array Food_0
+  global integer array Food_1
+  global integer array Food_2
+  global integer array Food_3
+  global integer array Food_4
+  global integer array Food_5
+  global integer array Food_6
+  global integer array Food_7
+  global integer array Food_8
+  
+//unit per array
+
+//FOOD 0
+  set Food_0[0] = ''
+
+//FOOD 1
+  set Food_1[0]  = 'hpea' //HUMAN     PEASANT
+  set Food_1[1]  = '    ' //HUMAN     MILITIA
+  set Food_1[2]  = '    ' //HUMAN     FLYING MACHINE
+  set Food_1[3]  = 'opeo' //ORC       PEON
+  set Food_1[4]  = '    ' //UNDEAD    ACOLYTE
+  set Food_1[5]  = '    ' //UNDEAD    SHADE
+  set Food_1[6]  = 'ewsp' //NIGHT ELF WISP
+  set Food_1[7]  = '' 
+  set Food_1[8]  = ''
+  set Food_1[9]  = ''
+  set Food_1[10] = ''
+  set Food_1[11] = ''
+  // SPECIAL
+    
+//FOOD 2
+  set Food_2[0]  = '    ' //HUMAN     FOOTMAN
+  set Food_2[1]  = '    ' //HUMAN     PRIEST
+  set Food_2[2]  = '    ' //HUMAN     SORCERESS
+  set Food_2[3]  = '    ' //ORC       HEADHUNTER
+  set Food_2[4]  = '    ' //ORC       HEADHUNTER BERSERKER UPGRADE
+  set Food_2[5]  = '    ' //ORC       SHAMAN
+  set Food_2[6]  = '    ' //ORC       WITCH DOCTOR
+  set Food_2[7]  = '    ' //ORC       BATRIDER
+  set Food_2[8]  = '    ' //UNDEAD    GHOUL
+  set Food_2[9]  = '    ' //UNDEAD    GARGOYLE
+  set Food_2[10]  = '    ' //UNDEAD    GARGOYLE STATUE
+  set Food_2[11] = '    ' //UNDEAD    NECROMANCER
+  set Food_2[12] = '    ' //UNDEAD    BANSHEE
+  set Food_2[13] = '    ' //NIGHT ELF ARCHER
+  set Food_2[14] = '    ' //NIGHT ELF HYPPOGRYPH
+  set Food_2[15] = '    ' //NIGHT ELF TALON DRUID
+  set Food_2[16] = '    ' //NIGHT ELF TALON CROW
+  set Food_2[17] = '    ' //NIGHT ELF FEARIE DRAGON
+    
+//FOOD 3
+
+  set Food_3[0]  = '    ' //HUMAN     RIFLEMAN
+  set Food_3[1]  = '    ' //HUMAN     SPELL BREAKER
+  set Food_3[2]  = '    ' //HUMAN     DRAGONHAWK
+  set Food_3[3]  = '    ' //ORC       GRUNT
+  set Food_3[4]  = '    ' //ORC       RAIDER
+  set Food_3[5]  = '    ' //ORC       SPIRIT WALKER CORPOREAL
+  set Food_3[6]  = '    ' //ORC       SPIRIT WALKER ETHEREAL
+  set Food_3[7]  = '    ' //UNDEAD    CRYPT FIEND
+  set Food_3[8]  = '    ' //UNDEAD    OBSIDIAN STATUE
+  set Food_3[9]  = '    ' //NIGHT ELF HUNTRESS
+  set Food_3[10] = '    ' //NIGHT ELF DRYAD
+  set Food_3[11] = '    ' //NIGHT ELF GLAIVE THROWER
+
+//FOOD 4
+
+  set Food_4[0]  = '    ' //HUMAN     KNIGHT
+  set Food_4[1]  = '    ' //HUMAN     MORTAR TEAM
+  set Food_4[2]  = '    ' //HUMAN     SIEGE ENGINE
+  set Food_4[3]  = '    ' //HUMAN     GRYPHON RIDER
+  set Food_4[4]  = '    ' //ORC       DEMOLISHER
+  set Food_4[5]  = '    ' //ORC       KODO BEAST
+  set Food_4[6]  = '    ' //ORC       WIND RIDER
+  set Food_4[7]  = '    ' //UNDEAD    MEAT WAGON
+  set Food_4[8]  = '    ' //UNDEAD    ABOMINATION
+  set Food_4[9]  = '    ' //NIGHT ELF CLAW DRUID
+  set Food_4[10] = '    ' //NIGHT ELF CLAW BEAR
+  set Food_4[11] = '    ' //NIGHT ELF HIPPOGRYPH RIDER
+  
+//FOOD 5
+
+//FOOD 6
+
+//FOOD 7
+
+//FOOD 8
+
+function InitTrig_Evolve_Array takes nothing returns nothing
+  local trigger t = CreateTrigger()
+  
+//call map initialization event thing
+  call AddTriggerEvents(t, Evolve_Array_Actions)
+  
+  set t = null
+endfunction
+
