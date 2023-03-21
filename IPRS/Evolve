@@ -11,9 +11,9 @@ function Evolve_Array_Actions takes nothing returns nothing
   global integer array Food_3
   global integer array Food_4
   global integer array Food_5
-  global integer array Food_6
-  global integer array Food_7
-  global integer array Food_8
+  global integer array Food_6_plus
+  global integer array Evolve_Special
+  
   
 //unit per array
 
@@ -86,12 +86,19 @@ function Evolve_Array_Actions takes nothing returns nothing
   set Food_4[11] = '    ' //NIGHT ELF HIPPOGRYPH RIDER
   
 //FOOD 5
+  set Food_5[0]  = '    ' //ORC       TAUREN
+  set Food_5[1]  = '    ' //UNDEAD    DESTROYER
+  set Food_5[2]  = '    ' //NIGHT ELF CHIMAERA
+  
 
-//FOOD 6
+//FOOD 6+
+  set Food_6_plus[0]  = '    ' //UNDEAD       FROST WYRM
+  set Food_6_plus[1]  = '    ' //NIGHT ELF    MOUNTAIN GIANT
+  
+ 
 
-//FOOD 7
-
-//FOOD 8
+//EVOLVE SPECIAL
+  set Evolve_Special[0] = 
 
 function InitTrig_Evolve_Array takes nothing returns nothing
   local trigger t = CreateTrigger()
