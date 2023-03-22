@@ -1,5 +1,6 @@
 //
 
+//- Functions
 function Arcane_Golem takes nothing returns boolean
 
   local unit caster = GetTriggerUnit()
@@ -7,6 +8,10 @@ function Arcane_Golem takes nothing returns boolean
   local unit golem
   
   local player p = GetOwningPlayer(caster)
+  
+  local effect sfx
+  
+//local integer pNumber = 
   
   local real caster_x = GetUnitX(caster)
   local real caster_y = GetUnitY(caster)
@@ -21,26 +26,60 @@ function Arcane_Golem takes nothing returns boolean
   local real target_mana = GetUnitState(target, UNIT_STATE_MANA)
   local real target_max = GetUnitState(target, UNIT_MAX_MANA)
   
-  local real highest
-  local real lowest
+  local real caster_total = caster_mana/caster_max
+  local real target_total = target_mana/target_max
   
-  local real facing_angle
+  local real buff_amount
   
-  if udg_hasGolem[p] == false then
+  local real facing_angle = GetUnitFacing(caster)
+  
+  if udg_hasGolem[pNumber] == false then
+    if caster_total > target_total then
+      set buff_amount = caster_total - target_total
+    else
+      set buff_amount = target_total - caster_total
+    endif
+    
+  //set golem = CreateUnit(p, 'golem id', x, y, facing_angle)
+  //set sfx = 
+    call UnitApplyTimedLife (golem, 'BTLF', 60)
+    SetUnitAnimation(golem, 'birth')
+    QueueUnitAnimation(golem, 'stand')
+  
+  //apply buffs here (golem, buff_amount)
+    set udg_hasGolem[pNumber] = true
     
   elseif
   
+  call DestroyEffect(sfx)
   set caster = null
   set target = null
   set golem = null
+  set p = null
+  set sfx = null
   
 endfunction
 
+function Remove_Golem takes nothing returns boolean
+//local integer pNumber = 
+ // if GetUnitTypeID(GetTriggerUnit()) == 'golem id' then
+   // set udg_hasGolem[pNumber] = false
+  //endif
+  return false
+endfunction
+
+//- Triggers
 function InitTrig_Arcane_Golem takes nothing returns nothing
-  local trigger t = CreateTrigger()
+  local trigger createGolem = CreateTrigger()
+  local trigger killGolem = CreateTrigger()
   
-  call TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_SPELL_ENDCAST)
-  call TriggerAddCondition (t, Condition(function, Arcane_Golem)
+  call TriggerRegisterAnyUnitEventBJ(createGolem, EVENT_PLAYER_UNIT_SPELL_ENDCAST)
+  call TriggerRegisterAnyUnitEventBJ(killGolem, EVEN_PLAYER_UNIT_DIES)
   
+  call TriggerAddCondition (createGolem, Condition(function Arcane_Golem)
+  call TriggerAddCondition (killGolem, Condition(function Remove_Golem)
+  
+  set createGolem = null
+  set killGolem = null
 endfunction
 //
