@@ -1,0 +1,49 @@
+// Last time I had to use sin and cos I just copied from someone else's trigger, but can't check it now so I have to learn it again looking up on google >:(
+// Haven't used it since what, high school? not even in college ffs
+
+//-Functions
+function Aftershock takes nothing returns booleean
+  local unit caster = GetTriggerUnit()
+  
+  local player p = GetOwningPlayer(caster)
+  
+  local real caster_x = GetUnitX(caster)
+  local real caster_y = GetUnitY(caster)
+  local real caster_angle = GetUnitFacing(caster)
+  local real distance = 900 //or was it 600?
+  
+  // should look like this, right?
+  
+  local real target_x = caster_x + (distance * cos(angle))
+  local real target_y = caster_y + (distance * sin(angle))
+  
+  // apparently it will be different if the angle is given in degrees, don't know if it is but I will put it here for good measure
+  // radian_angle = degree_angle * 3.14159 / 180
+  // I believe there was a constant for pi in the common.j but I couldn't find it :P
+  
+  //local effect sfx = yellow lightning
+  local unit temp = CreateUnit(p, 'h001', target_x, target_y, 0.)
+  call UnitApplyTimedLife(temp, 'BTLF', 5.)
+  //call UnitAddAbility (temp, 'aftershock slam id')
+  //call SetUnitAbilityLevel (temp, '   ', GetUnitAbilityLevel(caster, 'Shockwave level'))
+  call IssueImmediateOrder (temp, "slam")
+  
+  //call DestroyEffect(sfx)
+  //set sfx = null
+  set caster = null
+  set temp = null
+  set p = null
+
+return false
+endfunction
+
+//-Trigger
+function InitTrig_Aftershock takes nothing returns nothing
+  local trigger t = CreateTrigger()
+  
+  call TriggerRegisterAnyUnitEventEventBJ(t, EVENT_PLAYER_UNIT_SPELL_EFFECT)
+  call TriggerAddCondition(t, Condition(function Aftershock))
+  
+  set t = null
+endfunction
+//
