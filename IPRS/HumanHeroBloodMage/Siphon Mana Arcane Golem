@@ -1,0 +1,46 @@
+//
+
+function Arcane_Golem takes nothing returns boolean
+
+  local unit caster = GetTriggerUnit()
+  local unit target = GetSpellTargetUnit()
+  local unit golem
+  
+  local player p = GetOwningPlayer(caster)
+  
+  local real caster_x = GetUnitX(caster)
+  local real caster_y = GetUnitY(caster)
+  local real target_x = GetUnitX(caster)
+  local real target_y = GetUnitY(caster)
+  
+  local real midway_x = (caster_x + target_x)/2
+  local real midway_y = (caster_y + target_y)/2
+  
+  local real caster_mana = GetUnitState(caster, UNIT_STATE_MANA)
+  local real caster_max = GetUnitState(caster, UNIT_MAX_MANA)
+  local real target_mana = GetUnitState(target, UNIT_STATE_MANA)
+  local real target_max = GetUnitState(target, UNIT_MAX_MANA)
+  
+  local real highest
+  local real lowest
+  
+  local real facing_angle
+  
+  if udg_hasGolem[p] == false then
+    
+  elseif
+  
+  set caster = null
+  set target = null
+  set golem = null
+  
+endfunction
+
+function InitTrig_Arcane_Golem takes nothing returns nothing
+  local trigger t = CreateTrigger()
+  
+  call TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_SPELL_ENDCAST)
+  call TriggerAddCondition (t, Condition(function, Arcane_Golem)
+  
+endfunction
+//
