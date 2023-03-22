@@ -139,7 +139,7 @@ Assault Necropolis
     SEnF 
     
   Dark Ranger
-    Silence (haunt)
+    Silence Mass Curse
     Black Arrow
     Life Drain
     Charm
