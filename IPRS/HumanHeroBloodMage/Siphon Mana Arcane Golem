@@ -1,4 +1,11 @@
-//
+/* It is working, except that the summoning point is located in front of the Blood Mage
+rather the in the midpoint between him and his target.
+The other issue is that the effect only runs when the channel is cancelled, and won't
+trigger if the hero channels until the end, but perhaps this is just an event issue
+and there might be another event I can use along with EVENT_PLAYER_UNIT_SPELL_ENDCAST
+
+Oh, I also must come up with what the buff actually does
+*/
 
 //- Functions
 function Arcane_Golem takes nothing returns boolean
@@ -8,10 +15,9 @@ function Arcane_Golem takes nothing returns boolean
   local unit golem
   
   local player p = GetOwningPlayer(caster)
+  local integer pNumber = GetPlayerId(p)
   
-  local effect sfx
-  
-//local integer pNumber = 
+  //local effect sfx
   
   local real caster_x = GetUnitX(caster)
   local real caster_y = GetUnitY(caster)
@@ -22,9 +28,9 @@ function Arcane_Golem takes nothing returns boolean
   local real midway_y = (caster_y + target_y)/2
   
   local real caster_mana = GetUnitState(caster, UNIT_STATE_MANA)
-  local real caster_max = GetUnitState(caster, UNIT_MAX_MANA)
+  local real caster_max = GetUnitState(caster, UNIT_STATE_MAX_MANA)
   local real target_mana = GetUnitState(target, UNIT_STATE_MANA)
-  local real target_max = GetUnitState(target, UNIT_MAX_MANA)
+  local real target_max = GetUnitState(target, UNIT_STATE_MAX_MANA)
   
   local real caster_total = caster_mana/caster_max
   local real target_total = target_mana/target_max
@@ -33,38 +39,40 @@ function Arcane_Golem takes nothing returns boolean
   
   local real facing_angle = GetUnitFacing(caster)
   
-  if udg_hasGolem[pNumber] == false then
+  if udg_hasGolem[pNumber] == false and GetSpellAbilityId()  == 'AHdr' then
     if caster_total > target_total then
       set buff_amount = caster_total - target_total
     else
       set buff_amount = target_total - caster_total
     endif
     
-  //set golem = CreateUnit(p, 'golem id', x, y, facing_angle)
+  set golem = CreateUnit(p, 'n019', midway_x, midway_y, facing_angle)
   //set sfx = 
     call UnitApplyTimedLife (golem, 'BTLF', 60)
-    SetUnitAnimation(golem, 'birth')
-    QueueUnitAnimation(golem, 'stand')
+    call SetUnitAnimation(golem, "birth")
+    call QueueUnitAnimation(golem, "stand")
   
   //apply buffs here (golem, buff_amount)
+	call BJDebugMsg(R2S(pNumber))
+	call BJDebugMsg(R2S(buff_amount))
     set udg_hasGolem[pNumber] = true
     
-  elseif
+  endif
   
-  call DestroyEffect(sfx)
+  //call DestroyEffect(sfx)
   set caster = null
   set target = null
   set golem = null
   set p = null
-  set sfx = null
-  
+  //set sfx = null
+  return false 
 endfunction
 
 function Remove_Golem takes nothing returns boolean
-//local integer pNumber = 
- // if GetUnitTypeID(GetTriggerUnit()) == 'golem id' then
-   // set udg_hasGolem[pNumber] = false
-  //endif
+local integer pNumber = GetPlayerId(GetOwningPlayer(GetTriggerUnit()))
+if GetUnitTypeId(GetTriggerUnit()) == 'n019' then
+    set udg_hasGolem[pNumber] = false
+endif
   return false
 endfunction
 
@@ -74,10 +82,10 @@ function InitTrig_Arcane_Golem takes nothing returns nothing
   local trigger killGolem = CreateTrigger()
   
   call TriggerRegisterAnyUnitEventBJ(createGolem, EVENT_PLAYER_UNIT_SPELL_ENDCAST)
-  call TriggerRegisterAnyUnitEventBJ(killGolem, EVEN_PLAYER_UNIT_DIES)
+  call TriggerRegisterAnyUnitEventBJ(killGolem, EVENT_PLAYER_UNIT_DEATH)
   
-  call TriggerAddCondition (createGolem, Condition(function Arcane_Golem)
-  call TriggerAddCondition (killGolem, Condition(function Remove_Golem)
+  call TriggerAddCondition (createGolem, Condition(function Arcane_Golem) )
+  call TriggerAddCondition (killGolem, Condition(function Remove_Golem) )
   
   set createGolem = null
   set killGolem = null
