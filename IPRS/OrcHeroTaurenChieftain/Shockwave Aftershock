@@ -1,35 +1,79 @@
-// Last time I had to use sin and cos I just copied from someone else's trigger, but can't check it now so I have to learn it again looking up on google >:(
-// Haven't used it since what, high school? not even in college ffs
+/* I must find out why the degree anglew always ends up being 0º 
+despite the formula to calculate the angle between the two points: 
+caster position and target point of the shockwave
+*/
 
 //-Functions
-function Aftershock takes nothing returns booleean
-  local unit caster = GetTriggerUnit()
+function Aftershock takes nothing returns boolean
+  local unit caster
+  local unit temp
+  local player p
+  local effect sfx 
+  local effect sfx2 
   
-  local player p = GetOwningPlayer(caster)
+  local real caster_x
+  local real caster_y
+  local real degree_angle
+  local real distance = 1000
+  local real radian_angle
   
-  local real caster_x = GetUnitX(caster)
-  local real caster_y = GetUnitY(caster)
-  local real caster_angle = GetUnitFacing(caster)
-  local real distance = 900 //or was it 600?
+  local real target_x
+  local real target_y
   
-  // should look like this, right?
   
-  local real target_x = caster_x + (distance * cos(angle))
-  local real target_y = caster_y + (distance * sin(angle))
   
-  // apparently it will be different if the angle is given in degrees, don't know if it is but I will put it here for good measure
-  // radian_angle = degree_angle * 3.14159 / 180
-  // I believe there was a constant for pi in the common.j but I couldn't find it :P
+  if GetSpellAbilityId()  == 'AOsh' then
+	  
+	  set caster = GetTriggerUnit()
+      set p = GetOwningPlayer(caster)
+	  
+	  set caster_x = GetUnitX(caster)
+	  set caster_y = GetUnitY(caster)
+	  
+	  call BJDebugMsg("difference between points")
+	  call BJDebugMsg(R2S(GetSpellTargetX() - caster_x))
+	  call BJDebugMsg(R2S(GetSpellTargetY() - caster_y))
+	  
+	  set degree_angle = Atan2(GetSpellTargetY() - caster_y, GetSpellTargetX() - caster_x)
+	  
+	  call BJDebugMsg("degree angle")
+	  
+	  call BJDebugMsg(R2S(degree_angle))
+	  
+	  call BJDebugMsg("radian angle")
+	  
+	  set radian_angle = degree_angle * 3.14159 / 180
+	  
+	  call BJDebugMsg(R2S(radian_angle))
+	  
+	  set target_x = caster_x + (distance * (Cos(radian_angle)))
+	  set target_y = caster_y + (distance * (Sin(radian_angle)))
+	  
+	  
+	  set temp = CreateUnit(p, 'h001', target_x, target_y, 0.)
+	  call UnitApplyTimedLife(temp, 'BTLF', 5.)
+	  call UnitAddAbility (temp, 'A01T')
+	  call SetUnitAbilityLevel (temp, 'A01T', GetUnitAbilityLevel(caster, 'AOsh'))
+	  call IssueImmediateOrder (temp, "creepthunderclap")
+ 
+  endif
   
-  //local effect sfx = yellow lightning
-  local unit temp = CreateUnit(p, 'h001', target_x, target_y, 0.)
-  call UnitApplyTimedLife(temp, 'BTLF', 5.)
-  //call UnitAddAbility (temp, 'aftershock slam id')
-  //call SetUnitAbilityLevel (temp, '   ', GetUnitAbilityLevel(caster, 'Shockwave level'))
-  call IssueImmediateOrder (temp, "slam")
-  
-  //call DestroyEffect(sfx)
-  //set sfx = null
+  //there shouldn't be any problem putting this here, right?
+  if GetSpellAbilityId()  == 'A01T' then
+	 set caster = GetTriggerUnit()
+	 set caster_x = GetUnitX(caster)
+	 set caster_y = GetUnitY(caster)
+	 set sfx = AddSpecialEffect("abilities\\weapons\\catapult\\catapultmissile.mdl", caster_x, caster_y)
+	 call BlzSetSpecialEffectScale(sfx, 2)
+	 set sfx2 = AddSpecialEffect("Abilities\\Spells\\Human\\Thunderclap\\ThunderClapCaster.mdl", caster_x, caster_y)
+	 call BlzSetSpecialEffectColor(sfx2, 255, 255, 0)
+	 
+  endif
+	 
+  call DestroyEffect(sfx)
+  call DestroyEffect(sfx2)
+  set sfx = null
+  set sfx2 = null
   set caster = null
   set temp = null
   set p = null
@@ -41,8 +85,8 @@ endfunction
 function InitTrig_Aftershock takes nothing returns nothing
   local trigger t = CreateTrigger()
   
-  call TriggerRegisterAnyUnitEventEventBJ(t, EVENT_PLAYER_UNIT_SPELL_EFFECT)
-  call TriggerAddCondition(t, Condition(function Aftershock))
+  call TriggerRegisterAnyUnitEventBJ (t, EVENT_PLAYER_UNIT_SPELL_EFFECT)
+  call TriggerAddCondition (t, Condition(function Aftershock) )
   
   set t = null
 endfunction
