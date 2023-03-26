@@ -1,0 +1,89 @@
+//
+
+//Function
+
+function Demo_Circle takes nothing returns boolean
+  
+  local unit circle
+  local unit target
+  local player p
+  
+  local effect sfx1
+  local effect sfx2
+  
+  local real circle_x
+  local real circle_y
+  
+  local real target_x
+  local real target_y
+  
+  local real circle_life
+  local real target_life
+  
+  local boolean bool = false
+  
+  if IsUnitIdType(GetTriggerUnit()) == 'circleid' and GetSpellAbilityId() == 'teleport' then
+    set circle = GetTriggerUnit()
+    set p = GetOwningPlayer(circle)
+    set target = GetSpellTargetUnit()
+    if IsUnitAlly(target, p) == true then
+      set circle_x = GetUnitX(circle)
+      set circle_y = GetUnitY(circle)
+      
+      set target_x = GetUnitX(target)
+      set target_y = GetUnitY(target)
+      
+    //set sfx1 = CreateEffect("targeteffect", target_x, target_y)
+    //set sfx2 = CreateEffect("circleeffect", circle_x, circle_y)
+      
+      call SetUnitX(target, circle_x)
+      call SetUnitY(target, circle_y)
+      
+      set circle_life = GetUnitState(circle, UNIT_STATE_LIFE)
+      set target_life = GetUnitState(target, UNIT_STATE_LIFE)
+      
+      call SetUnitState (target, UNIT_STATE_LIFE, target_life - 100)
+      call SetUnitState (circle, UNIT_STATE_LIFE, circle_life - 100)
+  
+    endif
+  endif  
+    
+  if IsUnitType(//GetRightClickUnitidk) == 'circleid' then
+    set circle = //getrightclickunitidkagain
+    set p = GetOwningPlayer
+    set target = //getrightclickingunit
+    if IsUnitAlly(target, p) == true then
+      call IssueTargetOrder (circle, "teleport", target)
+    endif
+  endif
+    
+  
+  
+  call DestroyEffect(sfx1)
+  call DestroyEffect(sfx2)
+  
+  set circle = null
+  set target = null
+  set p = null
+  set sfx1 = null
+  set sfx2 = null
+  
+  return false
+endif
+
+//Trigger
+
+function InitTrig_Demo_Circle takes nothing returns nothing
+
+  local trigger t = CreateTrigger()
+  
+  call TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_UNIT_SPELL_EFFECT)
+  call TriggerRegisterAnyUnitEventBJ(t, EVENT_PLAYER_//unit right click)
+  
+  call TriggerAddCondition (t, Condition ( function Demo_Circle() ) )
+  
+  set t = null
+
+endfunction
+
+//
