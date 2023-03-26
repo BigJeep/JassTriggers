@@ -1,0 +1,53 @@
+function finish_trains takes nothing returns boolean
+
+  local unit trained
+  local unit trainer
+  local player p
+  local effect sfx
+  local integer trained_Id =  GetTrainedUnitType()
+  local real x
+  local real y
+  
+  if trainedId == 'ramr' then
+    set trained = GetTrainedUnit()
+    set p = GetOwningPlayer(trained)
+    if GetLocalPlayer() == p then
+      //play sound
+    endif
+    
+  if trainedId == 'marksw' then
+    set trained = GetTrainedUnit()
+    set p = GetOwningPlayer(trained)
+    if GetLocalPlayer() == p then
+      //play sound
+    endif
+    
+  if trainedId == 'Owarlck' then
+    set trainer = GetTriggerUnit()
+    set p = GetOwningPlayer(trainer)
+    set life = GetUnitState (trainer, UNIT_STATE_LIFE)
+    call SetUnitState (trainer, UNIT_STATE_LIFE, life - 200 )
+    set x = GetUnitX(trainer)
+    set y = GetUnitY(trainer)
+    //set sfx = myEffectHere, x, y
+  endif
+    
+  call DestroyEffect(sfx)
+  set trained = null
+  set trainer = null
+  set p = null
+  set sfx = null
+  
+  return false
+endfunction
+
+function InitTrig_Finish_Trains takes nothing returns nothing
+
+  local trigger t = CreateTrigger()
+  
+  call TriggerRegisterAnyUnitEventBJ (t, EVENT_PLAYER_UNIT_TRAIN_FINISH)
+  call TriggerAddCondition (t, Condition (t, function finish_trains) )
+  
+  set t = null
+  
+endfunction
