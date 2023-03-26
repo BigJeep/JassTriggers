@@ -1,0 +1,114 @@
+// since I need to use the dummy auras for the "next ward" buff anyway I'll use them as some
+shitty index for the Shadow Hunters instead of indexing each one or using hashtables or whatever
+
+// Functions
+
+function GetCurrentWard takes unit c returns integer
+  local unit caster = c
+  local integer wardid = 0
+  
+  if GetUnitAbilityLevel(c, 'sentry ward dummy') > 0 then
+    set wardid = 'stasis trap dummy'
+  elseif GetUnitAbilityLevel(c, 'stasis  trap dummy') > 0 then
+    set wardid = 'healing ward dummy'
+  elseif GetUnitAbilityLevel(c, 'healing ward dummy') > 0 then
+    set wardid = 'serpent ward dummy'
+  elseif GetUnitAbilityLevel(c, 'serpent ward dummy') > 0 then
+    set wardid = 'sentry ward dummy'
+  else
+    set wardid = 'sentry ward dummy'
+  endif
+  set c = null
+  
+  return wardid
+  
+endfunction
+
+function ??? takes nothing returns boolean
+  
+  local unit caster
+  local unit temp
+  local player p
+  
+  local real caster_x
+  lcoal real caster_y
+  local real target_x
+  local real target_y
+  local real midpoint_x
+  local real midpoint_y
+  
+  local integer dummy_ward
+  local integer caster_ward
+  local integer ward_level = 1
+  
+  if GetSpellAbilityId() == 'heal wave' then
+    
+    set caster = GetTriggerUnit()
+    set p = GetOwningPlayer(caster)
+    
+    set caster_x = GetUnitX(caster)
+    set caster_y = GetUnitY(caster)
+    
+    set target_x = GetUnitX (target)
+    set target_y = GetUnitY (caster)
+    
+    set midpoint_x
+    set midpoint_y
+    
+    set caster_ward = GetCurrentWard(caster)
+    
+    if caster_ward == // then
+      set dummy_ward = 'sentry ward'
+    elseif caster_ward == // then
+      set dummy_ward = 'stasis trap'
+    elseif caster_ward == // then
+      set dummy_ward = 'healing ward'
+    elseif caster_ward == // then
+      set dummy_ward = 'serpent ward'
+      set ward_level = GetUnitAbilityLevel(caster, 'serpent ward')
+    else
+      set dummy_ward = 'sentry ward'
+    endif
+    
+    call UnitRemoveAbility(caster, 'sentry  ward dummy')
+    call UnitRemoveAbility(caster, 'stasis  trap dummy')
+    call UnitRemoveAbility(caster, 'healing ward dummy')
+    call UnitRemoveAbility(caster, 'serpent ward dummy')    
+    
+    call UnitRemoveAbility(caster, 'sentry buff dummy')
+    call UnitRemoveAbility(caster, 'stasis buff dummy')
+    call UnitRemoveAbility(caster, 'heal buff dummy')
+    call UnitRemoveAbility(caster, 'snake buff dummy')
+    
+    set temp = CreateUnit(p, 'h001', caster_x, caster_y, 0.)
+    call UnitApplyTimedLife(temp, 'BTLF', 3.)
+    call UnitAddAbility(caster, dummy_ward)
+    call SetUnitAbilityLevel (caster, dummy_ward, ward_level)
+    call IssuePointOrder (dummy, sentryward, midpoint_x, midpoint_y)
+    call IssuePointOrder (dummy, stasistrap, midpoint_x, midpoint_y)
+    call IssuePointOrder (dummy, healingward, midpoint_x, midpoint_y)
+    call IssuePointOrder (dummy, serpentward, midpoint_x, midpoint_y)
+    
+    callUnitAddAbility(caster, caster_ward)
+    
+  endif
+  
+  set caster = null
+  set temp = null
+  set p = null
+  
+  return false
+  
+endfunction
+
+// Trigger
+
+function InitTrig _??? takes nothing returns nothing
+  local trigger t = CreateTrigger()
+  
+  call TriggerRegisterAnyUnitEventBJ ( t, EVENT_PLAYER_UNIT_SPELL_EFFECT )
+  call TriggerAddCondition (t, Condition ( function ???) )
+  
+  set t = null
+endfunction
+//
