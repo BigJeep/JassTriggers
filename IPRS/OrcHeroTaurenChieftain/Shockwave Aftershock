@@ -1,8 +1,4 @@
-/* I think I figured it out?
-Apparently Atan2 returns the value in radians already, so I needn't to convert jack
-Gotta test it later
-*/
-
+//
 //-Functions
 function Aftershock takes nothing returns boolean
   local unit caster
@@ -31,13 +27,8 @@ function Aftershock takes nothing returns boolean
 	  set caster_y = GetUnitY(caster)
 	  
 	  
-	  //set degree_angle = Atan2(GetSpellTargetY() - caster_y, GetSpellTargetX() - caster_x)
+	  
 	  set radian_angle = Atan2(GetSpellTargetY() - caster_y, GetSpellTargetX() - caster_x)
-	 
-	  
-	  //set radian_angle = degree_angle * 3.14159 / 180
-	  
-	  call BJDebugMsg(R2S(radian_angle))
 	  
 	  set target_x = caster_x + (distance * (Cos(radian_angle)))
 	  set target_y = caster_y + (distance * (Sin(radian_angle)))
@@ -59,7 +50,7 @@ function Aftershock takes nothing returns boolean
 	 set sfx = AddSpecialEffect("abilities\\weapons\\catapult\\catapultmissile.mdl", caster_x, caster_y)
 	 call BlzSetSpecialEffectScale(sfx, 2)
 	 set sfx2 = AddSpecialEffect("Abilities\\Spells\\Human\\Thunderclap\\ThunderClapCaster.mdl", caster_x, caster_y)
-	 call BlzSetSpecialEffectColor(sfx2, 255, 255, 0)
+	 call BlzSetSpecialEffectColor(sfx2, 255, 100, 0)
 	 
   endif
 	 
