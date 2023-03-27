@@ -1,6 +1,5 @@
 // higher health targets (or higher anything else, to make up for the sacrifice of big units)
 // convert into more reanimated targets, minimum 1
-// important note: the neutral hostile animate dead spell is bugged and doesn't work (and at one point the spell was targeting living units instead of dead ones?), so any effects that require a dummy animate dead should be based on the dk's animate dead
 // function
 
 function Apocalypse takes nothing returns boolean
@@ -29,7 +28,7 @@ function Apocalypse takes nothing returns boolean
       exitwhen count == 0
       
       set temp = CreateUnit(p, 'h001', x, y, 0.)
-      call UnitApplyTimedLife(temp, 'BTLF', 30.)
+      call UnitApplyTimedLife(temp, 'BTLF', 3.)
       call UnitAddAbility(temp, 'A01U')
       call SetUnitAbilityLevel(temp, 'A01U', GetUnitAbilityLevel(caster, 'AUdp') )
       
