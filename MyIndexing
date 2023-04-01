@@ -1,0 +1,106 @@
+/* 
+MUSTN'T FORGET:
+  change MK's piercing bolt as it is the only trigger currently using unit custom values
+  initialize udg_bigGroup
+  initialize udg_indexing
+*/
+
+function BigGroupAndIndex takes unit indexedUnit, boolean AddOrRemove returns nothing
+  
+  // if AddOrRemove is True, then the unit will be added to the group and will be given an index (LIFO?)
+  // if AddOrRemove is False, then the unit will be removed from the group, but its Index will remain untouched
+  
+  local unit u = indexedUnit
+  
+  if AddOrRemove == true then
+    
+    set udg_index = udg_index + 1
+    call SetUnitUserData (u, udg_index)
+    call GroupAddUnit (u, udg_bigGroup)
+    
+    /////////
+    call BJDebugMsg ( GetUnitName() + " added to big group and given the index " + udg_index )
+    /////////
+  
+  else //if false, duh
+  
+    // not removing the index, not only because it spares me a lot of trouble but I also think it is desirable in case a units is resurrected etc.
+    call GroupRemoveUnit (u, udg_bigGroup)
+    
+    /////////
+    call BJDebugMsg ( GetUnitName() + " removed from big group. Index " + udg_index )
+    /////////
+    
+  endif
+  
+  set u = null
+endfunction
+
+function RemovedUnit takes nothing returns boolean
+  
+  call BigGroupAndIndex (GetTriggerUnit(), false)
+  return false
+  
+endfunction
+
+function CreatedUnit takes nothing returns boolean
+  
+  local unit temp = GetTriggerUnit()
+  
+  //checks if unit is not a dummy or similar
+  if not GetUnitAbilityLevel (temp, 'uloc') > 0 then
+    BigGroupAndIndex (temp, true)
+    
+  endif
+  
+  set temp = null
+  return false
+endfunction
+
+function PickUnitsOnInit takes nothing returns boolean
+
+  local unit temp
+  local group tempGroup = CreateGroup()
+  local rect r = Rect (0.0, 0.0, //mapmaxX, mapmaxY)
+  
+  call GroupEnumUnitsInRect (tempGroup, r, null)
+  
+  loop
+    set temp = FirstOfGroup (tempGroup)
+    exitwhen temp == null
+    call BigGroupAndIndex (temp, true)
+    call GroupRemoveUnit (temp, tempGroup)
+  endloop
+  
+  call DestroyGroup (tempGroup)
+  set temp      = null
+  set tempGroup = null
+  
+  return false
+endfunction
+
+
+//////////// TRIGGER ////////////////
+
+function InitTrig_BigGroup takes nothing returns nothing
+
+  local trigger existingUnits = CreateTrigger
+  local trigger newUnits      = CreateTrigger()
+  local trigger removingUnits = CreateTrigger()
+  
+  call TriggerRegisterTimerEvent      (existingUnits, 0.0, false)
+  
+  call TriggerRegisterGameEvent       (newUnits, EVENT_GAME_ENTER_REGION)
+  call TriggerRegisterAnyUnitEventBJ  (newUnits, EVENT_PLAYER_UNIT_SUMMON)
+  
+  call TriggerRegisterGameEvent       (removingUnits, EVENT_GAME_LEAVE_REGION)
+  call TriggerRegisterAnyUnitEventBJ  (removingUnits, EVENT_PLAYER_UNIT_DIES)
+  
+  call TriggerAddConditions           (existingUnits, Condition  ( function PickUnitsOnInit ) )
+  call TriggerAddConditions           (newUnits,      Condition  ( function ? ) )
+  call TriggerAddConditions           (removingUnits, Condition  ( function ? ) )
+  
+  set t  = null
+  set t2 = null
+  
+endfunction
