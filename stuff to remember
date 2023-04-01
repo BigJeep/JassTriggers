@@ -1,0 +1,2 @@
+ - create the least amount of (global?) groups and reuse them instead of creating new temp groups
+ - the same thing could be said about units and other leaking handles maybe?
