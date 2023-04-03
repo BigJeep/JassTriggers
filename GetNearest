@@ -10,7 +10,7 @@
 		local player p = playerArg
 		local boolean bool = false
 		
-		if IsUnitAlly (u, p) == ally and IsUnitEnemy(u, p) == enemy and IsUnitType(u, UNIT_TYPE_STRUCTURE) == structure and IsUnitType(u, UNIT_TYPE_HERO) == hero and IsUnitType(u, UNIT_TYPE_FLYING) == air and IsUnitType(u, UNIT_TYPE_GROUND) == ground and IsUnitType(u, UNIT_TYPE_SUMMONED) == summoned and IsUnitType(u, UNIT_TYPE_UNDEAD) == undead and IsUnitType(u, UNIT_TYPE_RESISTANT) == resistant and IsUnitType(u, UNIT_TYPE_MAGIC_IMMUNE) == immune then
+		if IsUnitAlly (u, p) == ally and IsUnitEnemy(u, p) == enemy and IsUnitType(u, UNIT_TYPE_STRUCTURE) == structure and IsUnitType(u, UNIT_TYPE_HERO) == hero and (IsUnitType(u, UNIT_TYPE_FLYING) == air or IsUnitType(u, UNIT_TYPE_GROUND) == ground) and IsUnitType(u, UNIT_TYPE_SUMMONED) == summoned and IsUnitType(u, UNIT_TYPE_UNDEAD) == undead and IsUnitType(u, UNIT_TYPE_RESISTANT) == resistant and IsUnitType(u, UNIT_TYPE_MAGIC_IMMUNE) == immune then
 			set bool = true
 		else
 			set bool = false
