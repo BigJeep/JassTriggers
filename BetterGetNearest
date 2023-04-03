@@ -5,23 +5,28 @@ Filters, but I think it will pay off. Plus I can simply create a new filter as
 needed
 But I'll leave the filters in a different file... later
 to-do:
-    allied ground
-    allied structure
-    allied air
-    allied ground
-      
-      
-    boolean ally
-    boolean enemy 
-    boolean structure 
-    boolean hero 
-    boolean air 
-    boolean ground 
-    boolean summoned 
-    boolean undead 
-    boolean resistant 
-    boolean immune 
-		
+
+	0 not
+	1 is
+	2 regardless
+
+	call GetNearestUnit 	(x, y, radius, player, /*structure, hero, air, ground, summoned, undead, resistant, immune)
+	call GetNearestAlly		(x, y, radius, player, 
+	call GetNearestEnemy	(x, y, radius, player,
+
+
+
+	04#    boolean structure 
+	05#    boolean hero 
+	06#    boolean air 
+	07#    boolean ground 
+	08#    boolean summoned 
+	09#    boolean undead 
+	10#    boolean resistant 
+	11#    boolean immune 
+
+
+	
 */
 
 
