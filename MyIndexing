@@ -4,7 +4,7 @@ I still don't know why globals don't work though
 
 MUSTN'T FORGET:
   change MK's piercing bolt as it is the only trigger currently using unit custom values
-  
+  initialize udg_unit_array[]
 */
 
 
@@ -21,6 +21,7 @@ function Big_GroupAndIndex takes unit indexedUnit, boolean AddOrRemove returns n
 	if not (GetUnitUserData(u) > 0) then
 		set udg_index = udg_index + 1
 		call SetUnitUserData (u, udg_index)
+		set udg_unit_array[udg_index] = indexedUnit
 	endif
     
     call GroupAddUnit (udg_Big_Group, u)
