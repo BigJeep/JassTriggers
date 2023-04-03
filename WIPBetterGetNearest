@@ -33,10 +33,13 @@ recreating the GetNearest as the previous one wouldn't let me pick multiple type
 		   /*8*/ ((IsUnitType(temp, UNIT_TYPE_IMMUNE) 	 and isSpellImmune == 1 ) or isSpellImmune == 2 ) ///
 		   then
 			set bool = true
+		   else
+			set bool = false
 		endif
 		
+		
 		if bool then
-			
+		
 			set temp_x = GetUnitX(temp)
 			set temp_y = GetUnitY(temp)
 
@@ -48,8 +51,9 @@ recreating the GetNearest as the previous one wouldn't let me pick multiple type
 			if nearest == 0 or temp_distance < nearest then
 				set nearest = temp_distance
 				set nearest_unit = GetUnitUserData(temp)
-			endif
+
 		endif
+		
 		call GroupRemoveUnit(g, temp)
 	endloop
 
@@ -57,11 +61,11 @@ recreating the GetNearest as the previous one wouldn't let me pick multiple type
 	
 */
 
-
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//// THE CODE STARTS HEREEEEEEEEEEEEEEEEEE /////////////////*************************************************/////////
 
 function GetNearestUnitByType takes real x, real y, real radius, player playerArg, boolean ally, boolean enemy, boolean structure, boolean hero, boolean air, boolean ground, boolean summoned, boolean undead, boolean resistant, boolean immune returns integer
 
-		
 		local unit temp
 		local player p = playerArg
 		local group g = CreateGroup()
@@ -79,42 +83,37 @@ function GetNearestUnitByType takes real x, real y, real radius, player playerAr
 		
 		local boolean bool
     
-    boolean ally
-    boolean enemy 
-    boolean structure 
-    boolean hero 
-    boolean air 
-    boolean ground 
-    boolean summoned 
-    boolean undead 
-    boolean resistant 
-    boolean immune 
-		
 		call GroupEnumUnitsInRange (g, x, y, radius, null ) 
 		
-		
-		
 		loop
-			set temp = FirstOfGroup(g)
-			exitwhen temp == null
-									
-			if bool then
+		set temp = FirstOfGroup(g)
+		exitwhen temp == null
+		
+		if /*1*/ ((IsUnitType(temp, UNIT_TYPE_STRUCTURE) and isStructure == 1 ) or isStructure == 2) and /*2*/ ((IsUnitType(temp, UNIT_TYPE_HERO) and isHero == 1 ) or isHero == 2) and /*3*/ ((IsUnitType(temp, UNIT_TYPE_FLYING) and isAir == 1 ) or isAir == 2) and /*4*/ ((IsUnitType(temp, UNIT_TYPE_GROUND) and isGround == 1 ) or isGround == 2) and /*5*/ ((IsUnitType(temp, UNIT_TYPE_SUMMONED) and isSummon == 1 ) or isSummon == 2) and /*6*/ ((IsUnitType(temp, UNIT_TYPE_UNDEAD) and isUndead == 1 ) or isUndead == 2) and /*7*/ ((IsUnitType(temp, UNIT_TYPE_RESISTANT) and isResistant == 1 ) or isResistant == 2) and /*8*/ ((IsUnitType(temp, UNIT_TYPE_IMMUNE) and isSpellImmune == 1 ) or isSpellImmune == 2) then
+			set bool = true
+		else
+			set bool = false
+		endif
+		
+		
+		if bool then
+		
+			set temp_x = GetUnitX(temp)
+			set temp_y = GetUnitY(temp)
 
-				set temp_x = GetUnitX(temp)
-				set temp_y = GetUnitY(temp)
+			set temp_distanceX = temp_x - x
+			set temp_distanceY = temp_y - y
 
-				set temp_distanceX = temp_x - x
-				set temp_distanceY = temp_y - y
+			set temp_distance = SquareRoot(temp_distanceX * temp_distanceX + temp_distanceY * temp_distanceY)
 
-				set temp_distance = SquareRoot(temp_distanceX * temp_distanceX + temp_distanceY * temp_distanceY)
+			if nearest == 0 or temp_distance < nearest then
+				set nearest = temp_distance
+				set nearest_unit = GetUnitUserData(temp)
 
-				if nearest == 0 or temp_distance < nearest then
-					set nearest = temp_distance
-					set nearest_unit = GetUnitUserData(temp)
-				endif
-			endif
-			call GroupRemoveUnit(g, temp)
-		endloop
+		endif
+		
+		call GroupRemoveUnit(g, temp)
+	endloop
 		
 		call DestroyGroup(g)
 		
