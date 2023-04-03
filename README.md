@@ -3,8 +3,8 @@ scripts to be used on wc3 maps
 
 GetNearestUnitByType Parameters
 
-      GetNearestUnitByType ( x, y, radius, playerArg, ally, enemy, structure, hero, air, ground, summoned, undead, resistant, immune)
-      // GetNearestUnitByType ( , , , , , , , , , , , , , )
+      GetNearestUnitByType ( x, y, radius, playerArg, or, ally, enemy, structure, hero, air, ground, summoned, undead, resistant, immune)
+      // GetNearestUnitByType ( , , , , , , , , , , , , , , )
       // still need to test OR situations
 
 IPRS Features remaining
