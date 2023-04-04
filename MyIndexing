@@ -7,6 +7,9 @@ MUSTN'T FORGET:
   initialize udg_unit_array[]
 */
 
+globals
+	unit array udg_unit_array
+endglobals
 
 function Big_GroupAndIndex takes unit indexedUnit, boolean AddOrRemove returns nothing
 	
@@ -130,4 +133,3 @@ function InitTrig_Big_Group takes nothing returns nothing
 endfunction
 
 ///////////////////////
-
