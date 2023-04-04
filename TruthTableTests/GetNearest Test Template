@@ -1,0 +1,59 @@
+		if /*1*/ ((IsUnitAlly (temp, playerArg) 				      and isAlly   	    == 1 ) or isAlly   	    == 2 or not (IsUnitAlly (temp, playerArg)					      and isAlly 		    == 1 )) and 
+		   /*2*/ ((IsUnitEnemy(temp, playerArg) 				      and isEnemy   	  == 1 ) or isEnemy   	  == 2 or not (IsUnitEnemy(temp, playerArg)					      and isEnemy 	    == 1 )) and 
+		   /*3*/ ((IsUnitType (temp, UNIT_TYPE_STRUCTURE) 		and isStructure   == 1 ) or isStructure   == 2 or not (IsUnitType (temp, UNIT_TYPE_STRUCTURE) 		and isStructure   == 1 )) and 
+		   /*4*/ ((IsUnitType (temp, UNIT_TYPE_HERO) 	 		    and isHero 	   	  == 1 ) or isHero 	   	  == 2 or not (IsUnitType (temp, UNIT_TYPE_HERO) 	 		    and isHero 	   	  == 1 )) and
+		   /*5*/ ((IsUnitType (temp, UNIT_TYPE_FLYING) 	 		  and isAir 	   	  == 1 ) or isAir 	      == 2 or not (IsUnitType (temp, UNIT_TYPE_FLYING) 	 		  and isAir 	   	  == 1 )) and
+		   /*6*/ ((IsUnitType (temp, UNIT_TYPE_GROUND) 	 		  and isGround      == 1 ) or isGround 	    == 2 or not (IsUnitType (temp, UNIT_TYPE_GROUND) 	 		  and isGround      == 1 )) and
+		   /*7*/ ((IsUnitType (temp, UNIT_TYPE_SUMMONED)  		and isSummon      == 1 ) or isSummon 	    == 2 or not (IsUnitType (temp, UNIT_TYPE_SUMMONED)  		and isSummon      == 1 )) and
+		   /*8*/ ((IsUnitType (temp, UNIT_TYPE_UNDEAD) 	 		  and isUndead      == 1 ) or isUndead 	    == 2 or not (IsUnitType (temp, UNIT_TYPE_UNDEAD) 	 		  and isUndead      == 1 )) and
+		   /*9*/ ((IsUnitType (temp, UNIT_TYPE_RESISTANT) 		and isResistant   == 1 ) or isResistant   == 2 or not (IsUnitType (temp, UNIT_TYPE_RESISTANT) 		and isResistant   == 1 )) and
+		   /*10*/((IsUnitType (temp, UNIT_TYPE_MAGIC_IMMUNE)	and isSpellImmune == 1 ) or isSpellImmune == 2 or not (IsUnitType (temp, UNIT_TYPE_MAGIC_IMMUNE)	and isSpellImmune == 1 )) ///
+		   
+		   
+		   /*1*/ ((IsUnitAlly (unit, player) 				         and n1    	  	  == 1 ) or n1   	  == 2 or not (IsUnitAlly (unit, player)					        and n0  == 1 )) and  
+		   /*2*/ ((IsUnitEnemy(unit, player) 				         and n2    		    == 1 ) or n2   	  == 2 or not (IsUnitEnemy(unit, player)					        and n1  == 1 )) and 
+		   /*3*/ ((IsUnitType (unit, UNIT_TYPE_STRUCTURE) 	 and n3 	   	    == 1 ) or n3   	  == 2 or not (IsUnitType (unit, UNIT_TYPE_STRUCTURE) 		and n3  == 1 )) and 
+		   /*4*/ ((IsUnitType (unit, UNIT_TYPE_HERO) 	 	     and n4    	  	  == 1 ) or n4 	   	== 2 or not (IsUnitType (unit, UNIT_TYPE_HERO) 	 		    and n4  == 1 )) and
+		   /*5*/ ((IsUnitType (unit, UNIT_TYPE_FLYING) 	 	   and n5    	  	  == 1 ) or n5 	    == 2 or not (IsUnitType (unit, UNIT_TYPE_FLYING) 	 		  and n5  == 1 )) and
+		   /*6*/ ((IsUnitType (unit, UNIT_TYPE_GROUND) 	 	   and n6      	    == 1 ) or n6 	  	== 2 or not (IsUnitType (unit, UNIT_TYPE_GROUND) 	 		  and n6  == 1 )) and
+		   /*7*/ ((IsUnitType (unit, UNIT_TYPE_SUMMONED)  	 and n7      	    == 1 ) or n7 	  	== 2 or not (IsUnitType (unit, UNIT_TYPE_SUMMONED)  		and n7  == 1 )) and
+		   /*8*/ ((IsUnitType (unit, UNIT_TYPE_UNDEAD) 	 	   and n8      	    == 1 ) or n8 	  	== 2 or not (IsUnitType (unit, UNIT_TYPE_UNDEAD) 	 		  and n8  == 1 )) and
+		   /*9*/ ((IsUnitType (unit, UNIT_TYPE_RESISTANT) 	 and n9   		    == 1 ) or n9   	  == 2 or not (IsUnitType (unit, UNIT_TYPE_RESISTANT) 		and n9  == 1 )) and
+		   /*10*/((IsUnitType (unit, UNIT_TYPE_MAGIC_IMMUNE) and n10		      == 1 ) or n10		  == 2 or not (IsUnitType (unit, UNIT_TYPE_MAGIC_IMMUNE) 	and n10 == 1 )) ///	   
+		   
+		   
+		   /*1*/ ((? 					 				 	and ?		 		  ) or ?				    or not (? and ?) ) and
+		   /*2*/ ((? 					 			 		and ? 				) or ?			   	or not (? and ?) ) and
+		   /*3*/ ((? 	 								 	and ? 				) or ?  			  or not (? and ?) ) and
+		   /*4*/ ((? 	 								 	and ? 				) or ? 				  or not (? and ?) ) and
+		   /*5*/ ((? 	 								 	and ? 				) or ? 				  or not (? and ?) ) and
+		   /*6*/ ((? 	 							 		and ? 				) or ? 				  or not (? and ?) ) and
+		   /*7*/ ((?  									and ? 			  ) or ? 				  or not (? and ?) ) and
+		   /*8*/ ((? 	 								 	and ? 				) or ? 				  or not (? and ?) ) and
+		   /*9*/ ((? 	 								 	and ? 				) or ? 				  or not (? and ?) ) and
+		   /*10*/((?									 	and ? 				) or ? 				  or not (? and ?) ) ///		   
+		   
+		   
+		   /*1*/ ((? 					 				  				) or ? or ?) and    
+		   /*2*/ ((? 					 			  					) or ? or ?) and    
+		   /*3*/ ((? 	 								 				  ) or ? or ?) and    
+		   /*4*/ ((? 	 								  				) or ? or ?) and    
+		   /*5*/ ((? 	 								  				) or ? or ?) and    
+		   /*6*/ ((? 	 							  					) or ? or ?) and    
+		   /*7*/ ((?  									  			) or ? or ?) and    
+		   /*8*/ ((? 	 								  				) or ? or ?) and    
+		   /*9*/ ((? 	 								  				) or ? or ?) and    
+		   /*10*/((?									  				) or ? or ?) ///		   
+		   
+
+		   
+		   /*1*/ ? 			 				  								and
+		   /*2*/ ? 					 			  							and
+		   /*3*/ ?								 							  and
+		   /*4*/ ? 	 								  						and
+		   /*5*/ ? 	 								  						and
+		   /*6*/ ? 	 										  				and
+		   /*7*/ ?  											  			and
+		   /*8*/ ? 	 											  			and
+		   /*9*/ ?			 	 								  			and
+		   /*10*/?								  				
