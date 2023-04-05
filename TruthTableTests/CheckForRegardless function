@@ -4,9 +4,9 @@ function CheckForRegardless takes unit u, unittype checkType, integer wantType r
 
   local boolean bool = false
   
-  elseif not (not IsUnitType(u, checkType) and wantType == 0) then
+  if not (not IsUnitType(u, checkType) and wantType == 0) then
     set bool = false
-  if (IsUnitType(u, checkType) and wantType == 1) or wantType == 2 then
+  elseif (IsUnitType(u, checkType) and wantType == 1) or wantType == 2 then
     set bool = true
   endif
   
