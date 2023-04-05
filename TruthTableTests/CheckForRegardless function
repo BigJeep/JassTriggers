@@ -5,19 +5,24 @@ function CheckForRegardless takes unit u, unittype checkType, integer wantType r
   local boolean bool = false
   local boolean sameType = IsUnitType(u, checkType)
   
-  if sameType and wantType == 0 then
-    set bool = false
-  elseif (sameType and wantType == 1) or wantType == 2 then
+  if wantType == 0 then
+    if sameType then
+      set bool = false
+    else
+      set bool = true
+    endif
+  endif
+  if wantType == 1 then
+    if sameType then
+      set bool = true
+    endif
+  endif
+  if wantType == 2 then
     set bool = true
   endif
+  
   
   return bool
   
 endfunction
-/*  ( P v Q)
-doesnt work:
-  ~ (~P ^ Q)
-  ~ ( P ^ Q)
-    (~P ^ Q)
-    (~P v Q)
-*/
+
