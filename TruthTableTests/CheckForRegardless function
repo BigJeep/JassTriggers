@@ -3,10 +3,11 @@
 function CheckForRegardless takes unit u, unittype checkType, integer wantType returns boolean
 
   local boolean bool = false
+  local boolean sameType = IsUnitType(u, checkType)
   
-  if IsUnitType(u, checkType) and wantType == 0 then
+  if sameType and wantType == 0 then
     set bool = false
-  elseif (IsUnitType(u, checkType) and wantType == 1) or wantType == 2 then
+  elseif (sameType and wantType == 1) or wantType == 2 then
     set bool = true
   endif
   
