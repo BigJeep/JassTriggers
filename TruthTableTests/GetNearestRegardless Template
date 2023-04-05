@@ -1,0 +1,12 @@
+if
+/* 1*/ //ally  and
+/* 2*/ //enemy and
+/* 3*/ CheckForRegardless (unit, UNIT_TYPE, n03) and 
+/* 4*/ CheckForRegardless (unit, UNIT_TYPE, n04) and 
+/* 5*/ CheckForRegardless (unit, UNIT_TYPE, n05) and 
+/* 6*/ CheckForRegardless (unit, UNIT_TYPE, n06) and 
+/* 7*/ CheckForRegardless (unit, UNIT_TYPE, n07) and 
+/* 8*/ CheckForRegardless (unit, UNIT_TYPE, n08) and 
+/* 9*/ CheckForRegardless (unit, UNIT_TYPE, n09) and 
+/*10*/ CheckForRegardless (unit, UNIT_TYPE, n10) ///
+then
