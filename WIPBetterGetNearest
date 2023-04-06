@@ -1,4 +1,4 @@
-/* WIP WIP WIP
+
 /* ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 not complete. not working
@@ -9,12 +9,12 @@ still need to make some truth table tests to figure out how this shit should be 
 	1 "is"
 	2 "regardless"
 	
-		call GetNearest 	(x, y, radius, playerArg, /*isAlly, isEnemy, isStructure, isHero, isAir, isGround, isSummon, isUndead, isResistant, isSpellImmune)*/
+		call GetNearest 	(x, y, radius, playerArg, /*isAlly, isEnemy, isMech, isHero, isAir, isGround, isSummon, isUndead, isResistant, isSpellImmune)*/
 		
 	   |arg#  |isType   |
-		04#    isStructure
-		05#    isStructure
-		06#    isStructure
+		04#    isAlly
+		05#    isEnemy
+		06#    isMech
 		07#    isHero 
 		08#    isAir
 		09#    isGround 
@@ -29,17 +29,18 @@ still need to make some truth table tests to figure out how this shit should be 
 		set temp = FirstOfGroup(g)
 		exitwhen temp == null
 		
-		if /*1*/ ((IsUnitAlly (temp, playerArg) 			and isAlly   	  == 1 ) or isAlly   	  == 2 or not (IsUnitAlly (temp, playerArg)				and isAlly 		  == 1 )) and 
-		   /*2*/ ((IsUnitEnemy(temp, playerArg) 			and isEnemy   	  == 1 ) or isEnemy   	  == 2 or not (IsUnitEnemy(temp, playerArg)				and isEnemy 	  == 1 )) and 
-		   /*3*/ ((IsUnitType(temp, UNIT_TYPE_STRUCTURE) 	and isStructure   == 1 ) or isStructure   == 2 or not (IsUnitType(temp, UNIT_TYPE_STRUCTURE) 	and isStructure   == 1 )) and 
-		   /*4*/ ((IsUnitType(temp, UNIT_TYPE_HERO) 	 	and isHero 	   	  == 1 ) or isHero 	   	  == 2 or not (IsUnitType(temp, UNIT_TYPE_HERO) 	 	and isHero 	   	  == 1 )) and
-		   /*5*/ ((IsUnitType(temp, UNIT_TYPE_FLYING) 	 	and isAir 	   	  == 1 ) or isAir 	      == 2 or not (IsUnitType(temp, UNIT_TYPE_FLYING) 	 	and isAir 	   	  == 1 )) and
-		   /*6*/ ((IsUnitType(temp, UNIT_TYPE_GROUND) 	 	and isGround      == 1 ) or isGround 	  == 2 or not (IsUnitType(temp, UNIT_TYPE_GROUND) 	 	and isGround      == 1 )) and
-		   /*7*/ ((IsUnitType(temp, UNIT_TYPE_SUMMONED)  	and isSummon      == 1 ) or isSummon 	  == 2 or not (IsUnitType(temp, UNIT_TYPE_SUMMONED)  	and isSummon      == 1 )) and
-		   /*8*/ ((IsUnitType(temp, UNIT_TYPE_UNDEAD) 	 	and isUndead      == 1 ) or isUndead 	  == 2 or not (IsUnitType(temp, UNIT_TYPE_UNDEAD) 	 	and isUndead      == 1 )) and
-		   /*9*/ ((IsUnitType(temp, UNIT_TYPE_RESISTANT) 	and isResistant   == 1 ) or isResistant   == 2 or not (IsUnitType(temp, UNIT_TYPE_RESISTANT) 	and isResistant   == 1 )) and
-		   /*10*/((IsUnitType(temp, UNIT_TYPE_MAGIC_IMMUNE) and isSpellImmune == 1 ) or isSpellImmune == 2 or not (IsUnitType(temp, UNIT_TYPE_MAGIC_IMMUNE) and isSpellImmune == 1 )) ///
-		
+		if
+		/* 1*/ CheckForAlly (temp, playerArg, isAlly) and
+		/* 2*/ CheckForEnemy (temp, playerArg, isEnemy) and
+		/* 3*/ CheckForRegardless (temp, UNIT_TYPE_MECHANICAL, isMech) and 
+		/* 4*/ CheckForRegardless (temp, UNIT_TYPE_HERO, isHero) and 
+		/* 5*/ CheckForRegardless (temp, UNIT_TYPE_FLYING, isAir) and 
+		/* 6*/ CheckForRegardless (temp, UNIT_TYPE_GROUND, isGround) and 
+		/* 7*/ CheckForRegardless (temp, UNIT_TYPE_SUMMONED, isSummon) and 
+		/* 8*/ CheckForRegardless (temp, UNIT_TYPE_UNDEAD, isUndead) and 
+		/* 9*/ CheckForRegardless (temp, UNIT_TYPE_RESISTANT, isResistant) and 
+		/*10*/ CheckForRegardless (temp, UNIT_TYPE_MAGIC_IMMUNE, isSpellImmune) ///
+		then
 		   then
 			set bool = true
 		   else
@@ -67,7 +68,7 @@ still need to make some truth table tests to figure out how this shit should be 
 	endloop
 	
 	////
-	if ((IsUnitAlly (temp, playerArg) and isAlly == 1 ) or isAlly == 2 or not (IsUnitAlly (temp, playerArg) and isAlly == 1 )) and ((IsUnitEnemy(temp, playerArg) and isEnemy == 1 ) or isEnemy == 2 or not (IsUnitEnemy(temp, playerArg) and isEnemy == 1 )) and ((IsUnitType(temp, UNIT_TYPE_STRUCTURE) and isStructure   == 1 ) or isStructure   == 2 or not (IsUnitType(temp, UNIT_TYPE_STRUCTURE) and isStructure == 1 )) and ((IsUnitType(temp, UNIT_TYPE_HERO) and isHero == 1 ) or isHero == 2 or not (IsUnitType(temp, UNIT_TYPE_HERO) and isHero == 1 )) and ((IsUnitType(temp, UNIT_TYPE_FLYING) and isAir == 1 ) or isAir == 2 or not (IsUnitType(temp, UNIT_TYPE_FLYING) and isAir == 1 )) and ((IsUnitType(temp, UNIT_TYPE_GROUND) and isGround == 1 ) or isGround == 2 or not (IsUnitType(temp, UNIT_TYPE_GROUND) and isGround == 1 )) and ((IsUnitType(temp, UNIT_TYPE_SUMMONED) and isSummon == 1 ) or isSummon == 2 or not (IsUnitType(temp, UNIT_TYPE_SUMMONED) and isSummon == 1 )) and ((IsUnitType(temp, UNIT_TYPE_UNDEAD) and isUndead == 1 ) or isUndead == 2 or not (IsUnitType(temp, UNIT_TYPE_UNDEAD) and isUndead == 1 )) and ((IsUnitType(temp, UNIT_TYPE_RESISTANT) and isResistant == 1 ) or isResistant == 2 or not (IsUnitType(temp, UNIT_TYPE_RESISTANT) and isResistant == 1 )) and ((IsUnitType(temp, UNIT_TYPE_MAGIC_IMMUNE) and isSpellImmune == 1 ) or isSpellImmune == 2 or not (IsUnitType(temp, UNIT_TYPE_MAGIC_IMMUNE) and isSpellImmune == 1 )) then
+	if CheckForAlly (temp, playerArg, isAlly) and CheckForEnemy (temp, playerArg, isEnemy) and CheckForRegardless (temp, UNIT_TYPE_MECHANICAL, isMech) and CheckForRegardless (temp, UNIT_TYPE_HERO, isHero) and CheckForRegardless (temp, UNIT_TYPE_FLYING, isAir) and CheckForRegardless (temp, UNIT_TYPE_GROUND, isGround) and CheckForRegardless (temp, UNIT_TYPE_SUMMONED, isSummon) and CheckForRegardless (temp, UNIT_TYPE_UNDEAD, isUndead) and CheckForRegardless (temp, UNIT_TYPE_RESISTANT, isResistant) and CheckForRegardless (temp, UNIT_TYPE_MAGIC_IMMUNE, isSpellImmune) then
 	////
 	
 */  ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -76,63 +77,76 @@ still need to make some truth table tests to figure out how this shit should be 
 //// THE CODE STARTS HEREEEEEEEEEEEEEEEEEE /////////////////
 
 
-function temptemp takes unit temp, player playerArg returns nothing
+function CheckForAlly takes unit u, player p, integer wantAlly returns boolean
+	local boolean bool = false
+	local boolean isAlly = IsUnitAlly(u, p)
+  if wantAlly == 0 then
+    if isAlly then
+      set bool = false
+    else
+      set bool = true
+    endif
+  endif
+  if wantAlly == 1 then
+    if isAlly then
+      set bool = true
+    endif
+  endif
+  if wantAlly == 2 then
+    set bool = true
+  endif
+  return bool
+endfunction
 
-	if IsUnitAlly (temp, playerArg) then
-		call BJDebugMsg ("Is Ally")
-	else
-		call BJDebugMsg ("Is Not Ally")
-	endif
-	if IsUnitEnemy(temp, playerArg) then
-		call BJDebugMsg ("Is Enemy")
-	else
-		call BJDebugMsg ("Is Not Enemy")
-	endif
-	if IsUnitType(temp, UNIT_TYPE_STRUCTURE) then
-		call BJDebugMsg ("Is Structure")
-	else
-		call BJDebugMsg ("Is Not Structure")
-	endif
-	if IsUnitType(temp, UNIT_TYPE_HERO) then
-		call BJDebugMsg ("Is Hero")
-	else
-		call BJDebugMsg ("Is Not Hero")
-	endif
-	if IsUnitType(temp, UNIT_TYPE_FLYING) then
-		call BJDebugMsg ("Is Air")
-	else
-		call BJDebugMsg ("Is Not Air")
-	endif
-	if IsUnitType(temp, UNIT_TYPE_GROUND) then
-		call BJDebugMsg ("Is Ground")
-	else
-		call BJDebugMsg ("Is Not Ground")
-	endif
-	if IsUnitType(temp, UNIT_TYPE_SUMMONED) then
-		call BJDebugMsg ("Is Summon")
-	else
-		call BJDebugMsg ("Is Not Summon")
-	endif
-	if IsUnitType(temp, UNIT_TYPE_UNDEAD) then
-		call BJDebugMsg ("Is Undead")
-	else
-		call BJDebugMsg ("Is Not Undead")
-	endif
-	if IsUnitType(temp, UNIT_TYPE_RESISTANT) then
-		call BJDebugMsg ("Is Resistant")
-	else
-		call BJDebugMsg ("Is Not Resistant")
-	endif
-	if IsUnitType(temp, UNIT_TYPE_MAGIC_IMMUNE) then
-		call BJDebugMsg ("Is Spell Immune")
-	else
-		call BJDebugMsg ("Is Not Spell Immune")
-	endif 
+function CheckForEnemy takes unit u, player p, integer wantEnemy returns boolean
+	local boolean bool = false
+	local boolean isEnemy = IsUnitEnemy(u, p)
+  if wantEnemy == 0 then
+    if isEnemy then
+      set bool = false
+    else
+      set bool = true
+    endif
+  endif
+  if wantEnemy == 1 then
+    if isEnemy then
+      set bool = true
+    endif
+  endif
+  if wantEnemy == 2 then
+    set bool = true
+  endif
+  return bool
+endfunction
 
-endfunction 
+function CheckForRegardless takes unit u, unittype checkType, integer wantType returns boolean
+
+  local boolean bool = false
+  local boolean sameType = IsUnitType(u, checkType)
+  
+  if wantType == 0 then
+    if sameType then
+      set bool = false
+    else
+      set bool = true
+    endif
+  endif
+  if wantType == 1 then
+    if sameType then
+      set bool = true
+    endif
+  endif
+  if wantType == 2 then
+    set bool = true
+  endif
+  
+  
+  return bool
+  
+endfunction
 
 
-function GetNearestUnit takes real x, real y, real radius, player playerArg, integer isAlly, integer isEnemy, integer isStructure, integer isHero, integer isAir, integer isGround, integer isSummon, integer isUndead, integer isResistant, integer isSpellImmune returns integer
+function GetNearestUnit takes real x, real y, real radius, player playerArg, integer isAlly, integer isEnemy, integer isMech, integer isHero, integer isAir, integer isGround, integer isSummon, integer isUndead, integer isResistant, integer isSpellImmune returns integer
 	
 	local unit temp
 	local group g = CreateGroup()
@@ -150,7 +164,7 @@ function GetNearestUnit takes real x, real y, real radius, player playerArg, int
 	
 	local boolean bool
     
-	call BJDebugMsg ("starting loop")
+	//call BJDebugMsg ("starting loop")
 	
 	call GroupEnumUnitsInRange (g, x, y, radius, null ) 
 	
@@ -160,19 +174,19 @@ function GetNearestUnit takes real x, real y, real radius, player playerArg, int
 		
 		// call temptemp(temp, playerArg)
 		
-		if ((IsUnitAlly (temp, playerArg) and isAlly == 1 ) or isAlly == 2 or not (IsUnitAlly (temp, playerArg) and isAlly == 1 )) and ((IsUnitEnemy(temp, playerArg) and isEnemy == 1 ) or isEnemy == 2 or not (IsUnitEnemy(temp, playerArg) and isEnemy == 1 )) and ((IsUnitType(temp, UNIT_TYPE_STRUCTURE) and isStructure   == 1 ) or isStructure   == 2 or not (IsUnitType(temp, UNIT_TYPE_STRUCTURE) and isStructure == 1 )) and ((IsUnitType(temp, UNIT_TYPE_HERO) and isHero == 1 ) or isHero == 2 or not (IsUnitType(temp, UNIT_TYPE_HERO) and isHero == 1 )) and ((IsUnitType(temp, UNIT_TYPE_FLYING) and isAir == 1 ) or isAir == 2 or not (IsUnitType(temp, UNIT_TYPE_FLYING) and isAir == 1 )) and ((IsUnitType(temp, UNIT_TYPE_GROUND) and isGround == 1 ) or isGround == 2 or not (IsUnitType(temp, UNIT_TYPE_GROUND) and isGround == 1 )) and ((IsUnitType(temp, UNIT_TYPE_SUMMONED) and isSummon == 1 ) or isSummon == 2 or not (IsUnitType(temp, UNIT_TYPE_SUMMONED) and isSummon == 1 )) and ((IsUnitType(temp, UNIT_TYPE_UNDEAD) and isUndead == 1 ) or isUndead == 2 or not (IsUnitType(temp, UNIT_TYPE_UNDEAD) and isUndead == 1 )) and ((IsUnitType(temp, UNIT_TYPE_RESISTANT) and isResistant == 1 ) or isResistant == 2 or not (IsUnitType(temp, UNIT_TYPE_RESISTANT) and isResistant == 1 )) and ((IsUnitType(temp, UNIT_TYPE_MAGIC_IMMUNE) and isSpellImmune == 1 ) or isSpellImmune == 2 or not (IsUnitType(temp, UNIT_TYPE_MAGIC_IMMUNE) and isSpellImmune == 1 )) then
+		if CheckForAlly (temp, playerArg, isAlly) and CheckForEnemy (temp, playerArg, isEnemy) and CheckForRegardless (temp, UNIT_TYPE_MECHANICAL, isMech) and CheckForRegardless (temp, UNIT_TYPE_HERO, isHero) and CheckForRegardless (temp, UNIT_TYPE_FLYING, isAir) and CheckForRegardless (temp, UNIT_TYPE_GROUND, isGround) and CheckForRegardless (temp, UNIT_TYPE_SUMMONED, isSummon) and CheckForRegardless (temp, UNIT_TYPE_UNDEAD, isUndead) and CheckForRegardless (temp, UNIT_TYPE_RESISTANT, isResistant) and CheckForRegardless (temp, UNIT_TYPE_MAGIC_IMMUNE, isSpellImmune) and not IsUnitType(temp, UNIT_TYPE_DEAD) then
 			set bool = true
-			call BJDebugMsg ("found... " + GetUnitName(temp))
+			//call BJDebugMsg ("found... " + GetUnitName(temp))
 		else
 			set bool = false
-			call BJDebugMsg ("not... " + GetUnitName(temp))
+			//call BJDebugMsg ("not... " + GetUnitName(temp))
 		endif
 		
 		
 		
 		if bool then
 			
-			call BJDebugMsg ("found eligibe unit")
+			//call BJDebugMsg ("found eligibe unit")
 			
 			set temp_x = GetUnitX(temp)
 			set temp_y = GetUnitY(temp)
@@ -196,8 +210,8 @@ function GetNearestUnit takes real x, real y, real radius, player playerArg, int
 	set temp = null
 	set g = null
 	
-	call BJDebugMsg (I2S(nearest_unit))
-	call BJDebugMsg ("nearest unit is " + GetUnitName( udg_unit_array[nearest_unit] ) )
+	//call BJDebugMsg (I2S(nearest_unit))
+	//call BJDebugMsg ("nearest unit is " + GetUnitName( udg_unit_array[nearest_unit] ) )
 	
 	return nearest_unit
 	
