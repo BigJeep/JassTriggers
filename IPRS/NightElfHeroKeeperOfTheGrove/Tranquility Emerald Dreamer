@@ -13,15 +13,15 @@ function GhostKeeperDeath takes nothing returns nothing
   local real y
   local effect sfx
   
-  if GetUnitTypeId(GetTriggerUnit()) == 'ghostKeeper' then
-    set ghost = GetTriggerUnit
+  if GetUnitTypeId(GetTriggerUnit()) == 'e005' then
+    set ghost = GetTriggerUnit()
     set x = GetUnitX(ghost)
     set y = GetUnitY(ghost)
     //set sfx = someEffect
   endif
   
-  call DestroyEffect (sfx)
-  set sfx   = null
+  //call DestroyEffect (sfx)
+  //set sfx   = null
   set ghost = null
 endfunction
 
@@ -37,9 +37,10 @@ function TranqSummon takes nothing returns nothing
   local real target_x
   local real target_y
   local real distance = 200
+  local real radian_angle
   local integer pNumber
   
-  if GetSpellAbilityId() == 'tranq' then
+  if GetSpellAbilityId() == 'AEtq' then
     
     set caster  = GetTriggerUnit()
     set p       = GetOwningPlayer(caster)
@@ -55,13 +56,13 @@ function TranqSummon takes nothing returns nothing
     
     if udg_dreamer[pNumber] == null then
       
-      set udg_dreamer[pNumber] = CreateUnit(p, 'ghostKeeper', x, y, GetUnitFacing(caster))
+      set udg_dreamer[pNumber] = CreateUnit(p, 'e005', x, y, GetUnitFacing(caster))
       set temp = udg_dreamer[pNumber]
       call BlzSetUnitMaxHP          (temp, BlzGetUnitMaxHP          (caster) )
       call BlzSetUnitMaxMana        (temp, BlzGetUnitMaxMana        (caster) )
-      call BlzSetUnitName           (temp, GetUnitProperName        (caster) + "'s Something" )
-      call BlzSetUnitBaseDamage     (temp, BlzGetUnitBaseDamage     (caster) )
-      call BlzSetUnitAttackCooldown (temp, BlzGetUnitAttackCooldown (caster) )
+      call BlzSetUnitName           (temp, GetHeroProperName        (caster) + "'s Something" )
+      call BlzSetUnitBaseDamage     (temp, BlzGetUnitBaseDamage     (caster, 1) , 1)
+      call BlzSetUnitAttackCooldown (temp, BlzGetUnitAttackCooldown (caster, 1) , 1)
       call BlzSetUnitArmor          (temp, BlzGetUnitArmor          (caster) )
       
       call IssuePointOrder(temp, "move", target_x, target_y)
