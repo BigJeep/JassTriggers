@@ -1,114 +1,157 @@
 // since I need to use the dummy auras for the "next ward" buff anyway I'll use them as some
-shitty index for the Shadow Hunters instead of indexing each one or using hashtables or whatever
+// shitty index for the Shadow Hunters instead of indexing each one or using hashtables or whatever
+
+// WARDS ID
+// Sentry 'Aeye' (Witch Doctor)
+// Stasis 'A00H' (dummy exclusive)
+// Heal   'A01W' (dummy exclusive)
+// Snake  'AOsw' (Shadow Hunter)
+
+// BUFFS ID (dummied/hidden auras, not the actual buff with tooltip)
+// Sentry 'A00P'
+// Stasis 'A020'
+// Heal   'A019'
+// Snake  'A01X'
 
 // Functions
+
+
 
 function GetCurrentWard takes unit c returns integer
   local unit caster = c
   local integer wardid = 0
-  
-  if GetUnitAbilityLevel(c, 'sentry ward dummy') > 0 then
-    set wardid = 'stasis trap dummy'
-  elseif GetUnitAbilityLevel(c, 'stasis  trap dummy') > 0 then
-    set wardid = 'healing ward dummy'
-  elseif GetUnitAbilityLevel(c, 'healing ward dummy') > 0 then
-    set wardid = 'serpent ward dummy'
-  elseif GetUnitAbilityLevel(c, 'serpent ward dummy') > 0 then
-    set wardid = 'sentry ward dummy'
+
+  if GetUnitAbilityLevel(caster, 'A00P') > 0 then
+    set wardid = 'A00P' 
+  elseif GetUnitAbilityLevel(caster, 'A020') > 0 then
+    set wardid = 'A020' 
+  elseif GetUnitAbilityLevel(caster, 'A019') > 0 then
+    set wardid = 'A019' 
+  elseif GetUnitAbilityLevel(caster, 'A01X') > 0 then
+    set wardid = 'A01X' 
   else
-    set wardid = 'sentry ward dummy'
+    set wardid = 'A00P' 
   endif
-  set c = null
-  
+  set caster = null
+
   return wardid
-  
+
 endfunction
 
-function ??? takes nothing returns boolean
-  
+function GetNextWard takes unit c returns integer
+  local unit caster = c
+  local integer wardid = 0
+
+  if GetUnitAbilityLevel(caster, 'A00P') > 0 then
+    set wardid = 'A020' //'stasis trap dummy'
+  elseif GetUnitAbilityLevel(caster, 'A020') > 0 then
+    set wardid = 'A019' //'healing ward dummy'
+  elseif GetUnitAbilityLevel(caster, 'A019') > 0 then
+    set wardid = 'A01X' //'serpent ward dummy'
+  elseif GetUnitAbilityLevel(caster, 'A01X') > 0 then
+    set wardid = 'A00P' //'sentry ward dummy'
+  else
+    set wardid = 'A020' //'sentry to stasis ward dummy'
+  endif
+  set caster = null
+
+  return wardid
+
+endfunction
+
+function WaveWard takes nothing returns boolean
+
   local unit caster
   local unit temp
+  local unit target
   local player p
-  
+
   local real caster_x
-  lcoal real caster_y
+  local real caster_y
   local real target_x
   local real target_y
   local real midpoint_x
   local real midpoint_y
-  
+
   local integer dummy_ward
   local integer caster_ward
+  local integer next_ward
   local integer ward_level = 1
-  
-  if GetSpellAbilityId() == 'heal wave' then
-    
+
+  if GetSpellAbilityId() == 'AOhw' then
+
     set caster = GetTriggerUnit()
+	set target = GetSpellTargetUnit()
     set p = GetOwningPlayer(caster)
-    
+
     set caster_x = GetUnitX(caster)
     set caster_y = GetUnitY(caster)
-    
+
     set target_x = GetUnitX (target)
-    set target_y = GetUnitY (caster)
-    
-    set midpoint_x
-    set midpoint_y
-    
+    set target_y = GetUnitY (target)
+
+    set midpoint_x = (target_x + caster_x)/2
+    set midpoint_y = (target_y + caster_y)/2
+
     set caster_ward = GetCurrentWard(caster)
-    
-    if caster_ward == // then
-      set dummy_ward = 'sentry ward'
-    elseif caster_ward == // then
-      set dummy_ward = 'stasis trap'
-    elseif caster_ward == // then
-      set dummy_ward = 'healing ward'
-    elseif caster_ward == // then
-      set dummy_ward = 'serpent ward'
-      set ward_level = GetUnitAbilityLevel(caster, 'serpent ward')
+    set next_ward = GetNextWard(caster)
+
+    if caster_ward == 'A00P' then
+      set dummy_ward = 'Aeye'
+    elseif caster_ward == 'A020' then
+      set dummy_ward = 'A00H'
+    elseif caster_ward == 'A019' then
+      set dummy_ward = 'A01W'
+    elseif caster_ward == 'A01X' then
+      set dummy_ward = 'A022'
+	  if GetUnitAbilityLevel(caster, 'A0sw') > 0 then 
+		set ward_level = GetUnitAbilityLevel(caster, 'A0sw')
+	  endif
     else
-      set dummy_ward = 'sentry ward'
+      set dummy_ward = 'Aeye'
     endif
-    
-    call UnitRemoveAbility(caster, 'sentry  ward dummy')
-    call UnitRemoveAbility(caster, 'stasis  trap dummy')
-    call UnitRemoveAbility(caster, 'healing ward dummy')
-    call UnitRemoveAbility(caster, 'serpent ward dummy')    
-    
-    call UnitRemoveAbility(caster, 'sentry buff dummy')
-    call UnitRemoveAbility(caster, 'stasis buff dummy')
-    call UnitRemoveAbility(caster, 'heal buff dummy')
-    call UnitRemoveAbility(caster, 'snake buff dummy')
-    
+
+    call UnitRemoveAbility(caster, 'A00P')
+    call UnitRemoveAbility(caster, 'A020')
+    call UnitRemoveAbility(caster, 'A019')
+    call UnitRemoveAbility(caster, 'A01X')
+
+    call UnitRemoveAbility(caster, 'B01G')
+    call UnitRemoveAbility(caster, 'B01H')
+    call UnitRemoveAbility(caster, 'B01I')
+    call UnitRemoveAbility(caster, 'B01F')
+
     set temp = CreateUnit(p, 'h001', caster_x, caster_y, 0.)
     call UnitApplyTimedLife(temp, 'BTLF', 3.)
-    call UnitAddAbility(caster, dummy_ward)
-    call SetUnitAbilityLevel (caster, dummy_ward, ward_level)
-    call IssuePointOrder (dummy, sentryward, midpoint_x, midpoint_y)
-    call IssuePointOrder (dummy, stasistrap, midpoint_x, midpoint_y)
-    call IssuePointOrder (dummy, healingward, midpoint_x, midpoint_y)
-    call IssuePointOrder (dummy, serpentward, midpoint_x, midpoint_y)
-    
-    callUnitAddAbility(caster, caster_ward)
-    
+    call UnitAddAbility(temp, dummy_ward)
+	call SetUnitAbilityLevel (temp, 'A022', ward_level)
+    call IssuePointOrder (temp, "evileye", midpoint_x, midpoint_y)
+    call IssuePointOrder (temp, "stasistrap", midpoint_x, midpoint_y)
+    call IssuePointOrder (temp, "healingward", midpoint_x, midpoint_y)
+    call IssuePointOrder (temp, "ward", midpoint_x, midpoint_y)
+
+    call UnitAddAbility 	(caster, next_ward)
+	call BlzUnitHideAbility (caster, next_ward, true)
+
   endif
-  
+
   set caster = null
+  set target = null
   set temp = null
   set p = null
-  
+
   return false
-  
+
 endfunction
 
 // Trigger
 
-function InitTrig _??? takes nothing returns nothing
+function InitTrig_WaveWard takes nothing returns nothing
   local trigger t = CreateTrigger()
-  
+
   call TriggerRegisterAnyUnitEventBJ ( t, EVENT_PLAYER_UNIT_SPELL_EFFECT )
-  call TriggerAddCondition (t, Condition ( function ???) )
-  
+  call TriggerAddCondition (t, Condition ( function WaveWard) )
+
   set t = null
 endfunction
 //
