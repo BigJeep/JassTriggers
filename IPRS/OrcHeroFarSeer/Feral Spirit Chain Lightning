@@ -1,5 +1,5 @@
 // the effect that will be added to wolves after a chain lightning cast
-// I'll probably have to change the chain lightning to a new one based off the Seer's given the bug from the Animate Dead
+// 
 // -Functions
 function Chain_Lightning_Deathrattle takes nothing returns boolean
   
@@ -17,7 +17,7 @@ function Chain_Lightning_Deathrattle takes nothing returns boolean
   
   
   
-  if GetUnitAbilityLevel(GetTriggerUnit(), 'A00D') > 0 then
+  if GetUnitAbilityLevel(GetTriggerUnit(), 'A10V') > 0 then
 	
 	set caster = GetTriggerUnit()
 	set p = GetOwningPlayer(caster)
@@ -32,8 +32,9 @@ function Chain_Lightning_Deathrattle takes nothing returns boolean
 	call BJDebugMsg (GetUnitName(target))
 	
 	set temp = CreateUnit(p, 'h001', x, y, 0.)
-	call UnitApplyTimedLife (temp, 'BTLF', 3.)
+	call UnitApplyTimedLife (temp, 'BTLF', 10.)
 	call UnitAddAbility (temp, 'A01S')
+	call SetUnitAbilityLevel (temp, 'A01S', GetUnitAbilityLevel(caster, 'A10V') )
 	call IssueTargetOrder (temp, "chainlightning", target)
   endif
   
