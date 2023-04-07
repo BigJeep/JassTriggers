@@ -1,0 +1,76 @@
+// Grants a speed boost to all friendly "trees" (Treants, Ancients); Refunds mana for every treant not summoned below the maximum allowed per level; and resets the timed life of every friendly treant in the target area
+// still incomplete, lotsa things missing
+
+
+// Function
+
+// Action
+function EntMarch takes nothing returns nothing
+  local unit caster = GetTriggerUnit()
+  local unit tempTree
+  local unit temp
+  local player p = GetOwningPlayer(caster)
+  local real x = GetSpellTargetX()
+  local real y = GetSpellTargetY()
+  local group trees = CreateGroup()
+  local integer treantCount = 0
+  
+  call GroupEnumUnitsInRect (trees, bj_mapInitialPlayableArea, null)
+  
+  loop
+    set tempTree = FirstOfGroup(trees)
+    exitwhen tempTree == null
+    if (GetUnitTypeId (tempTree, 'treantid') or IsUnitType(tempTree, UNIT_TYPE_ANCIENT) and IsUnitAlly(tempTree, p) then
+      /// SPEED BOOST HERE
+      ///
+    endif
+    call GroupRemoveUnit(trees, tempTree)
+  endloop
+  
+  call GroupEnumUnitsInRange(trees, x, y, /*radius*/, null) // the radius will be = default radius + (radius level increment * ability level)
+  
+  loop
+    set tempTree = FirstOfGroup(trees)
+    exitwhen tempTree == null
+    if GetUnitTypeId (tempTree, 'treantid') and IsUnitAlly(tempTree, p) then
+      /// RESET TIMED LIFE
+      ///
+    endif
+    call GroupRemoveUnit(trees, tempTree)
+  endloop
+  
+  ///
+  /// COUNT TREES HERE
+  /// call EnumDestructablesInRect takes rect r, boolexpr filter, code actionFunc
+  /// refund mana yadayada
+  
+  call DestroyGroup(trees)
+  set caster   = null
+  set temp     = null
+  set tempTree = null
+  set player   = null
+  set trees    = null
+  
+endfunction
+
+// Condition
+function EntMarch_Condition takes nothing returns boolean
+local boolean b = false
+if GetSpellAbilityId() == 'AEfn' then
+set b = true
+endif
+return b
+endfunction
+
+// Trigger 
+function InitTrig_EntMarch takes nothing returns nothing
+
+local trigger t = CreateTrigger()
+
+call TriggerRegisterAnyUnitEventBJ (t, EVENT_PLAYER_UNIT_SPELL_EFFECT)
+call TriggerAddCondition           (t, Condition (function EntMarch_Condition))
+call TriggerAddAction              (t, function EntMarch)
+
+set t = null
+
+endfunction
