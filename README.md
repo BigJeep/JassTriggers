@@ -198,6 +198,23 @@ GetNearestUnitByType Parameters
       Eyes...?
 
       Fel Reaver
+      
+// ITEM TRIGGERS
+      
+      Evolve,Devolve and Campaign
+      Latent Power
+      Orb Buffs
+      Bless (A dispellable buff, always deals maximum damage)
+      Evasion Buff
+      Immolation Buff
+      Divine Shield (triggers upon being attacked)
+      Stealth (with backstab)
+      Dark Transformation (one that can target non-undead)
+      Reraise (non-dispellable? or yes? dunno)
+      Auto-animate dead
+      Auto-corpse explosion
+      True Sight Buff
+
 
 
 
