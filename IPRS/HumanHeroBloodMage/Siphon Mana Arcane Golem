@@ -21,8 +21,8 @@ function Arcane_Golem takes nothing returns boolean
   
   local real caster_x = GetUnitX(caster)
   local real caster_y = GetUnitY(caster)
-  local real target_x = GetUnitX(caster)
-  local real target_y = GetUnitY(caster)
+  local real target_x = GetUnitX(target)
+  local real target_y = GetUnitY(target)
   
   local real midway_x = (caster_x + target_x)/2
   local real midway_y = (caster_y + target_y)/2
