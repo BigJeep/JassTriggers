@@ -95,16 +95,44 @@ return demonId
 
 endfunction
 
-function RemoveDemon takes ??? returns nothing
-
-
+function RemoveDemon takes integer whichDemon returns nothing
+  
+  local integer casterId
+  local integer ownerId
+  
+// gives demon back to its original owner, all the way back to the first one
+  if not udg_is_demon_possessed [whichDemon] then
+        
+        set udg_current_warlock     [whichDemon] = udg_demon_original_warlock [whichDemon]
+        set udg_demon_current_owner [whichDemon] = udg_demon_original_owner   [whichDemon]
+        set ownerId  = udg_demon_current_owner [whichDemon]
+        set casterId = udg_current_warlock     [whichDemon]
+        set udg_current_demon       [casterId] = whichDemon
+        set udg_is_demon_possessed  [whichDemon] = false
+        call SetUnitOwner (target, Player(ownerId), true)   // if THIS doesn't work I'll have to check how to convert a player integer into player
+        ///
+        /// SFX HERE
+        ///
+      endif
+      ///
+      
+// simply kills the demon if it wasn't possessed by another warlock
+  else
+        KillUnit (udg_unit_array [whichDemon])
+        ///
+        /// SFX HERE
+        ///
+  endif
+  
+  /// REMOVE ABILITIES/BUFFS/INDICATORS AND WHATNOT HERE I guess?
 
 endfunction
+
 
 // Actions
 
 function WarlockDeath takes nothing returns nothing
-
+  call RemoveDemon (udg_current_demon[GetUnitUserData(GetTriggerUnit])
 endfunction
 
 function Demonology takes nothing returns nothing
@@ -115,7 +143,7 @@ function Demonology takes nothing returns nothing
   
   local integer casterId = GetUnitUserData(caster)
   local integer targetId = GetUnitUserData(target)
-  local integer summonId
+  //local integer summonId
   
   local player caster_owner = GetOwningPlayer(caster)
   local player target_owner = GetOwningPlayer(target)
@@ -139,17 +167,18 @@ function Demonology takes nothing returns nothing
   /// If the target is a non-hero demon, the warlock attempts to control it
   if isTargetADemon(target) and not isUnitType(target, UNIT_TYPE_HERO) then
     if warlockTotal > controlHP then
+      call RemoveDemon(targetId)
       if not udg_is_demon_possessed [targetId] then
-        udg_demon_original_warlock [targetId] = udg_current_owner [targetId]
-        udg_demon_original_owner   [targetId] = GetPlayerId (target_owner)
-        udg_is_demon_possessed     [targetId] = true
+        set udg_demon_original_warlock [targetId] = udg_current_owner [targetId]
+        set udg_demon_original_owner   [targetId] = GetPlayerId (target_owner)
+        set udg_is_demon_possessed     [targetId] = true
       endif
       ///
-      call SetUnitOwner (target, caster_owner, true)
-      udg_current_demon       [casterId] = targetId
-      udg_current_warlock     [targetId] = casterId
-      udg_demon_current_owner [targetId] = GetPlayerId (caster_owner)
-      call SetUnitState (caster, UNIT_STATE_LIFE, warlockNewHP)
+      call SetUnitOwner           (target, caster_owner, true)
+      set udg_current_demon       [casterId] = targetId
+      set udg_current_warlock     [targetId] = casterId
+      set udg_demon_current_owner [targetId] = GetPlayerId (caster_owner)
+      call SetUnitState           (caster, UNIT_STATE_LIFE, warlockNewHP)
       ///
       /// ADD BUFFS/ABILITIES/INDICATORS HERE
       ///
@@ -163,6 +192,7 @@ function Demonology takes nothing returns nothing
   
   /// If the target is an enemy, the warlock summons a new demon to attack it 
   elseif not IsUnitAlly (target, caster_owner) then
+  call RemoveDemon(udg_current_demon [casterId])
   
   set summon_x = (caster_x - target_x)/2
   set summon_y = (caster_y - target_y)/2
