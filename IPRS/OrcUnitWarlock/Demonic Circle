@@ -2,6 +2,33 @@
 
 //Function
 
+function Demo_Circle_Summon takes nothing returns nothing
+
+  local unit caster
+  local player p
+  local real x
+  local real y
+  local sfx
+  local circle
+  
+  if GetSpellAbilityId() == 'democircle' then
+  	set caster = GetTriggerUnit()
+	set p = GetOwningPlayer(caster)
+	set x = GetUnitX(caster)
+	set y = GetUnitY(caster)
+	set sfx = AddSpecialEffect ("someEffect", x, y)
+	set circle = CreateUnit(p, 'h00I, x, y, 0)
+	call SetUnitAnimation (circle, "birth")
+  endif
+  
+  call DestroyEffect(sfx)
+  set caster = null
+  set p = null
+  set circle = null
+  set sfx = null
+  
+endfunction
+
 function Demo_Circle_order takes nothing returns nothing
 
   local unit circle
@@ -96,21 +123,18 @@ endfunction
 
 function InitTrig_Demo_Circle takes nothing returns nothing
 
-  local trigger spell = CreateTrigger()
-  local trigger order = CreateTrigger()
+  local trigger spell  = CreateTrigger()
+  local trigger order  = CreateTrigger()
+  local trigger summon = CreateTrigger()
   
-  local trigger summon
+  //local trigger removeSelection = CreateTrigger()
   
-  local trigger removeSelection = CreateTrigger()
-  
-  call TriggerRegisterAnyUnitEventBJ(spell, EVENT_PLAYER_UNIT_SPELL_EFFECT)
-  call TriggerRegisterAnyUnitEventBJ(order, EVENT_PLAYER_UNIT_ISSUED_TARGET_ORDER)
-  
+  call TriggerRegisterAnyUnitEventBJ(spell,  EVENT_PLAYER_UNIT_SPELL_EFFECT)
+  call TriggerRegisterAnyUnitEventBJ(order,  EVENT_PLAYER_UNIT_ISSUED_TARGET_ORDER)
   call TriggerRegisterAnyUnitEventBJ(summon, EVENT_PLAYER_UNIT_SPELL_EFFECT)
   
-  call TriggerAddAction (spell, function Demo_Circle_spell )
-  call TriggerAddAction (order, function Demo_Circle_order )
-  
+  call TriggerAddAction (spell,  function Demo_Circle_spell )
+  call TriggerAddAction (order,  function Demo_Circle_order )
   call TriggerAddAction (summon, function Demo_Circle_summon)
   
   call RemoveS
