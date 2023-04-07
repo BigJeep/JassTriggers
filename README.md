@@ -4,12 +4,18 @@ scripts to be used on wc3 maps
 GetNearestUnitByType Parameters
 
       GetNearestUnitByType ( x, y, radius, playerArg, ally, enemy, structure, hero, air, ground, summoned, undead, resistant, immune)
-      // GetNearestUnitByType ( , , , , , , , , , , , , , )
-      // GetNearestUnitByType ( /*x, y, radius, playerArg, ally, enemy, structure, hero, air, ground, summoned, undead, resistant, immune*/)
-      // still need to test OR situations
+      // GetNearestUnit (, , , , , , , , , , , , , )
+      // example GetNearestUnit (x, y, 700, p, 0, 1, 0, 2, 2, 2, 2, 2, 2, 0)
+      
 
-IPRS Features remaining
-
+// ALL
+    
+    hints whenever a player uses something with a new feature (heroes, items, new units)
+    initial inventory for units
+    invasions trigger
+    environment (map terrain edit only, nothing I can do on GitHub)
+    
+    
 // HUMAN
 
     Archmage Presence of Mind
@@ -23,7 +29,7 @@ IPRS Features remaining
     Blood Mage
     Flame Strike
     Banish
-    Siphon Mana (Arcane Golem)
+    Siphon Mana (Arcane Defender)
     Phoenix
 
     Markswoman fix (change attack index instead of unit morph) + voiceline
@@ -33,7 +39,7 @@ IPRS Features remaining
 // ORC
 
       Far Seer
-      Feral Spirit (Fix Lightning Wolves. Give a "cast purge on attackers" effect)
+      Chain Lightning (something new)
 
       Blademaster
       Wind Walk
@@ -42,26 +48,25 @@ IPRS Features remaining
       Bladestorm (rework)
 
       Tauren Chieftain
-      Shockwave (rework)
+      
       War Stomp (rework)
       Endurance Aura (Execute)
       Reincarnation (Mass Res)
 
       Shadow Hunter
-      Healing Wave (Wards)
+      
       Hex (Evolve)
       Serpent Ward (?)
       Big Bad Voodoo (Wards re-cast)
 
       Warlock
       Life Tap
-      Demonic Circle
-      Fel Orc Transformation
+      Demonic Circle (summoning)
+      Demonology
 
 // UNDEAD
       Death Knight
       Death Coil (?)
-      Death Pact (animate dead)
       Unholy Aura (d.advance/cleanse)
       Animate Dead (army of the dead)
 
@@ -74,7 +79,6 @@ IPRS Features remaining
       Dreadlord
       Carrion Swarm (return)
       Sleep (Nightstalker, invisibility + Soul Preservation, undead Sanctuary)
-      Vampiric Aura (Dark Conversion, Zombies)
       Inferno (Rain of Chaos, +1 infernal per hero)
 
       Crypt Lord
@@ -96,7 +100,7 @@ IPRS Features remaining
       Entangling Roots (Poison Seeds, "bounces" if dispelled or if target dies, or summons treants if it dies later)
       Force of Nature (treants + ancients speed boost)
       Thorns Aura (roots enemies that attempt to flee)
-      Tranquility (creates a 100% evasion ghost copy of itself)
+      Tranquility (ghost summon/death effects, create abilities)
 
       Priestess of the Moon
       Scout (artificial night aura)
