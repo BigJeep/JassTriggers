@@ -1,0 +1,109 @@
+//
+
+globals
+  local real array udg_MirrorEntity_X
+  local real array udg_MirrorEntity_Y
+endglobals
+
+// Actions
+
+function Mirror_Entity_Death takes nothing returns nothing
+
+  local effect sfx = AddSpecialEffect ("massteleportpathhere", GetUnitX(GetTriggerUnit(), GetUnitY(GetTriggerUnit() )
+  call RemoveUnit (GetTriggerUnit())
+  call DestroyEffect (sfx)
+  set sfx = null
+  
+endfunction
+
+function Mirror_Entity_Summon takes nothing returns nothing
+
+  local unit caster = GetTriggerUnit()
+  
+  local integer caster_id = GetUnitUserData (caster)
+  local real x = udg_MirrorEntity_X[udg_unit_array[caster_id]]
+  local real y = udg_MirrorEntity_Y[udg_unit_array[caster_id]]
+  
+  local player p = GetOwningPlayer(caster)
+  
+  local unit entity = CreateUnit (p, 'h00?', x, y, GetUnitFacing(caster))
+  call BlzSetUnitMaxHP           (entity, BlzGetUnitMaxHP                (caster) )
+  call BlzSetUnitMaxMana         (entity, BlzGetUnitMaxMana              (caster) )
+  call BlzSetUnitName            (entity, "Echo of " + GetHeroProperName (caster) )
+  call BlzSetUnitBaseDamage      (entity, BlzGetUnitBaseDamage           (caster, 1) , 1)
+  call BlzSetUnitAttackCooldown  (entity, BlzGetUnitAttackCooldown       (caster, 1) , 1)
+  call BlzSetUnitArmor           (entity, BlzGetUnitArmor                (caster) )
+  
+  call SetUnitAbilityLevel (entity, 'blizzard', GetUnitAbilityLevel(caster, 'AHbl') )
+  call SetUnitAbilityLevel (entity, 'blizzard', GetUnitAbilityLevel(caster, 'AHbl') )
+  call SetUnitAbilityLevel (entity, 'blizzard', GetUnitAbilityLevel(caster, 'AHbl') )
+  call BlzStartUnitAbilityCooldown (entity, 'warp', 30)
+  
+  call UnitApplyTimedLife (entity, 'BTLF', 60)
+  
+  set caster = null
+  set entity = null
+  set p = null
+  
+endfunction
+
+function Mirror_Entity_Set takes nothing returns nothing
+  
+  local integer caster_id = GetUnitUserData (GetTriggerUnit() )
+  set udg_Mirror_Entity_X[udg_unit_array[caster_id]] = GetUnitX (GetTriggerUnit() )
+  set udg_Mirror_Entity_Y[udg_unit_array[caster_id]] = GetUnitY (GetTriggerUnit() )
+  
+endfunction
+
+
+
+// Conditions ---------------------------
+function Mirror_Entity_Condition takes nothing returns boolean
+//local boolean b
+if GetSpellAbilityId(0 == 'AHmt' then
+  return true
+  //set b = true
+else
+  return false
+  //set b = false
+endif
+//return b
+endfunction
+
+function Mirror_Entity_Condition_Death takes nothing returns boolean
+//local boolean b
+if GetTriggerUnit(0 == 'entity' then
+  return true
+  //set b = true
+else
+  return false
+  //set b = false
+endif
+//return b
+endfunction
+
+// Trigger ----------------------------
+function InitTrig_Mirror_Entity takes nothing returns nothing
+
+  local trigger start = CreateTrigger()
+  local trigger end   = CreateTrigger()
+  local trigger death = CreateTrigger()
+  
+  call TriggerRegisterAnyUnitEventBJ (start, EVENT_PLAYER_UNIT_SPELL_EFFECT )
+  call TriggerRegisterAnyUnitEventBJ (end  , EVENT_PLAYER_UNIT_SPELL_FINISH )
+  call TriggerRegisterAnyUnitEventBJ (end  , EVENT_PLAYER_UNIT_SPELL_ENDCAST)
+  call TriggerRegisterAnyUnitEventBJ (end  , EVENT_PLAYER_UNIT_SPELL_DEATH  )
+  
+  call TriggerAddCondition (start, Condition ( function Mirror_Entity_Condition      ) )
+  call TriggerAddCondition (end  , Condition ( function Mirror_Entity_Condition      ) )
+  call TriggerAddCondition (death, Condition ( function Mirror_Entity_Condition_Death) )
+  call TriggerAddAction    (start, function Mirror_Entity_Set    ) )
+  call TriggerAddAction    (end  , function Mirror_Entity_Summon ) )
+  call TriggerAddAction    (death, function Mirror_Entity_Death  ) )
+  
+  set start = null
+  set end   = null
+  
+endfunction
+
+//
