@@ -1,2 +1,5 @@
  - create the least amount of (global?) groups and reuse them instead of creating new temp groups
  - the same thing could be said about units and other leaking handles maybe?
+ - a single trigger that creates the triggers for all other spells
+ - a single trigger that initializes all hashtables and other crap that must be initialized
+ - a trigger that makes dispel effects dispel other spell buffs from trigger spells that wouldnt be able to be dispelled normally (auras etc.)
