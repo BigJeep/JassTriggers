@@ -1,37 +1,58 @@
 // I made the file but I'm gonna wait to test the sin cos thing from the aftershock to finish this one
 
 //- Functions
-function ??? takes nothing returns boolean
+function Echoes takes nothing returns boolean
   
   local integer count = 0
-  local unit caster = GetTriggerUnit()
+  local unit caster
+  local unit temp
+  local player p
   
-  local player p = GetOwningPlayer(caster)
+  local real caster_x
+  local real caster_y
+  local real degree_angle
+  local real distance = //Stomp AoE Radius
+  local real radian_angle
   
-  local real caster_x = GetUnitX(caster)
-  local real caster_y = GetUnitY(caster)
-  local real angle = GetUnitFacing(caster)
-  local real distance = 200
+  local real target_x
+  local real target_y
   
-  local real target_x = 
-  local real target_y = 
+  if GetSpellAbilityId()  == 'AOws' then
+	  
+	  set caster = GetTriggerUnit()
+    set p = GetOwningPlayer(caster)
+	  
+	  set caster_x = GetUnitX(caster)
+	  set caster_y = GetUnitY(caster)
+	  
+	  set radian_angle = Atan2(distance - caster_y, distance - caster_x) //is it really distance?
+	  
+	  set target_x = caster_x + (distance * (Cos(radian_angle)))
+	  set target_y = caster_y + (distance * (Sin(radian_angle)))
+	  
+	  set temp = CreateUnit(p, 'h001', target_x, target_y, 0.)
+	  call UnitApplyTimedLife(temp, 'BTLF', 5.)
+	  call UnitAddAbility (temp, 'A01T')
+	  call SetUnitAbilityLevel (temp, 'A01T', GetUnitAbilityLevel(caster, 'AOws'))
+	  call IssueImmediateOrder (temp, "creepthunderclap")
     
-  local unit temp = CreateUnit(p, 'h001', target_x, target_y, 0)
-  call AddUnitAbility (temp, 'War Stomp')
-  call ApplyTimedLife (temp, 'BTLF', 4.)
+    set count = 1 + GetUnitAbilityLevel(caster, 'AOws')
   
-  loop
-    exitwhen count == 0
-    call IssueImmediateOrder(temp, 'warstomp')
-    
-    set target_x = 
-    set target_y = 
-    
-    call SetUnitPosition(temp, target_x, target_y,)
-    
-    set count = count + 1
-    
-  endloop
+    loop
+      exitwhen count == 0
+      call IssueImmediateOrder(temp, 'warstomp')
+
+      set radian_angle = Atan2(distance - caster_y, distance - caster_x) //...
+	  
+	    set target_x = caster_x + (distance * (Cos(radian_angle)))
+	    set target_y = caster_y + (distance * (Sin(radian_angle)))
+	  
+      call SetUnitPosition(temp, target_x, target_y,)
+
+      set count = count - 1
+
+    endloop
+  endif
   
   set caster = null
   set temp = null
@@ -41,11 +62,11 @@ function ??? takes nothing returns boolean
 endfunction
 
 //- Trigger
-function InitTrig_pendingname takes nothing returns nothing
+function InitTrig_Echoes takes nothing returns nothing
   local trigger t = CreateTrigger
   
-  call TriggerRegisterAnyUnitEventBJ (t, EVENT_PLAYER_UNIT_SPELL_effect)
-  call TriggerAddCondition (t, Condition(function ???)
+  call TriggerRegisterAnyUnitEventBJ (t, EVENT_PLAYER_UNIT_SPELL_EFFECT)
+  call TriggerAddCondition (t, Condition(function Echoes)
 
   set t = null
 endfunction
