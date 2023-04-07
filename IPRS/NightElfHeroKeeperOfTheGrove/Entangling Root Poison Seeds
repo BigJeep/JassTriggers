@@ -111,7 +111,7 @@ endfunction
 // Condition -----------------------------------------------
 function Poison_Seeds_Condition takes nothing returns boolean
 local boolean b = false
-if GetSpellAbilityId() == 'AEer'
+if GetSpellAbilityId() == 'AEer' or GetSpellAbilityId() == 'dummy entanglingroots' then
   set b = true
 endif
 return b
