@@ -9,12 +9,20 @@ endglobals
 function GhostKeeperDeath takes nothing returns nothing
   
   local unit ghost
+  local player p
   local real x
   local real y
   local effect sfx
+  local integer pNumber
   
   if GetUnitTypeId(GetTriggerUnit()) == 'e005' then
-    set ghost = GetTriggerUnit()
+    set ghost = GetTriggerUnit()  
+    call RemoveUnit( ghost )
+	
+	set p = GetOwningPlayer(ghost)
+	set pNumber = GetPlayerId(p)
+	set udg_dreamer[pNumber] = null
+	
     set x = GetUnitX(ghost)
     set y = GetUnitY(ghost)
     //set sfx = someEffect
@@ -36,7 +44,7 @@ function TranqSummon takes nothing returns nothing
   local real y
   local real target_x
   local real target_y
-  local real distance = 200
+  local real distance = 300
   local real radian_angle
   local integer pNumber
   
@@ -59,12 +67,15 @@ function TranqSummon takes nothing returns nothing
       set udg_dreamer[pNumber] = CreateUnit(p, 'e005', x, y, GetUnitFacing(caster))
       set temp = udg_dreamer[pNumber]
       call BlzSetUnitMaxHP          (temp, BlzGetUnitMaxHP          (caster) )
-      call BlzSetUnitMaxMana        (temp, BlzGetUnitMaxMana        (caster) )
+//    call BlzSetUnitMaxMana        (temp, BlzGetUnitMaxMana        (caster) )
       call BlzSetUnitName           (temp, GetHeroProperName        (caster) + "'s Something" )
-      call BlzSetUnitBaseDamage     (temp, BlzGetUnitBaseDamage     (caster, 1) , 1)
-      call BlzSetUnitAttackCooldown (temp, BlzGetUnitAttackCooldown (caster, 1) , 1)
+      call BlzSetUnitBaseDamage     (temp, BlzGetUnitBaseDamage     (caster, 0) , 0)
+      call BlzSetUnitAttackCooldown (temp, BlzGetUnitAttackCooldown (caster, 0) , 0)
       call BlzSetUnitArmor          (temp, BlzGetUnitArmor          (caster) )
-      
+      call SetUnitLifePercentBJ( temp, 100 )
+      call SetUnitPathing( temp, false )      
+      call UnitApplyTimedLife (temp, 'BTLF', 18.)
+
       call IssuePointOrder(temp, "move", target_x, target_y)
     else
       call KillUnit (udg_dreamer[pNumber])
@@ -86,6 +97,9 @@ function InitTrig_Emerald_Dreamer takes nothing returns nothing
   local trigger tranqCast = CreateTrigger()
   local trigger tranqEnd  = CreateTrigger()
   call TriggerRegisterAnyUnitEventBJ (tranqCast, EVENT_PLAYER_UNIT_SPELL_EFFECT)
+  call TriggerRegisterAnyUnitEventBJ (tranqCast, EVENT_PLAYER_UNIT_SPELL_FINISH)
+  call TriggerRegisterAnyUnitEventBJ (tranqCast, EVENT_PLAYER_UNIT_SPELL_ENDCAST)
+
   call TriggerRegisterAnyUnitEventBJ (tranqEnd , EVENT_PLAYER_UNIT_DEATH)
   call TriggerAddAction (tranqCast, function TranqSummon)
   call TriggerAddAction (tranqEnd , function GhostKeeperDeath)
