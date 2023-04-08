@@ -8,16 +8,16 @@ function Demo_Circle_Summon takes nothing returns nothing
   local player p
   local real x
   local real y
-  local sfx
-  local circle
+  // local effect sfx
+  local unit circle
   
-  if GetSpellAbilityId() == 'democircle' then
+  if GetSpellAbilityId() == 'A00X' then
   	set caster = GetTriggerUnit()
 	set p = GetOwningPlayer(caster)
 	set x = GetUnitX(caster)
 	set y = GetUnitY(caster)
-	set sfx = AddSpecialEffect ("someEffect", x, y)
-	set circle = CreateUnit(p, 'h00I, x, y, 0)
+	// set sfx = AddSpecialEffect ("someeffect", x, y)
+	set circle = CreateUnit(p, 'h00I', x, y, 0)
 	call SetUnitAnimation (circle, "birth")
   endif
   
@@ -25,7 +25,7 @@ function Demo_Circle_Summon takes nothing returns nothing
   set caster = null
   set p = null
   set circle = null
-  set sfx = null
+  // set sfx = null
   
 endfunction
 
@@ -135,9 +135,8 @@ function InitTrig_Demo_Circle takes nothing returns nothing
   
   call TriggerAddAction (spell,  function Demo_Circle_spell )
   call TriggerAddAction (order,  function Demo_Circle_order )
-  call TriggerAddAction (summon, function Demo_Circle_summon)
+  call TriggerAddAction (summon, function Demo_Circle_Summon)
   
-  call RemoveS
   
   set spell = null
   set order = null
