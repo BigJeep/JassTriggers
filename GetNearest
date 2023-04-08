@@ -1,10 +1,6 @@
 
 /* ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-not complete. not working
-
-still need to make some truth table tests to figure out how this shit should be looking like
-
 	0 "not"
 	1 "is"
 	2 "regardless"
@@ -164,7 +160,7 @@ function GetNearestUnit takes real x, real y, real radius, player playerArg, int
 	
 	local boolean bool
     
-	//call BJDebugMsg ("starting loop")
+	call BJDebugMsg ("starting loop")
 	
 	call GroupEnumUnitsInRange (g, x, y, radius, null ) 
 	
@@ -176,17 +172,17 @@ function GetNearestUnit takes real x, real y, real radius, player playerArg, int
 		
 		if CheckForAlly (temp, playerArg, isAlly) and CheckForEnemy (temp, playerArg, isEnemy) and CheckForRegardless (temp, UNIT_TYPE_MECHANICAL, isMech) and CheckForRegardless (temp, UNIT_TYPE_HERO, isHero) and CheckForRegardless (temp, UNIT_TYPE_FLYING, isAir) and CheckForRegardless (temp, UNIT_TYPE_GROUND, isGround) and CheckForRegardless (temp, UNIT_TYPE_SUMMONED, isSummon) and CheckForRegardless (temp, UNIT_TYPE_UNDEAD, isUndead) and CheckForRegardless (temp, UNIT_TYPE_RESISTANT, isResistant) and CheckForRegardless (temp, UNIT_TYPE_MAGIC_IMMUNE, isSpellImmune) and not IsUnitType(temp, UNIT_TYPE_DEAD) then
 			set bool = true
-			//call BJDebugMsg ("found... " + GetUnitName(temp))
+			call BJDebugMsg ("found... " + GetUnitName(temp))
 		else
 			set bool = false
-			//call BJDebugMsg ("not... " + GetUnitName(temp))
+			call BJDebugMsg ("not... " + GetUnitName(temp))
 		endif
 		
 		
 		
 		if bool then
 			
-			//call BJDebugMsg ("found eligibe unit")
+			call BJDebugMsg ("found eligibe unit")
 			
 			set temp_x = GetUnitX(temp)
 			set temp_y = GetUnitY(temp)
@@ -210,8 +206,8 @@ function GetNearestUnit takes real x, real y, real radius, player playerArg, int
 	set temp = null
 	set g = null
 	
-	//call BJDebugMsg (I2S(nearest_unit))
-	//call BJDebugMsg ("nearest unit is " + GetUnitName( udg_unit_array[nearest_unit] ) )
+	call BJDebugMsg (I2S(nearest_unit))
+	call BJDebugMsg ("nearest unit is " + GetUnitName( udg_unit_array[nearest_unit] ) )
 	
 	return nearest_unit
 	
