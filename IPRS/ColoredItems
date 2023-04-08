@@ -211,6 +211,8 @@ function TriggerItemSpell takes item i, unit target returns nothing
   elseif GetItemTypeId (i, '') then
     set itemSpell = ''
     set tempOrder = 
+    
+ // HYDRA
   
   endif
   
