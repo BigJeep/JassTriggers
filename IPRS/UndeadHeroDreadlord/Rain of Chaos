@@ -1,0 +1,64 @@
+// summons an additional infernal for every 4 levels worth of enemy heroes near the dreadlord
+
+function RainOfChaos takes nothing returns nothing
+  local unit caster = GetTriggerUnit()
+  local unit temp
+  local unit dummy
+  local player p = GetOwningPlayer(caster)
+  local real x = GetUnitX(caster)
+  local real y = GetUnitY(caster)
+  local group heroes = CreateGroup()
+  local real range = 1000 //preferably the value of inferno cast range
+  local integer count = 0
+  
+  GroupEnumUnitsInRange (heroes, x, y, range, null)
+  loop
+    set temp = FirstOfGroup(heroes)
+    exitwhen temp == null
+    if IsUnitType (temp, UNIT_TYPE_HERO) and IsUnitEnemy (p, temp) then
+      set count = count + GetHeroLevel
+    endif
+    
+    call GroupRemoveUnit (temp, heroes)
+  endloop
+  
+  set count = count/4
+  
+  loop
+    exitwhen count < 1
+    
+    set dummy = CreateUnit  (p, 'h001', x, y, 0)
+    call UnitApplyTimedLife (temp, 'BTLF', 3)
+    call UnitAddAbility     (temp, 'rain of chaos') // set correct id
+    call IssuePointOrder    (temp, "rainofchaos", x, y) // check correct string
+    
+    set count = count - 1  
+  endloop
+  
+  call DestroyGroup (heroes)
+  set caster = null
+  set temp   = null
+  set dummy  = null
+  set p      = null
+  set heroes = null
+  
+endfunction
+
+function RainOfChaos_Condition takes nothing returns boolean
+  local boolean b = false
+  if GetSpellAbilityId() == 'InfernoId' then //set correct id
+    set b = true
+  endif
+  return b
+endfunction
+
+function InitTrig_Rain_Of_Chaos takes nothing returns nothing
+
+  local trigger t = CreateTrigger()
+
+  call TriggerRegisterAnyUnitEventBJ (t, EVENT_PLAYER_UNIT_SPELL_EFFECT )
+  call TriggerAddCondition (t, Condition (function RainOfChaos_Condition)
+  call TriggerAddAction    (t, function RainOfChaos)
+  
+  set t = null
+endfunction
