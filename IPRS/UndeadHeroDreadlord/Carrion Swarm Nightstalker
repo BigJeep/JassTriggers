@@ -1,0 +1,99 @@
+// the dreadlord becomes invisible after casting, and leaves a swarm of bats at the end of the trajectory
+// after a short while, the swarm re-casts carrion swarm in the direction of the dreadlord and disappears (could even add multiple levels of carrion swarm range)
+// while invisble, the dreadlord can backstab an enemy, dealing bonus damage (a-la windwalk) and casting sleep on the victim
+
+
+globals
+  integer array udg_nightstalker_dreadlord
+  integer array udg_nightstalker_swarm
+  timer   array udg_nightstalker_timer
+endglobals
+
+// ACTION --------------------------------------------------
+function Nightstalker_cast takes nothing returns nothing
+  local unit caster = GetTriggerUnit()
+  local unit temp
+  local player p = GetOwningPlayer(caster)
+  local integer casterId = GetUnitUserData(caster)
+  local integer swarmId
+  //
+  // MATHS HERE (to find the end of the trajectory
+  //
+  local real x = 
+  local real y = 
+  
+  set temp    = CreateUnit (p, 'carrionswarmdummy', x, y, 0)
+  set swarmId = GetUnitUserData (temp)
+  set udg_nightstalker_swarm [swarmId] = casterId
+  set udg_nightstalker_timer [swarmId] = // set timer here
+  //
+  // timer stuff here
+  //
+  call UnitAddAbility      (temp, 'Aloc') // added later so it can adquire a custom value
+  call UnitApplyTimedLife  (temp, 'BTLF', 10)
+  call SetUnitAbilityLevel (temp, 'carrionswarm', GetUnitAbilityLevel (caster, 'carrionswarm') // set correct id
+  
+  //
+  // add invisibility to the dreadlord here!
+  //
+  
+  set caster = null
+  set temp   = null
+  set p      = null
+endfunction
+
+function Nightstalker_recast takes nothing returns nothing
+  local swarmId = 
+  //
+  // STOPPED HERE **************************************************
+  //
+endfunction
+
+//
+// STILL MISSING THE BACKSTAB ACTION
+//
+
+// CONDITION -----------------------------------------------
+function Nightstalker_cast_condition takes nothing returns boolean
+local boolean b = false
+if GetSpellAbilityId() == 'carrion swarm' then
+  set b = true
+endif
+return b
+endfunction
+
+function Nightstalker_recast_condition takes nothing returns nothing
+local boolean b = false
+// timer running out is ...
+return b
+endfunction
+
+//
+// STILL MISSING THE BACKSTAB CONDITION (requires a dummy ability on the dreadlord, not just the invisibility buff, as I'm not sure if the game might not detect the buff after the attack event)
+//
+
+
+// TRIGGER -------------------------------------------------
+function InitTrig_Nightstalker takes nothing returns nothing
+  
+  local trigger cast   = CreateTrigger()
+  local trigger recast = CreateTrigger()
+  local trigger stab   = CreateTrigger()
+
+  call TriggerRegisterAnyUnitEventBj   (cast,   EVENT_PLAYER_UNIT_SPELL_EFFECT)
+  call TriggerRegisterTimerExpireEvent (recast, // ???)
+  call TriggerRegisterAnyUnitEventBj   (stab,   EVENT_PLAYER_UNIT_ATTACKED)
+  
+  call TriggerAddCondition (cast,   Condition (function Nightstalker_cast_condition  ) )
+  call TriggerAddCondition (recast, Condition (function Nightstalker_recast_condition) )
+  call TriggerAddCondition (stab,   Condition (function Nightstalker_stab_condition  ) )
+  
+  call TriggerAddAction (cast,   function Nightstalker_cast  )
+  call TriggerAddAction (recast, function Nightstalker_recast)
+  call TriggerAddAction (stab,   function Nightstalker_stab  )
+  
+  set cast   = null
+  set recast = null
+  set stan   = null
+
+endfunction
