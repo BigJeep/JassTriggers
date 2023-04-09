@@ -184,6 +184,10 @@ GetNearestUnitByType Parameters
       Jailer
        + Imprisonment
 
+      Shivarra
+       + attacks deal 60 bonus damage divided across 6 near random enemies (that is, if she hits a single target, they receive 60 bonus damage)
+       + invulnerable bladestorm
+      
       "Self-cast Infernal"
       
       Siege Infernal
