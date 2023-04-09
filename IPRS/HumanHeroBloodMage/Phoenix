@@ -1,0 +1,62 @@
+// Every point of mana of the Blood Mage spent on spells or siphoned from enemies heals his current phoenix by the same amount. Mana given to allies by Siphon Mana doesn't count
+// Every 5 points of mana increases the hit points of the next Phoenix Egg By 1, up to ??? hit points
+// need to check how to detect the phoenix turning into an egg, and giving the egg the hp bonus, and then resetting the bonus
+
+
+globals
+  integer array udg_CurrentPhoenix
+  integer array udg_phoenixEggHp
+endglobals
+
+function SetPhoenix takes nothing returns nothing
+  set udg_CurrentPhoenix [GetUnitUserData(GetSummoningUnit())] = GetUnitUserData(GetSummonedUnit())
+  udg_phoenixEggHp [GetSummonedUnit()] = 0
+  call BJDebugMsg (I2S(GetUnitUserData(GetSummonedUnit()))
+endfunction
+
+function HealPhoenix takes nothing returns nothing
+  local unit caster       = GetTriggerUnit()
+  local integer casterId  = GetUnitUserData(caster)
+  local integer phoenixId = udg_CurrentPhoenix[casterId]
+  local integer tempInt
+  
+  if GetSpellAbilityId == 'flamestrike' then
+    set tempInt = 110 // flamestrike cost
+  elseif GetSpellAbilityId == 'banish' then
+    set tempInt = 50 // banish cost
+  elseif GetSpellAbilityId == 'siphon' then  
+    set tempInt = 10 // siphon mana cost
+  endif
+  
+  call SetUnitState (udg_unit_array[phoenixId]), UNIT_STATE_LIFE, (GetUnitState (udg_unit_array[phoenixId], UNIT_STATE_LIFE) + tempInt)
+  set udg_PhoenixEggHp[phoenixId] = udg_PhoenixEggHp[phoenixId]/5
+  
+endfunction
+
+function SetPhoenixOwner_Condition takes nothing returns boolean
+  local boolean b = false
+  if GetUnitTypeId (GetSummonedUnit()) == 'phoenixId' then //set correct id
+    set b = true
+  endif
+  return b
+endfunction
+
+endfunction
+
+function InitTrig_PhoenixHeal takes nothing returns nothing
+
+  local trigger setPhoenix  = CreateTrigger()
+  local trigger healPhoenix - CreateTrigger()
+  
+  call TriggerRegisterAnyUnitEventBj (setPhoenix,  EVENT_PLAYER_UNIT_SUMMON)
+  call TriggerRegisterAnyUnitEventBj (healPhoenix, EVENT_PLAYER_UNIT_SPELL_EFFECT)
+  
+  call TriggerAddCondition (setPhoenix, Condition (function SetPhoenixOwner_Condition)
+  
+  call TriggerAddAction    (setPhoenix,  function SetPhoenix )
+  call TriggerAddAction    (healPhoenix, function HealPhoenix)
+  
+  set setPhoenix  = null
+  set healPhoenix = null
+
+endfunction
