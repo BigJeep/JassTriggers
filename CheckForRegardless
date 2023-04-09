@@ -1,0 +1,28 @@
+//
+
+function CheckForRegardless takes unit u, unittype checkType, integer wantType returns boolean
+
+  local boolean bool = false
+  local boolean sameType = IsUnitType(u, checkType)
+  
+  if wantType == 0 then
+    if sameType then
+      set bool = false
+    else
+      set bool = true
+    endif
+  endif
+  if wantType == 1 then
+    if sameType then
+      set bool = true
+    endif
+  endif
+  if wantType == 2 then
+    set bool = true
+  endif
+  
+  
+  return bool
+  
+endfunction
+

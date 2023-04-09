@@ -1,0 +1,146 @@
+//
+
+//Function
+
+function Demo_Circle_Summon takes nothing returns nothing
+
+  local unit caster
+  local player p
+  local real x
+  local real y
+  // local effect sfx
+  local unit circle
+  
+  if GetSpellAbilityId() == 'A00X' then
+  	set caster = GetTriggerUnit()
+	set p = GetOwningPlayer(caster)
+	set x = GetUnitX(caster)
+	set y = GetUnitY(caster)
+	// set sfx = AddSpecialEffect ("someeffect", x, y)
+	set circle = CreateUnit(p, 'h00I', x, y, 0)
+	call SetUnitAnimation (circle, "birth")
+  endif
+  
+  call DestroyEffect(sfx)
+  set caster = null
+  set p = null
+  set circle = null
+  // set sfx = null
+  
+endfunction
+
+function Demo_Circle_order takes nothing returns nothing
+
+  local unit circle
+  local unit target
+  local player p
+  local boolean bool = false
+    
+  if GetUnitTypeId(GetOrderTargetUnit()) == 'h00I' and GetIssuedOrderId() == String2OrderIdBJ("smart") then
+    set circle = GetOrderTargetUnit()
+    set target = GetOrderedUnit()
+    set p = GetOwningPlayer(circle)
+	set bool = true
+	
+  elseif GetUnitTypeId(GetOrderedUnit()) == 'h00I' and GetIssuedOrderId() == String2OrderIdBJ("smart") then
+    set circle = GetOrderedUnit()
+    set target = GetOrderTargetUnit()
+    set p = GetOwningPlayer(circle)
+	set bool = true
+	
+  endif
+  
+  if IsUnitAlly(target, p) == true and bool == true then
+      call IssueTargetOrder (circle, "channel", target)
+  endif
+  
+  set circle = null
+  set target = null
+  set p = null
+
+endfunction
+
+function Demo_Circle_spell takes nothing returns nothing
+  
+  local unit circle
+  local unit target
+  local player p
+  
+  local effect sfx1
+  local effect sfx2
+  local effect sfx3
+  
+  local real circle_x
+  local real circle_y
+  
+  local real target_x
+  local real target_y
+  
+  local real circle_life
+  local real target_life
+  
+  if GetUnitTypeId(GetTriggerUnit()) == 'h00I' and GetSpellAbilityId() == 'A024' then
+    set circle = GetTriggerUnit()
+    set p = GetOwningPlayer(circle)
+    set target = GetSpellTargetUnit()
+    if IsUnitAlly(target, p) == true then
+      set circle_x = GetUnitX(circle)
+      set circle_y = GetUnitY(circle)
+      
+      set target_x = GetUnitX(target)
+      set target_y = GetUnitY(target)
+      
+      set sfx1 = AddSpecialEffect("Abilities\\Spells\\Demon\\DarkConversion\\ZombifyTarget.mdl", target_x, target_y)
+      set sfx2 = AddSpecialEffect("Abilities\\Spells\\Orc\\FeralSpirit\\feralspirittarget.mdl", target_x, target_y)
+      call BlzSetSpecialEffectColor( sfx2, 0, 255, 0 )
+	  set sfx3 = AddSpecialEffect("Abilities\\Spells\\Orc\\FeralSpirit\\feralspirittarget.mdl", circle_x, circle_y)
+      call BlzSetSpecialEffectColor( sfx3, 0, 255, 0 )
+	  
+      call SetUnitX(target, circle_x)
+      call SetUnitY(target, circle_y)
+      
+      set circle_life = GetUnitState(circle, UNIT_STATE_LIFE)
+      set target_life = GetUnitState(target, UNIT_STATE_LIFE)
+      
+      call SetUnitState (target, UNIT_STATE_LIFE, target_life - 100)
+      call SetUnitState (circle, UNIT_STATE_LIFE, circle_life - 100)
+	  
+    endif
+  endif  
+  
+  call DestroyEffect(sfx1)
+  call DestroyEffect(sfx2)
+  
+  set circle = null
+  set target = null
+  set p = null
+  set sfx1 = null
+  set sfx2 = null
+  
+endfunction
+
+//Trigger
+
+function InitTrig_Demo_Circle takes nothing returns nothing
+
+  local trigger spell  = CreateTrigger()
+  local trigger order  = CreateTrigger()
+  local trigger summon = CreateTrigger()
+  
+  //local trigger removeSelection = CreateTrigger()
+  
+  call TriggerRegisterAnyUnitEventBJ(spell,  EVENT_PLAYER_UNIT_SPELL_EFFECT)
+  call TriggerRegisterAnyUnitEventBJ(order,  EVENT_PLAYER_UNIT_ISSUED_TARGET_ORDER)
+  call TriggerRegisterAnyUnitEventBJ(summon, EVENT_PLAYER_UNIT_SPELL_EFFECT)
+  
+  call TriggerAddAction (spell,  function Demo_Circle_spell )
+  call TriggerAddAction (order,  function Demo_Circle_order )
+  call TriggerAddAction (summon, function Demo_Circle_Summon)
+  
+  
+  set spell = null
+  set order = null
+
+endfunction
+
+//

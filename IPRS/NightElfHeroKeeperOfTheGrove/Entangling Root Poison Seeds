@@ -1,0 +1,137 @@
+/* Formerly Cenarius' 
+Roots will poison-seed the target, causing it to spawn a treant when it dies. A single unit can be seeded multiple times by multiple players
+If the target dies while ROOTED, the nearest enemy (of the rooter) will be rooted an inherit as much poison seeds as the unit that died previously
+
+maaaaybe I make this effect dispellable. You know, clearing the target's table whenever it ends up being a target of a dispel effect or area effect
+
+remember to check all integer (id) fields!
+
+must remember to initialize the hashtable in a dedicated trigger or something
+*/
+globals
+  integer array udg_PoisonSeedsHashSize
+  integer array udg_EntanglingRootsLevel
+endglobals
+
+// Functions -----------------------------------------------
+// Actions   -----------------------------------------------
+
+function Poison_Sneed takes nothing returns nothing
+  
+  local unit target = GetTriggerUnit()
+  //local unit newTarget
+  local unit seeder
+  local unit temp
+  local player seederOwner
+  local player targetOwner = GetOwningPlayer (target)
+  
+  local integer targetId = GetUnitUserData (target)
+  //local integer newTargetId
+  local integer seederId
+  
+  local real target_x = GetUnitX(target)
+  local real target_y = GetUnitY(target)
+  //local real newTarget_x
+  //local real newTarget_y
+  
+  local effect sfx
+  local integer count = udg_PoisonSeedsHashSize[targetId]
+  
+  loop
+  
+    exitwhen count == 0
+    
+    // load value from target's key (count) in Hashtable
+    set seederId = LoadInteger(PoisonSeedsHashTable, targetId, count)
+    set seeder = udg_unit_array [seederId)
+    set seederOwner = GetUnitOwner(seeder) // I'll probably have to test if the game remembers the owner even if the unit doesn't exist anymore (keeper died, dummy removed, etc.)
+    
+    set temp = CreateUnit (seederOwner, 'treant', target_x, target_y, GetUnitFacing(target))
+    call SetUnitAnimation (temp, "birth")
+    call UnitApplyTimedLife (temp, 'forceofnature', //forceofnaturedefaultdurationidk)
+    set sfx = AddSpecialEffect ("forceofnatureeffect", x, y)
+    
+    if GetUnitAbilityLevel (target, 'roots buff') > 0 then
+      set temp = CreateUnit (seederOwner, 'h001', target_x, target_y, 0)
+      call UnitAddAbility (temp, 'entanglingroots')
+      call SetUnitAbilityLevel (temp, udg_EntanglingRootsLevel[seederId])
+      call UnitApplyTimedLife (temp, 'BTLF', )
+      call IssueTargetOrder (temp, "entanglingroots", GetNearestUnit (target_x, target_y, 600, seederOwner, 0, 2, 0, 2, 0, 2, 2, 2, 2, 0)
+      //not sure if multiple roots on a target will work, might have to pick only one player (the first or the last) and make it the chain triggerer, then pass loop all the previous unit table values to the new victim
+    endif
+    
+    count = count - 1
+    
+  endloop
+  
+  //
+  // CLEAR HASHTABLE HERE IDK HOW IT IS IN JASS
+  //
+  
+  set target    = null
+  set newTarget = null
+  set seeder    = null
+  set temp      = null
+  set seederOwner = null
+  set targetOwner = null
+  
+  
+  
+  
+endfunction
+
+function Poison_Seeds takes nothing returns nothing
+
+  local unit caster = GetTriggerUnit()
+  local unit target = GetSpellTargetUnit()
+  local player p = GetOwningPlayer (caster)
+  
+  local integer casterId = GetUnitUserData (caster)
+  local integer targetId = GetUnitUserData (target)
+  local integer casterOwnerId = GetPlayerId(p)
+  
+  set udg_PoisonSeedsHashSize[targetId] = udg_PoisonSeedsHashSize[targetId] + 1
+  // first time doing hashtables in JASS, this right here should look like this: Store KeeperId as (hashSize[]+1) of TargetId in table PoisonSeeds
+  call SaveInteger PoisonSeedsHashTable, targetId, udg_PoisonSeedsHashSize[targetId], casterId
+  // takes hashtable table, integer parentKey, integer childKey, integer value returns nothing
+  
+  set udg_EntanglingRootsLevel[casterId] = GetUnitAbilityLevel(caster, 'AEer')
+  
+  ///
+  /// ADD DUMMY AURA/BUFF HERE
+  ///
+  
+  set caster = null
+  set target = null
+  set p = null
+  
+  
+endfunction
+
+// Condition -----------------------------------------------
+function Poison_Seeds_Condition takes nothing returns boolean
+local boolean b = false
+if GetSpellAbilityId() == 'AEer' or GetSpellAbilityId() == 'dummy entanglingroots' then
+  set b = true
+endif
+return b
+endfunction
+
+// Trigger   -----------------------------------------------
+function InitTrig_Poison_Seeds takes nothing returns nothing
+
+local trigger cast   = CreateTrigger()
+local trigger death  = CreateTrigger()
+
+call TriggerRegisterAnyUnitEventBJ (cast,  EVENT_PLAYER_UNIT_SPELL_EFFECT)
+call TriggerRegisterAnyUnitEventBJ (death, EVENT_PLAYER_UNIT_DEATH)
+
+call TriggerAddCondition (cast, Condition (function Poison_Seeds_Condition)
+
+call TriggerAddAction    (cast, function Poison_Seeds)
+call TriggerAddAction    (death,function Poison_Sneed)
+
+set cast  = null
+set death = null
+
+endfunction

@@ -1,4 +1,218 @@
-// I'm stubborn so instead of grabbing a premade GetNearest function online I'll make my own
-// I just need to read these later first 
-// https://www.hiveworkshop.com/threads/how-to-pick-units-in-jass.269640/
-// https://www.thehelper.net/threads/groupenumunitsinrange-explanation.127687/
+
+/* ////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	0 "not"
+	1 "is"
+	2 "regardless"
+	
+		call GetNearest 	(x, y, radius, playerArg, /*isAlly, isEnemy, isMech, isHero, isAir, isGround, isSummon, isUndead, isResistant, isSpellImmune)*/
+		
+	   |arg#  |isType   |
+		04#    isAlly
+		05#    isEnemy
+		06#    isMech
+		07#    isHero 
+		08#    isAir
+		09#    isGround 
+		10#    isSummoned 
+		11#    isUndead 
+		12#    isResistant 
+		13#    isSpellImmune 
+	
+	more readable loop
+	
+	loop
+		set temp = FirstOfGroup(g)
+		exitwhen temp == null
+		
+		if
+		/* 1*/ CheckForAlly (temp, playerArg, isAlly) and
+		/* 2*/ CheckForEnemy (temp, playerArg, isEnemy) and
+		/* 3*/ CheckForRegardless (temp, UNIT_TYPE_MECHANICAL, isMech) and 
+		/* 4*/ CheckForRegardless (temp, UNIT_TYPE_HERO, isHero) and 
+		/* 5*/ CheckForRegardless (temp, UNIT_TYPE_FLYING, isAir) and 
+		/* 6*/ CheckForRegardless (temp, UNIT_TYPE_GROUND, isGround) and 
+		/* 7*/ CheckForRegardless (temp, UNIT_TYPE_SUMMONED, isSummon) and 
+		/* 8*/ CheckForRegardless (temp, UNIT_TYPE_UNDEAD, isUndead) and 
+		/* 9*/ CheckForRegardless (temp, UNIT_TYPE_RESISTANT, isResistant) and 
+		/*10*/ CheckForRegardless (temp, UNIT_TYPE_MAGIC_IMMUNE, isSpellImmune) ///
+		then
+		   then
+			set bool = true
+		   else
+			set bool = false
+		endif
+		
+		
+		if bool then
+		
+			set temp_x = GetUnitX(temp)
+			set temp_y = GetUnitY(temp)
+
+			set temp_distanceX = temp_x - x
+			set temp_distanceY = temp_y - y
+
+			set temp_distance = SquareRoot(temp_distanceX * temp_distanceX + temp_distanceY * temp_distanceY)
+
+			if nearest == 0 or temp_distance < nearest then
+				set nearest = temp_distance
+				set nearest_unit = GetUnitUserData(temp)
+
+		endif
+		
+		call GroupRemoveUnit(g, temp)
+	endloop
+	
+	////
+	if CheckForAlly (temp, playerArg, isAlly) and CheckForEnemy (temp, playerArg, isEnemy) and CheckForRegardless (temp, UNIT_TYPE_MECHANICAL, isMech) and CheckForRegardless (temp, UNIT_TYPE_HERO, isHero) and CheckForRegardless (temp, UNIT_TYPE_FLYING, isAir) and CheckForRegardless (temp, UNIT_TYPE_GROUND, isGround) and CheckForRegardless (temp, UNIT_TYPE_SUMMONED, isSummon) and CheckForRegardless (temp, UNIT_TYPE_UNDEAD, isUndead) and CheckForRegardless (temp, UNIT_TYPE_RESISTANT, isResistant) and CheckForRegardless (temp, UNIT_TYPE_MAGIC_IMMUNE, isSpellImmune) then
+	////
+	
+*/  ////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//// THE CODE STARTS HEREEEEEEEEEEEEEEEEEE /////////////////
+
+
+function CheckForAlly takes unit u, player p, integer wantAlly returns boolean
+	local boolean bool = false
+	local boolean isAlly = IsUnitAlly(u, p)
+  if wantAlly == 0 then
+    if isAlly then
+      set bool = false
+    else
+      set bool = true
+    endif
+  endif
+  if wantAlly == 1 then
+    if isAlly then
+      set bool = true
+    endif
+  endif
+  if wantAlly == 2 then
+    set bool = true
+  endif
+  return bool
+endfunction
+
+function CheckForEnemy takes unit u, player p, integer wantEnemy returns boolean
+	local boolean bool = false
+	local boolean isEnemy = IsUnitEnemy(u, p)
+  if wantEnemy == 0 then
+    if isEnemy then
+      set bool = false
+    else
+      set bool = true
+    endif
+  endif
+  if wantEnemy == 1 then
+    if isEnemy then
+      set bool = true
+    endif
+  endif
+  if wantEnemy == 2 then
+    set bool = true
+  endif
+  return bool
+endfunction
+
+function CheckForRegardless takes unit u, unittype checkType, integer wantType returns boolean
+
+  local boolean bool = false
+  local boolean sameType = IsUnitType(u, checkType)
+  
+  if wantType == 0 then
+    if sameType then
+      set bool = false
+    else
+      set bool = true
+    endif
+  endif
+  if wantType == 1 then
+    if sameType then
+      set bool = true
+    endif
+  endif
+  if wantType == 2 then
+    set bool = true
+  endif
+  
+  
+  return bool
+  
+endfunction
+
+
+function GetNearestUnit takes real x, real y, real radius, player playerArg, integer isAlly, integer isEnemy, integer isMech, integer isHero, integer isAir, integer isGround, integer isSummon, integer isUndead, integer isResistant, integer isSpellImmune returns integer
+	
+	local unit temp
+	local group g = CreateGroup()
+	
+	local real nearest = 0
+	local real temp_distance
+	
+	local real temp_distanceX
+	local real temp_distanceY
+	
+	local real temp_x
+	local real temp_y
+	
+	local integer nearest_unit
+	
+	local boolean bool
+    
+	call BJDebugMsg ("starting loop")
+	
+	call GroupEnumUnitsInRange (g, x, y, radius, null ) 
+	
+	loop
+		set temp = FirstOfGroup(g)
+		exitwhen temp == null
+		
+		// call temptemp(temp, playerArg)
+		
+		if CheckForAlly (temp, playerArg, isAlly) and CheckForEnemy (temp, playerArg, isEnemy) and CheckForRegardless (temp, UNIT_TYPE_MECHANICAL, isMech) and CheckForRegardless (temp, UNIT_TYPE_HERO, isHero) and CheckForRegardless (temp, UNIT_TYPE_FLYING, isAir) and CheckForRegardless (temp, UNIT_TYPE_GROUND, isGround) and CheckForRegardless (temp, UNIT_TYPE_SUMMONED, isSummon) and CheckForRegardless (temp, UNIT_TYPE_UNDEAD, isUndead) and CheckForRegardless (temp, UNIT_TYPE_RESISTANT, isResistant) and CheckForRegardless (temp, UNIT_TYPE_MAGIC_IMMUNE, isSpellImmune) and not IsUnitType(temp, UNIT_TYPE_DEAD) then
+			set bool = true
+			call BJDebugMsg ("found... " + GetUnitName(temp))
+		else
+			set bool = false
+			call BJDebugMsg ("not... " + GetUnitName(temp))
+		endif
+		
+		
+		
+		if bool then
+			
+			call BJDebugMsg ("found eligibe unit")
+			
+			set temp_x = GetUnitX(temp)
+			set temp_y = GetUnitY(temp)
+
+			set temp_distanceX = temp_x - x
+			set temp_distanceY = temp_y - y
+
+			set temp_distance = SquareRoot(temp_distanceX * temp_distanceX + temp_distanceY * temp_distanceY)
+
+			if nearest == 0 or temp_distance < nearest then
+				set nearest = temp_distance
+				set nearest_unit = GetUnitUserData(temp)
+
+			endif
+		endif	
+		
+		call GroupRemoveUnit(g, temp)
+	endloop
+		
+	call DestroyGroup(g)
+	set temp = null
+	set g = null
+	
+	call BJDebugMsg (I2S(nearest_unit))
+	call BJDebugMsg ("nearest unit is " + GetUnitName( udg_unit_array[nearest_unit] ) )
+	
+	return nearest_unit
+	
+endfunction
+
+
+	
+	

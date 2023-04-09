@@ -1,0 +1,262 @@
+/*
+not sure why I made the function separate from the action, I think I was planning on doing the item spell effect separate from the TriggerItemSpell or something
+
+Evolve
+Campaign Evolve
+Command Aura
+Latent Power/Presence of Mind
+Orb
+random buff
+random armor
+divine shield
+unholy frenzy
+stealth
+dark transform
+santuary
+reraise
+auto-animate dead
+auto-corpse explosion
+auto-doom
+True Sight
+Demonic Circle
+*/
+// Functions  ---------------------------------------------------------------------------
+
+function TriggerItemSpell takes item i, unit target returns nothing
+  
+  local unit temp = null
+  local string tempOrder
+  local integer itemSpell = 0
+  local player p
+  local real x = GetUnitX (target)
+  local real y = GetUnitY (target)
+  
+  
+  // EVOLVE
+  if GetItemTypeId (i, '') then
+    set itemSpell = ''
+    set tempOrder = 
+    
+  // DEVOLVE
+  elseif GetItemTypeId (i, '') then
+    set itemSpell = ''
+    set tempOrder = 
+  
+  // CAMPAIGN EVOLVE
+  elseif GetItemTypeId (i, '') then
+    set itemSpell = ''
+    set tempOrder = 
+    
+  // CAMPAIGN DEVOLVE
+  elseif GetItemTypeId (i, '') then
+    set itemSpell = ''
+    set tempOrder = 
+  
+  // COMMAND AURA
+  elseif GetItemTypeId (i, '') then
+    set itemSpell = ''
+    set tempOrder = 
+    
+  // LATENT POWER
+  elseif GetItemTypeId (i, '') then
+    set itemSpell = ''
+    set tempOrder = 
+  
+  // FIRE ORB
+  elseif GetItemTypeId (i, '') then
+    set itemSpell = ''
+    set tempOrder = 
+  
+  // LIGHTNING ORB
+  elseif GetItemTypeId (i, '') then
+    set itemSpell = ''
+    set tempOrder = 
+  
+  // CORRUPTION ORB
+  elseif GetItemTypeId (i, '') then
+    set itemSpell = ''
+    set tempOrder = 
+  
+  // VENOM ORB
+  elseif GetItemTypeId (i, '') then
+    set itemSpell = ''
+    set tempOrder = 
+  
+  // SHADOW ORB
+  elseif GetItemTypeId (i, '') then
+    set itemSpell = ''
+    set tempOrder = 
+  
+  // FROST ORB
+  elseif GetItemTypeId (i, '') then
+    set itemSpell = ''
+    set tempOrder = 
+  
+  // INNER FIRE
+  elseif GetItemTypeId (i, '') then
+    set itemSpell = ''
+    set tempOrder = 
+  
+  // BLESS (HEROES 3)
+  elseif GetItemTypeId (i, '') then
+    set itemSpell = ''
+    set tempOrder = 
+  
+  // BLOODLUST
+  elseif GetItemTypeId (i, '') then
+    set itemSpell = ''
+    set tempOrder = 
+  
+  // LIGHTNING SHIELD
+  elseif GetItemTypeId (i, '') then
+    set itemSpell = ''
+    set tempOrder = 
+  
+  // ROAR
+  elseif GetItemTypeId (i, '') then
+    set itemSpell = ''
+    set tempOrder = 
+  
+  // SPITTING IMAGE
+  elseif GetItemTypeId (i, '') then
+    set itemSpell = ''
+    set tempOrder = 
+  
+  // EARTH SHIELD
+  elseif GetItemTypeId (i, '') then
+    set itemSpell = ''
+    set tempOrder = 
+  
+  // FROST ARMOR
+  elseif GetItemTypeId (i, '') then
+    set itemSpell = ''
+    set tempOrder = 
+  
+  // ANTI-MAGIC SHELL
+  elseif GetItemTypeId (i, '') then
+    set itemSpell = ''
+    set tempOrder = 
+  
+  // BARKSKIN
+  elseif GetItemTypeId (i, '') then
+    set itemSpell = ''
+    set tempOrder = 
+  
+  // EVASION
+  elseif GetItemTypeId (i, '') then
+    set itemSpell = ''
+    set tempOrder = 
+  
+  // IMMOLATION
+  elseif GetItemTypeId (i, '') then
+    set itemSpell = ''
+    set tempOrder = 
+  
+  // SCROLL OF PROTECTION
+  elseif GetItemTypeId (i, '') then
+    set itemSpell = ''
+    set tempOrder = 
+  
+  // DIVINE SHIELD
+  elseif GetItemTypeId (i, '') then
+    set itemSpell = ''
+    set tempOrder = 
+  
+  // UNHOLY FRENZY
+  elseif GetItemTypeId (i, '') then
+    set itemSpell = ''
+    set tempOrder = 
+  
+  // STEALTH
+  elseif GetItemTypeId (i, '') then
+    set itemSpell = ''
+    set tempOrder = 
+  
+  // DARK TRANSFORMATION
+  elseif GetItemTypeId (i, '') then
+    set itemSpell = ''
+    set tempOrder = 
+  
+  // SANCTUARY
+  elseif GetItemTypeId (i, '') then
+    set itemSpell = ''
+    set tempOrder = 
+  
+  // REINCARNATION / RERAISE
+  elseif GetItemTypeId (i, '') then
+    set itemSpell = ''
+    set tempOrder = 
+  
+  // AUTO-ANIMATE DEAD
+  elseif GetItemTypeId (i, '') then
+    set itemSpell = ''
+    set tempOrder = 
+  
+  // AUTO-CORPSE EXPLOSION
+  elseif GetItemTypeId (i, '') then
+    set itemSpell = ''
+    set tempOrder = 
+  
+  // AUTO-DOOM
+  elseif GetItemTypeId (i, '') then
+    set itemSpell = ''
+    set tempOrder = 
+  
+  // TRUE SIGHT
+  elseif GetItemTypeId (i, '') then
+    set itemSpell = ''
+    set tempOrder = 
+  
+  // DEMONIC CIRCLE
+  elseif GetItemTypeId (i, '') then
+    set itemSpell = ''
+    set tempOrder = 
+    
+ // HYDRA
+  
+  endif
+  
+  if not itemSpell == 0 then
+    set p = GetOwningPlayer (target)
+    set temp = CreateUnit (p, 'h001', x, y, 0)
+    call UnitAddAbility (temp, itemSpell)
+    call IssueTargetOrder (temp, tempOrder, target)
+    call IssueImmediateOrder (temp, tempOrder)
+    call UnitApplyTimedLife (temp, 'BTLF', 5.)
+    call UnitRemoveItem (target, i)
+    call RemoveItem (i)
+  endif
+  
+  
+  set temp = null
+  set p = null
+  
+endfunction
+
+// Actions    ---------------------------------------------------------------------------
+
+funciton Colored_Items takes nothing returns nothing
+  
+  call TriggerItemSpell (GetManipulatedItem (), GetManipulatingUnit())
+
+endfunction
+
+// Conditions ---------------------------------------------------------------------------
+
+function Colored_Items_Condition takes nothing returns nothing
+  local boolean b = false
+  if not IsUnitType(GetManipulatingUnit (), UNIT_TYPE_HERO) then
+  set b = true
+  endif
+  return b
+endfunction
+
+// Trigger    ---------------------------------------------------------------------------
+
+function InitTrig_Colored_Items takes nothing returns nothing
+local trigger t = CreateTrigger()
+call TriggerRegisterAnyUnitEventBJ (t, EVENT_PLAYER_UNIT_PICKUP_ITEM)
+call TriggerAddCondition           (t, Condition (function Colored_Items_Condition) )
+call TriggerAddAction              (t, function Colored_Items)
+set t = null
+endfunction

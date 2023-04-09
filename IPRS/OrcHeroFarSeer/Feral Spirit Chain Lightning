@@ -1,23 +1,49 @@
 // the effect that will be added to wolves after a chain lightning cast
-// I gotta remeber to make (or grab from someone) a function to detect the nearest enemy
+// 
 // -Functions
 function Chain_Lightning_Deathrattle takes nothing returns boolean
   
-  local unit caster = GetTriggerUnit()
+  local unit caster
   
-  local player p = GetOwningPlayer(caster)
+  local player p 
   
-  local real x = GetUnitX(caster)
-  local real y = GetUnitY(caster)
+  local real x
+  local real y
   
-  local unit t = CreateUnit(p, 'h001', x, y, 0.)
-  call UnitApplyTimedLife (temp, 'BTLF', 3.)
-  call UnitAddAbility (temp, 'red chain lightning')
-  call IssueTargetOrder (temp, "chainlightning", GetNearestEnemy(<arguments here, and here and here and here and... here>)
+  local integer targetId
+  local unit target
+  
+  local unit temp
+  
+  
+  
+  if GetUnitAbilityLevel(GetTriggerUnit(), 'A10V') > 0 then
+	
+	set caster = GetTriggerUnit()
+	set p = GetOwningPlayer(caster)
+	
+	set x = GetUnitX(caster)
+	set y = GetUnitY(caster)
+	
+	set targetId = GetNearestUnit (x, y, 700, p, 0, 1, 0, 2, 2, 2, 2, 2, 2, 0)
+		
+	set target = udg_unit_array[targetId]
+	
+	call BJDebugMsg (GetUnitName(target))
+	
+	set temp = CreateUnit(p, 'h001', x, y, 0.)
+	call UnitApplyTimedLife (temp, 'BTLF', 10.)
+	call UnitAddAbility (temp, 'A01S')
+	call SetUnitAbilityLevel (temp, 'A01S', GetUnitAbilityLevel(caster, 'A10V') )
+	call IssueTargetOrder (temp, "chainlightning", target)
+  endif
   
   set caster = null
-  set = p = null
+  set p = null
   set temp = null
+  set target = null
+  
+  return false
   
 endfunction
 
@@ -25,7 +51,7 @@ endfunction
 function InitTrig_Feral_Spirit_Lightning takes nothing returns nothing
   local trigger t = CreateTrigger()
   
-  call TriggerRegisterAnyUnitEvent (t, EVENT_PLAYER_UNIT_DIES)
+  call TriggerRegisterAnyUnitEventBJ (t, EVENT_PLAYER_UNIT_DEATH)
   call TriggerAddCondition (t, Condition (function Chain_Lightning_Deathrattle) )
   
   set t = null

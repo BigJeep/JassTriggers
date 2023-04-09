@@ -1,0 +1,61 @@
+// higher health targets (or higher anything else, to make up for the sacrifice of big units)
+// convert into more reanimated targets, minimum 1
+// function
+
+function Apocalypse takes nothing returns boolean
+  
+  local unit caster
+  local unit target
+  local unit temp
+  local player p
+  local real x
+  local real y
+  local real hp
+  local integer count = 1
+
+  if GetSpellAbilityId() == 'AUdp' then
+    set caster = GetTriggerUnit()
+    set target = GetSpellTargetUnit()
+    set p  = GetOwningPlayer(caster)
+    set x  = GetUnitX(target)
+    set y  = GetUnitY(target)
+    set hp = GetUnitState(target, UNIT_STATE_LIFE)
+    set count = count + R2I(hp/250)
+	//
+	call BJDebugMsg(I2S(count))
+	//
+    loop
+      exitwhen count == 0
+      
+      set temp = CreateUnit(p, 'h001', x, y, 0.)
+      call UnitApplyTimedLife(temp, 'BTLF', 3.)
+      call UnitAddAbility(temp, 'A01U')
+      call SetUnitAbilityLevel(temp, 'A01U', GetUnitAbilityLevel(caster, 'AUdp') )
+      
+      call IssueImmediateOrder(temp, "animatedead")
+      
+      set count = count - 1
+    endloop
+  endif
+  
+  set caster = null
+  set temp = null
+  set target = null
+  set p = null
+  
+  return false
+endfunction
+
+
+// trigger
+
+function InitTrig_Apocalypse takes nothing returns nothing
+
+  local trigger t = CreateTrigger()
+  
+  call TriggerRegisterAnyUnitEventBJ (t, EVENT_PLAYER_UNIT_SPELL_EFFECT)
+  
+  call TriggerAddCondition (t, Condition ( function Apocalypse ) )
+
+endfunction
+//

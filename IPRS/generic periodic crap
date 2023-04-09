@@ -1,0 +1,10 @@
+// https://www.hiveworkshop.com/threads/nearest-unit.256495/
+
+
+//===========================================================================
+function InitTrig_periodic_aura_crap takes nothing returns nothing
+    local trigger t = CreateTrigger()
+    call TriggerRegisterTimerEventPeriodic( t, 2 )
+    set t = null
+endfunction
+

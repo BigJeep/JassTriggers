@@ -1,0 +1,75 @@
+//
+//Function
+
+function groundZombite takes unit z returns boolean
+  local unit u = z
+  local boolean bool = false
+  
+  if not IsUnitType(u, UNIT_TYPE_MECHANICAL) and not IsUnitType (u, UNIT_TYPE_FLYING) and not IsUnitType (u, UNIT_TYPE_HERO) and not IsUnitType(u, UNIT_TYPE_SUMMONED) then
+    set bool = true
+  endif
+  set u = null
+  return bool
+endfunction
+
+function Dark_Conversion takes nothing returns boolean
+
+  local unit killer
+  local unit dead
+  local unit zombie
+  local player p
+  local effect sfx
+  
+  local real x
+  local real y
+  
+  local max_life
+  local dead_name
+  
+  if GetUnitAbilityLevel(GetKillingUnit, 'vamp buff id') > 0 then
+    set killer = GetKillingUnit()
+    set p = GetOwningPlaying(killer)
+    set dead = GetTriggerUnit()
+    
+    if IsUnitEnemy(dead, p) and groundZombie() then
+      
+      set x = GetUnitX(dead)
+      set y = GetUnitY(dead)
+      //set sfx = AddSpecialEffect("conversioneffect", x, y)
+      set max_life = GetUnitState(dead, UNIT_STATE_MAX_LIFE)
+      if max_life > 1000 then
+        set max_life = 1000
+      endif
+      set dead_name = "Zombified " + GetUnitName(dead)
+      
+      set zombie = CreateUnit(p, 'zombie', x, y, GetUnitFacing(dead))
+      call SetUnitAnimation(zombie, "birth")
+      call QueueUnitAnimation(zombie, "stand")
+      call SetUnitState(zombie, UNIT_STATE_MAX_LIFE, max_life)
+      call BlzSetUnitName(zombie, dead_name)
+      
+      
+    endif
+    
+  endif
+  
+  call DestroyEffect (sfx)
+  set killer = null
+  set dead = null
+  set p = null
+  set sfx = null
+  
+return false
+endfunction
+
+//Trigger
+
+function InitTrig_Dark_Conversion takes nothing returns nothing
+  
+  local trigger t = CreateTrigger()
+  
+  call TriggerRegisterAnyUnitEventBJ (t, EVENT_PLAYER_UNIT_DIES)
+  call TriggerAddCondition (t, Condition (function Dark_Conversion) )
+  
+  set trigger = null
+//
