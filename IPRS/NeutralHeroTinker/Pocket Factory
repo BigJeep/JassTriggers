@@ -1,0 +1,147 @@
+/*
+  Explosive  Sheep: mechanical critter that explodes if clicked by an enemy player or manually detonated
+  Mechanical Whelp: weak ranged flying mech. A Mechanical Drake spawns for every n killed/expired whelps, and a Mechanical Dragon spawns for every n3
+  Boombot:  Can't attack, wanders hits a single enemy upon detonation, either targeting its killer, or a random enemy within range upon expiring
+  Turrets:  If the Tinker is within range, the turret will be placed in the midpoint between him and the Factory, else it'll be placed in a random spot
+            Turrets are wards, plus they may come in 3 different variants if I really decide to use all MiniMage's tinker turret models. Doesn't explode
+  Flying bots: Ranged Flying unit. Doesn't explode
+  Spider Tank: Melee Ground unit. Doesn't explode
+*/
+
+globals
+
+  integer array udg_whelpCount
+  integer array udg_owningTinker
+
+endglobals
+
+// FUNCTIONS -------------------------------------------------
+
+event     unit summons unit
+condition unit-type of summoned unit is factory
+
+event     unit summons unit
+condition unit-type
+
+// ACTIONS ---------------------------------------------------
+
+function Owning_tinker_Condition takes nothing returns nothing
+  set udg_owningTinker[GetUnitUserData (GetSummonedUnit() ) )] = GetUnitUserData( GetSummoningUnit() )
+endfunction
+
+function FactoryRandomBot takes nothing returns nothing
+
+  local unit factory     = GetSummoningUnit()
+  local unit clockGoblin = GetSummonedUnit ()
+  local unit temp
+  local unit summonedBot
+  local integer tinkerId = udg_owningTinker[factory]
+  local integer tinkerFactoryLevel  = GetUnitAbilityLevel (udg_unit_array[tinkerId], 'pocketFactory') // set the correct Id
+  local integer tinkerEngineerLevel = GetUnitAbilityLevel (udg_unit_array[tinkerId], 'engUpgrade')    // just in case // set the correct Id
+  local player  tinkerOwner = GetOwningPlayer (udg_unit_array[tinkerId])
+  
+  local real factory_x = GetUnitX (factory)
+  local real factory_y = GetUnitY (factory)
+  local real clock_x   = GetUnitX (clockGoblin)
+  local real clock_y   = GetUnitY (clockGoblin)
+  local real robot_x //= GetUnitX (summonedBot)
+  local real robot_y //= GetUnitY (summonedBot)
+  local real tinker_x  = GetUnitX (udg_unit_array[tinkerId])
+  local real tinker_y  = GetUnitY (udg_unit_array[tinkerId])
+  
+  local integer rng   = GetRandomInt(0, 10 - GetUnitAbilityLevel() )
+  local unitId  botId
+  
+  if rng == 0 then
+    set temp = CreateUnit   (tinkerOwner, 'h001', x, y, 0.)
+    call UnitApplyTimedLife (temp, 'BTLF', 3)
+    call UnitAddAbility     (temp, 'sheep') // set correct id
+    call IssueImmediateOrder(temp, "sheep") // set correct String
+  elseif rng == 1
+    set botId = 'whelpId'
+  elseif rng == 2
+    set botId = 'whelpId'
+  elseif rng == 3
+    set botId = 'whelpId'
+  elseif rng == 4
+    set botId = 'whelpId'
+  elseif rng == 5
+    set botId = 'whelpId'
+  elseif rng == 6
+    set botId = 'whelpId'
+  elseif rng == 7
+    set botId = 'whelpId'
+  elseif rng == 8
+    set botId = 'whelpId'
+  
+  whelp
+  boom
+  turret1
+  turret2
+  turret3
+  flyerbot
+  spider
+  
+  set factory     = null
+  set clockGoblin = null
+  set temp        = null
+  set summonedBot = null
+  set tinkerOwner = null
+  
+endfunction
+
+// CONDITIONS ------------------------------------------------
+
+function Factory_spawn_Condition takes nothing returns boolean
+local boolean b = false
+if GetUnitTypeId (GetSummoningUnit(), 'a factory') then // not only I must add the ID, I must also add each factory here I guess? or was there only one factory?
+set b = true
+endif
+return b
+endfunction
+
+function Owning_tinker_Condition takes nothing returns boolean
+local boolean b = false
+if GetUnitTypeId (GetSummonedUnit(), 'factory') then // I think I prefer to check for Factory rather than its summoner
+set b = true
+endif
+return b
+endfunction
+
+function Whelp_death_Condition takes nothing returns boolean
+local boolean b = false
+if GetUnitAbilityLevel (GetTriggerUnit(), 'whelpDeathrattle') > 0 then // I'll be adding the "deathrattle" instead of the whelp for magnetize purposes
+set b = true
+endif
+return b
+endfunction
+
+// TRIGGERS--------------------------------------------------
+function InitTrig_??? takes nothing returns nothing
+
+local trigger botSpawn     = CreateTrigger()  // for when Factories spawn stuff
+local trigger owningTinker = CreateTrigger()  // for when a Factory is created
+// bots
+local trigger whelpDeath   = CreateTrigger()  // for whenever a Whelp Deathrattle activates
+local trigger boomBotCast  = CreateTrigger()  // to create a dummy that throws a bomb on a target
+local trigger boomBotDeath = CreateTrigger()  // to cast the dummy bomb spell whenever a bot dies
+local trigger sheepCast    = CreateTrigger()  // creates a dummy that casts the detonate spell and kills the sheep
+local trigger sheepClick   = CreateTrigger()  // activates the sheep explosion whenever an enemy player clicks the sheep
+//------
+call TriggerRegisterAnyUnitEventBj (botSpawn,     EVENT_PLAYER_UNIT_SUMMON)
+call TriggerRegisterAnyUnitEventBj (owningTinker, EVENT_PLAYER_UNIT_SUMMON)
+
+// bots events
+call TriggerRegisterAnyUnitEventBj (whelpDeath,   EVENT_PLAYER_UNIT_DEATH )
+
+
+call TriggerAddCondition (botSpawn,     Condition (function Factory_spawn_Condition) )
+call TriggerAddCondition (owningTinker, Condition (function Owning_tinker_Condition) )
+
+// bots conditions
+call TriggerAddCondition (whelpDeath,   Condition (function Whelp_death_Condition  ) )
+
+call TriggerAddAction (botSpawn, function FactoryRandomBot)
+call TriggerAddAction (
+
+endfunction
