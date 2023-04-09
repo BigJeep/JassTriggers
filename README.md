@@ -318,6 +318,7 @@ GetNearestUnitByType Parameters
       + DK Death Avance Cleanse
       + DL Backstab Sleep
       + Cancel CR Buff (just in case of applying earth/lightning shield)
+      + Free Spray Tooltip
       + Acid Bomb Potions
       + Liquid Fire attachment
       + Magnetize Tooltip
@@ -336,6 +337,7 @@ GetNearestUnitByType Parameters
       + Silence Black Arrow
       + Life Drain Black Arrow
       + Charm Black Arrow
+      + Free Spray Tooltip
       + Engineering Upgrade Aura
       + Magnetize Tooltip
       + Robo-goblin regen tooltip
