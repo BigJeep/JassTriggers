@@ -1,4 +1,6 @@
 /*
+  finished the FactoryRandomBot and SetOwningTinker functions/actions, but still need to do the whelp, boomBot and sheep actions, plus create the objects!
+
   Explosive  Sheep: mechanical critter that explodes if clicked by an enemy player or manually detonated
   Mechanical Whelp: weak ranged flying mech. A Mechanical Drake spawns for every n killed/expired whelps, and a Mechanical Dragon spawns for every n3
   Boombot:  Can't attack, wanders hits a single enemy upon detonation, either targeting its killer, or a random enemy within range upon expiring
@@ -25,7 +27,7 @@ condition unit-type
 
 // ACTIONS ---------------------------------------------------
 
-function Owning_tinker_Condition takes nothing returns nothing
+function SetOwningTinker takes nothing returns nothing
   set udg_owningTinker[GetUnitUserData (GetSummonedUnit() ) )] = GetUnitUserData( GetSummoningUnit() )
 endfunction
 
@@ -40,47 +42,77 @@ function FactoryRandomBot takes nothing returns nothing
   local integer tinkerEngineerLevel = GetUnitAbilityLevel (udg_unit_array[tinkerId], 'engUpgrade')    // just in case // set the correct Id
   local player  tinkerOwner = GetOwningPlayer (udg_unit_array[tinkerId])
   
+  local real radius = 600
+  
   local real factory_x = GetUnitX (factory)
   local real factory_y = GetUnitY (factory)
+  
   local real clock_x   = GetUnitX (clockGoblin)
   local real clock_y   = GetUnitY (clockGoblin)
-  local real robot_x //= GetUnitX (summonedBot)
-  local real robot_y //= GetUnitY (summonedBot)
+  
+  local real robot_x   = clock_x + RandomReal ( -radius/2, radius/2)
+  local real robot_y   = clock_y + RandomReal ( -radius/2, radius/2)
+  
   local real tinker_x  = GetUnitX (udg_unit_array[tinkerId])
   local real tinker_y  = GetUnitY (udg_unit_array[tinkerId])
+  
+  local group checkForTinker
+  
   
   local integer rng   = GetRandomInt(0, 10 - GetUnitAbilityLevel() )
   local unitId  botId
   
   if rng == 0 then
-    set temp = CreateUnit   (tinkerOwner, 'h001', x, y, 0.)
+    set temp = CreateUnit   (tinkerOwner, 'h001', clock_x, clock_y, )
     call UnitApplyTimedLife (temp, 'BTLF', 3)
     call UnitAddAbility     (temp, 'sheep') // set correct id
     call IssueImmediateOrder(temp, "sheep") // set correct String
   elseif rng == 1
-    set botId = 'whelpId'
+    set botId = 'whelpId' // set correct id
   elseif rng == 2
-    set botId = 'whelpId'
+    set botId = 'boombot' // set correct id
   elseif rng == 3
-    set botId = 'whelpId'
+    set botId = 'turret1' // set correct id
   elseif rng == 4
-    set botId = 'whelpId'
+    set botId = 'turret2' // set correct id
   elseif rng == 5
-    set botId = 'whelpId'
+    set botId = 'turret3' // set correct id
   elseif rng == 6
-    set botId = 'whelpId'
+    set botId = 'flyerbot' // set correct id
   elseif rng == 7
-    set botId = 'whelpId'
-  elseif rng == 8
-    set botId = 'whelpId'
+    set botId = 'spider' // set correct id
   
-  whelp
-  boom
-  turret1
-  turret2
-  turret3
-  flyerbot
-  spider
+  // if turrets, then the game will see if the tinker is near the factory and spawn the turret near it, else it'll be placed randomly
+  if rng > 2 and rng < 6 then
+    set checkForTinker = CreateGroup()
+    
+    set robot_x = random x within radius
+    set robot_y = random y within radius
+    
+    call GroupEnumUnitsInRange(checkForTinker, factory_x, factory_y, radius*1.66, null)
+    
+    loop
+      set temp = FirstOfGroup(checkForTinker)
+      exitwhen temp == null
+      
+      if GetUnitUserData (temp) == tinkerId then
+        set robot_x = (factory_x - tinker_x)/2
+        set robot_y = (factory_x - tinker_x)/2
+      endif
+      call GroupRemoveUnit (temp, checkForTinker)
+    endloop
+    //
+    // TURRET SFX HERE IF NEEDED
+    //
+  
+  endif
+  
+  set summonedBot = CreateUnit(tinkerOwner, botId, robot_x, robot_y, RandomReal (0, 360))
+  call UnitApplyTimedLife (summonedBot, 'BTLF', 15)
+  
+  
+  call DestroyGroup (checkForTinker)
+  set checkForTinker = null
   
   set factory     = null
   set clockGoblin = null
@@ -142,6 +174,14 @@ call TriggerAddCondition (owningTinker, Condition (function Owning_tinker_Condit
 call TriggerAddCondition (whelpDeath,   Condition (function Whelp_death_Condition  ) )
 
 call TriggerAddAction (botSpawn, function FactoryRandomBot)
-call TriggerAddAction (
+call TriggerAddAction (, function SetOwningTinker)
+
+set botSpawn     = null
+set owningTinker = null
+set whelpDeath   = null
+set boomBotCast  = null
+set boomBotDeath = null
+set sheepCast    = null
+set sheepClick   = null
 
 endfunction
