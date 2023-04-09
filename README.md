@@ -1,6 +1,8 @@
 # JassTriggers
 scripts to be used on wc3 maps
 
+I should compare my scripts to other maps some time, to see how people work to keep their scrips clean, nice and readable
+
 GetNearestUnitByType Parameters
 
       GetNearestUnitByType ( x, y, radius, playerArg, ally, enemy, structure, hero, air, ground, summoned, undead, resistant, immune)
@@ -321,8 +323,9 @@ GetNearestUnitByType Parameters
       + Free Spray Tooltip
       + Acid Bomb Potions
       + Liquid Fire attachment
-      + Magnetize Tooltip
+      + Mech Sheep deathrattle (slam)
       + Mech Whelp deathrattle
+      + Magnetize Tooltip
       + Robo-goblin regen tooltip
       + Voidlord Deathrattle
       
