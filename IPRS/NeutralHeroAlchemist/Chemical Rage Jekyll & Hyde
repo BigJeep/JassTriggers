@@ -1,0 +1,167 @@
+// upon cast, the alchemist receives a random buff. Some may be undesirable, so he also gets a "cancel" that dispells these buffs
+// after the buff is gone, the next healing spray refunds the spent mana
+// Must test if this triggers again at the end of the morph duration
+
+// FUNCTIONS
+
+function GetHydeBuff takes nothing returns integer // dummy ability ids here, most of these must be different from the item ones as these aren't permanent)
+local integer rng = GetRandomInt (0, 11)  
+local integer r
+
+// DIVINE SHIELD
+if rng == 0 then
+  set r = ''
+// INNER FIRE
+elseif rng == 1 then
+  set r = ''
+// BLOODLUST
+elseif rng == 2 then
+  set r = ''
+// EARTH SHIELD
+elseif rng == 3 then
+  set r = ''
+// LIGHTNING SHIELD
+elseif rng == 4 then
+  set r = ''
+// ROAR
+elseif rng == 5 then
+  set r = ''
+// REJUVENATION
+elseif rng == 6 then
+  set r = ''
+// FROST ARMOR
+elseif rng == 7 then
+  set r = ''
+// ANTI-MAGIC SHELL
+elseif rng == 8 then
+  set r = ''
+// UNHOLY FRENZY
+elseif rng == 9 then
+  set r = ''
+// BARKSKIN
+elseif rng == 10 then
+  set r = ''
+// BLESS
+elseif rng == 11 then
+  set r = ''
+endif
+
+return r
+endfunction
+
+// ACTIONS 
+
+function JekyllBuff takes nothing returns nothing
+  
+  call SetUnitState(GetTriggerUnit, UNIT_STATE_MANA, (UNIT_STATE_MANA + /*spray mana cost*/)
+  
+endfunction
+
+function CancelBuff takes nothing returns nothing
+
+call UnitRemoveAbility (GetTriggerUnit(), 'divineshieldbuff')
+call UnitRemoveAbility (GetTriggerUnit(), 'earthshieldbuff')
+call UnitRemoveAbility (GetTriggerUnit(), 'lightningshieldbuff')
+call UnitRemoveAbility (GetTriggerUnit(), 'unholyfrenzybuff')
+
+endfunction
+
+function HydeBuff takes nothing returns nothing
+
+local unit caster = GetTriggerUnit()
+local unit temp
+local player p = GetOwningPlayer(caster)
+
+local real x = GetUnitX (caster)
+local real y = GetUnitY (caster)
+
+if GetUnitAbilityLevel(caster, 'chemrage buff' > 0 then
+  
+  call UnitRemoveAbility (caster, 'jekyllheal') // spray tooltip buff here
+  set temp = CreateUnit   (p, 'h001', x, y, 0.)
+  call UnitApplyTimedLife (temp, 'BTLF', 4)
+  call UnitAddAbility (temp, GetHydeBuff())
+  call issueTargetOrder (temp, "slow", caster)
+  call issueTargetOrder (temp, "innerfire", caster)
+  call issueTargetOrder (temp, "lightningshield", caster)
+  call issueTargetOrder (temp, "lightningshield", caster)
+  call issueTargetOrder (temp, "bloodlust", caster)
+  call issueImmediateOrder (temp, "roar", caster)
+  call issueTargetOrder (temp, "rejuvenation", caster)
+  call issueTargetOrder (temp, "frostarmor", caster)
+  call issueTargetOrder (temp, "antimagicshell", caster)
+  call issueTargetOrder (temp, "unholyfrenzy", caster)
+  call issueTargetOrder (temp, "?", caster) // put bless order here
+
+else
+  call UnitAddAbility (caster, 'jekyllheal') // spray tooltip buff here
+
+endif
+
+if // add the correct id for each of these, then inline them
+  GetUnitAbilityLevel (temp, 'divineshield') > 0 or
+  GetUnitAbilityLevel (temp, 'earthshield') > 0 or
+  GetUnitAbilityLevel (temp, 'lightningshield') > 0 or
+  GetUnitAbilityLevel (temp, 'unholyfrenzy') > 0 then
+   call UnitAddAbility (caster, 'cancel')
+endif
+
+
+set caster = null
+set temp = null
+set p =null
+
+endfunction
+
+// CONDITIONS
+
+function HydeCondition takes nothing returns boolean
+local boolean b = false
+if GetTriggerSpell() == 'chemRage' then // ability ids here
+set b = true
+endif
+return b
+endfunction
+
+function HydeCancelCondition takes nothing returns boolean
+local boolean b = false
+if GetTriggerSpell() == 'cancelbuff' then // cancel id here
+set b = true
+endif
+return b
+endfunction
+
+function JekyllCondition takes nothing returns boolean
+local boolean b = false
+if GetTriggerSpell() == 'spray' then // spray tooltip id here
+set b = true
+endif
+return b
+endfunction
+
+
+
+
+// TRIGGERS
+
+function InitTrig_JekyllnHyde takes nothing returns nothing
+
+local trigger cast   = CreateTrigger()
+local trigger cancel = CreateTrigger()
+local trigger spray  = CreateTrigger()
+
+call TriggerRegisterAnyUnitEventBj (cast,   EVENT_PLAYER_UNIT_SPELL_EFFECT)
+call TriggerRegisterAnyUnitEventBj (cancel, EVENT_PLAYER_UNIT_SPELL_EFFECT)
+
+call TriggerAddCondition (cast,   Condition (function Hyde_Condition      ) )
+call TriggerAddCondition (cancel, Condition (function HydeCancel_Condition) )
+call TriggerAddCondition (spray,  Condition (function Jekyll_Condition    ) )
+
+call TriggerAddAction (cast,   function HydeBuff  )
+call TriggerAddAction (cancel, function CancelBuff)
+call TriggerAddAction (spray,  function JekyllBuff)
+
+set cast   = null
+set cancel = null
+
+endfunction
