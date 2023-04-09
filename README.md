@@ -20,17 +20,16 @@ GetNearestUnitByType Parameters
 
     Archmage Presence of Mind
     Fix locked icons
-    Spirit Walker Astral Recall (Orc Sanctuary)
-    Witch Doctor Devolve
-    Necromancer Dark Transformation
-
+    -Spirit Walker Astral Recall (Orc Sanctuary)
+    -Witch Doctor Devolve
+    -Necromancer Dark Transformation
 
     Mountain King Avatar Fix
     Blood Mage
     Flame Strike
-    Banish
+    Banish 
     Siphon Mana (Arcane Defender)
-    Phoenix
+    Phoenix (Mana spent heals the phoenix and increases the hp of the next egg)
 
     Markswoman fix (change attack index instead of unit morph) + voiceline
     Ram Rider Voiceline
@@ -48,10 +47,10 @@ GetNearestUnitByType Parameters
       Bladestorm (rework)
 
       Tauren Chieftain
-      
-      War Stomp (rework)
-      Endurance Aura (Execute)
-      Reincarnation (Mass Res)
+      War Stomp (interval between stomps, decrease range)
+      Endurance Aura (Mortal Strike)
+      Reincarnation (Ethereal spirit, can be detected through the "(non generic) unit hp becomes less than (real)")
+      (Mass ress, self res and leoric slowing swing)
 
       Shadow Hunter
       
@@ -61,14 +60,14 @@ GetNearestUnitByType Parameters
 
       Warlock
       Life Tap
-      Demonic Circle (summoning)
-      Demonology
+      Demonic Circle (pending self-damage)
+      Demonology (pending objects and testing)
 
 // UNDEAD
       Death Knight
-      Death Coil (?)
+      Death Coil (Death Grip while on cooldown)
       Unholy Aura (d.advance/cleanse)
-      Animate Dead (army of the dead)
+      Animate Dead (army of the dead, if all 6 reanimated last until the end, it will be cast again)
 
         Lich
       Frost Nova (Frost Wyrm)
@@ -77,8 +76,8 @@ GetNearestUnitByType Parameters
       Death and Decay (?)
 
       Dreadlord
-      Carrion Swarm (return)
-      Sleep (Nightstalker, invisibility + Soul Preservation, undead Sanctuary)
+      Carrion Swarm (windwalk + recast on the dl position)
+      Sleep (Enemies fights allies upon waking up, Soul Preservation, undead Sanctuary)
       Inferno (Rain of Chaos, +1 infernal per hero)
 
       Crypt Lord
@@ -100,13 +99,13 @@ GetNearestUnitByType Parameters
       Entangling Roots (Poison Seeds, "bounces" if dispelled or if target dies, or summons treants if it dies later)
       Force of Nature (treants + ancients speed boost)
       Thorns Aura (roots enemies that attempt to flee)
-      Tranquility (ghost summon/death effects, create abilities)
+      Tranquility (pending ghost summon/death effects, create abilities)
 
       Priestess of the Moon
       Scout (artificial night aura)
       Searing Arrows (Mark, reveals and grants critical strike to attackers)
       Trueshot Aura (all nelfs can shadowmeld, heroes attack speed is increased?)
-      Starfall (?)
+      Starfall (alignment)
 
       Demon Hunter
       Mana Burn (silence + spell steal, bounces if immolation is active)
@@ -131,9 +130,9 @@ GetNearestUnitByType Parameters
 // NEUTRAL HEROES
 
       Alchemist
-      Healing Spray (?)
-      Chemical Rage
-      Acid Bomb (can target allies for buffs, and structures for liquid fire)
+      Healing Spray (Damages enemies while morphed, creates circles that grant random colored items for friendly units)
+      Chemical Rage (Random buff, free heal spray post unmorph)
+      Acid Bomb (can target allies for potion buffs, and structures for liquid fire)
       Transmute (hero money drain + damage)
 
       Beastmaster
@@ -149,10 +148,10 @@ GetNearestUnitByType Parameters
       SEnF 
 
       Dark Ranger
-      Silence Mass Curse
-      Black Arrow
-      Life Drain
-      Charm
+      Silence (Creates area that constantly curses) (Black Arrow summons mages from Silenced targets, and ??? from only cursed ones)
+      Black Arrow (All abilities apply Black Arrow, and a different minion is created depending on which one. Returns mana when a dark minion is summoned)
+      Life Drain (Additional %drain for max hp on the ranger, she loses if she dies) (Arrows summon long lasting archers with black arrow
+      Charm (Can channel to control heroes temporarily) (Permanent Arrow on it that summons a wraith PLUS the default minion)
 
       Firelord
       Soul Burn
@@ -163,7 +162,7 @@ GetNearestUnitByType Parameters
       Pit Lord
       Rain of Fire (Hellgate, pulls enemies)
       Howl of Terror
-      Cleaving Attack
+      Cleaving Attack (Execute)
       Doom
 
       Sea Witch
@@ -173,31 +172,51 @@ GetNearestUnitByType Parameters
       Tornado
 
       Tinker
-      Cluster Rockets
-      Pocket Factory
-      Engineering Upgrade
-      Robo-Goblin
+      Cluster Rockets (Explosive Mines Trail on movement)
+      Pocket Factory (Random bots alongside the clockwerk ones)
+      Engineering Upgrade (Upgrades for other mechs)
+      Robo-Goblin (Mech regen while deactivated, ??? while activated)
 
 // NEUTRAL HOSTILE
 
       Jailer
-      Imprisonment
+       + Imprisonment
 
       "Self-cast Infernal"
-
+      
+      Siege Infernal
+      + Knockback Slam
+      
+      Eredar Twins
+      
+      Old Eredar
+      
       Invasion Heroes
+      
       Illidary Betrayer
-      Fel Barrage ("flight mode")
+      + Fel Barrage ("flight mode")
+      + Devour Magic + Silence
+      + Immolation
+      + Evasion (talentless)
 
       Eredar Lord (of the Burning Legion)
+      + Rain of Chaos
+      + Finger of Death?
 
       Nathrezim
-      Unchanneled Rain of Fire
+      + Wind Walk-like
+      + Sleep (talents)
+      + Unchanneled Rain of Fire
+      + Vampiric Aura (talentless)
+      + Charm (Talentless)
+      
 
       Fel Inquisitor
-      Eyes...?
+      + Eyes...?
 
       Fel Reaver
+      + Missiles...?
+      + Knockback punch
       
 // ITEM TRIGGERS
       
@@ -214,7 +233,114 @@ GetNearestUnitByType Parameters
       Auto-animate dead
       Auto-corpse explosion
       True Sight Buff
+      Hydra Heads
 
-
+// SPECIFIC OBJECTS
+      
+      // UNITS
+      
+      + Warlock Beholder
+      + Warlock Nightmare/Dreadsteed (flyer)
+      + Assault Necropolis (AS)
+      + AS Geist
+      + AS Skeleton
+      + AS Zombie
+      + AS Ghost
+      + AS Spider
+      + Spider Tank (Uncle Fester Spider Robot)
+      + Turrets (MiniMage's)
+      + Boombot (rizz_bomber BombCart)
+      + Flying bot (MiniMage's flyting turret?)
+      + Mechanical Whelp (pending model)
+      + Explosive Sheep (thilinghast)
+      + Gan'arg/Wyrmtongue
+      + Shivarra
+      + Eredar Twins
+      + Eredar old Warlock
+      + Betrayer Hero
+      + Eredar Hero
+      + Nathrezim Hero
+      + Inquisitor
+      + Fel Reaver Hero
+      
+      
+      // DUMMY UNITS
+      
+      + Carrion Swarm
+      + Transmutation Circle
+      + Acid Bomb fake target
+      + Transmutation fake target
+      + Silence Haunt Zone
+      + Jailer's Prison
+      + Self-cast Infernal
+      + Nathrezim Rain of Fire
+      + Fel Inquisitor Eyes
+      
+      // ABILITIES
+      
+      + Warlock heal?
+      + Imp bolt
+      + Imp Dispel
+      + Voidlord Taunt
+      + DK Death Grip
+      + Cat Rake
+      + Silence Curse
+      + Dark Minion Silence
+      + Dark Minion Black Arrow
+      + Wraith Possess?
+      + Boombot explosion
+      + Explosive Sheep explosion     
+      + Turret Flak Cannons
+      + Engineering Upgrade Aura
+      + Clockwerk Magnetize
+      //
+      // Mechs upgrades here 
+      //
+      + Jailer's Imprisonment
+      + Siege Infernal knockback Slam
+      + Betrayer's Fel Barrage
+      + Betrayer's Talentless Silence + Devour Magic
+      + Betrayer's Talentless Evasion
+      + Nathrezim Rain of Fire
+      + Inquisitor ?
+      + Fel Reaver Missiles
+      + Fel Reaver Knockback punch
+     
+      
+      // DUMMY ABILITIES
+      
+      + Ethereal TC Mass Res
+      + Ethereal TC Slow
+      + Ethereal TC Tooltip
+      + Warlock tooltip
+      + Warlock Succubus Attract
+      + Warlock Beholder Siege Beam
+      + DK Death Avance Cleanse
+      + DL Backstab Sleep
+      + Cancel CR Buff (just in case of applying earth/lightning shield)
+      + Acid Bomb Potions
+      + Liquid Fire attachment
+      + Magnetize Tooltip
+      + Mech Whelp deathrattle
+      + Robo-goblin regen tooltip
+      + Voidlord Deathrattle
+      
+      // BUFFS
+      
+      + Ethereal TC tooltip
+      + Ethereal TC Slow
+      + Warlock Demon tooltip
+      + Voidwalker Taunt
+      + Warlock Succubus Attract
+      + Silence Curse (just in case I make the minimum damage thing)
+      + Silence Black Arrow
+      + Life Drain Black Arrow
+      + Charm Black Arrow
+      + Engineering Upgrade Aura
+      + Magnetize Tooltip
+      + Robo-goblin regen tooltip
+      + Voidlord Deathrattle
+      
+// FUNCTIONS AND OTHER STUFF
 
 
