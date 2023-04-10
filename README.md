@@ -243,45 +243,7 @@ GetNearestUnitByType Parameters
 
 // SPECIFIC OBJECTS
       
-      // UNITS
-      
-      + Warlock Beholder
-      + Warlock Nightmare/Dreadsteed (flyer)
-      + Assault Necropolis (AS)
-      + AS Geist
-      + AS Skeleton
-      + AS Zombie
-      + AS Ghost
-      + AS Spider
-      + Spider Tank (Uncle Fester Spider Robot)
-      + Turrets (MiniMage's)
-      + Boombot (rizz_bomber BombCart)
-      + Flying bot (MiniMage's flyting turret?)
-      + Mechanical Whelp (pending model)
-      + Explosive Sheep (thilinghast)
-      + Gan'arg/Wyrmtongue
-      + Shivarra
-      + Eredar Twins
-      + Eredar old Warlock
-      + Betrayer Hero
-      + Eredar Hero
-      + Nathrezim Hero
-      + Inquisitor
-      + Fel Reaver Hero
-      
-      
-      // DUMMY UNITS
-      
-      + Carrion Swarm
-      + Transmutation Circle
-      + Acid Bomb fake target
-      + Transmutation fake target
-      + Silence Haunt Zone
-      + Jailer's Prison
-      + Self-cast Infernal
-      + Nathrezim Rain of Fire
-      + Fel Inquisitor Eyes
-      
+     
       // ABILITIES
       
       + Warlock heal?
