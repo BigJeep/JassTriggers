@@ -9,6 +9,12 @@ GetNearestUnitByType Parameters
       // GetNearestUnit (, , , , , , , , , , , , , )
       // example GetNearestUnit (x, y, 700, p, 0, 1, 0, 2, 2, 2, 2, 2, 2, 0)
       
+      TO-DO:
+      GetNearestUnitByTypeExcept ( x, y, radius, playerArg, exceptionUnit, exceptionUnitGroup, ally, enemy, structure, hero, air, ground, summoned, undead, resistant, immune)
+      // GetNearestUnit (, , , , , , , , , , , , , )
+      // example GetNearestUnit (x, y, 700, p, 0, 1, 0, 2, 2, 2, 2, 2, 2, 0)
+      
+
 
 // ALL
     
@@ -134,7 +140,7 @@ GetNearestUnitByType Parameters
       Alchemist
       Healing Spray (Damages enemies while morphed, creates circles that grant random colored items for friendly units)
       Chemical Rage (Random buff, free heal spray post unmorph)
-      Acid Bomb (can target allies for potion buffs, and structures for liquid fire)
+      Acid Bomb (can target structures to apply liquid fire. Passively grants all bought potions an additional charge)
       Transmute (hero money drain + damage)
 
       Beastmaster
@@ -170,7 +176,7 @@ GetNearestUnitByType Parameters
       Sea Witch
       Forked Lightning
       Frost Arrows
-      Mana Shield (Spell Shield)
+      Mana Shield (Spell Shield. Passively grants all bought scrolls an additional charge)
       Tornado
 
       Tinker
