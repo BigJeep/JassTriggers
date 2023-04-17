@@ -1,0 +1,123 @@
+// Whenever transmute targets a hero, a Dummy will be created and the Alchemist will be re-issued to target the Dummy instead, so it doesn't kill the hero
+// The dummy will be tied to the target Hero Id/index, and will be repositioned periodically to the position of the hero
+// If the dummy is killed by an Alchemist with Transmute learned, then the whole thing takes effect, else it won't work as a workaround to nulling the dummy if the flask doesn't hit the target for some reason
+
+// PENDING DUMMY PERIODIC REPOSITIONING
+
+globals
+  integer array udg_Transmute_Dummy_Hero
+  integer array udg_Transmute_Dummy_Alchemist
+endglobals
+
+// ACTIONS
+
+function Equivalent_Exchange_Cast takes nothing returns nothing  // Test if ability effect is enough or else I'll have to change the event to begins an order or whatever it was called
+  
+  local unit caster = GetTriggerUnit ()
+  local unit target = GetSpellTargetUnit ()
+  local unit dummy
+  
+  local player caster_ownerId = GetPlayerId (GetOwningPlayer (caster) )
+  local player target_ownerId = GetPlayerId (GetOwningPlayer (target) )
+  
+  local integer casterId = GetUnitUserData (caster)
+  local integer targetId = GetUnitUserData (target)
+  local integer dummyId
+  
+  local real x = GetUnitX (target)
+  local real y = GetUnitY (target)
+
+  set dummy   = CreateUnit (Player (targetOwnerId), 'TransmuteDummy', x, y, 0) // TEST PLAYER(ARG), set correct id for dummy
+  set dummyId = GetUnitUserData (dummy)
+  
+  set udg_Transmute_Dummy_Hero      [dummyId] = targetId
+  set udg_Transmute_Dummy_Alchemist [dummyId] = casterId
+  
+  call IssueTargetOrder   (caster, 'transmute', dummy) // Set Correct ability Id
+  call UnitAddAbility     (dummy, 'Aloc')
+  call UnitApplyTimedLife (dummy, 'BTLF', 15)
+  
+  set caster = null
+  set target = null
+  set dummy  = null
+  
+endfunction
+
+function Equivalent_Exchange_Hit takes nothing returns nothing
+    
+  local unit    dummy   = GetTriggerUnit  ()
+  local integer dummyId = GetUnitUserData (dummy)
+  local integer dummyOwner = GetPlayerId (GetOwningPlayer (dummy) )
+  local integer dummyHero  = udg_Transmute_Dummy_Hero     [dummyId]
+  local integer dummyAlch  = udg_Transmute_Dummy_Alchemist[dummyId]
+  
+  local integer goldDamage = GetPlayerState (Player (dummyOwner), PLAYER_STATE_RESOURCE_GOLD) / 10
+  
+  if goldDamage == 777 then
+  // JACKPOT
+  endif
+  
+  if goldDamage > 1000 then
+    set goldDamage = 1000
+  endif
+  
+  call SetPlayerState   (Player (dummyOwner), PLAYER_STATE_RESOURCE_GOLD) - goldDamage
+  call UnitDamageTarget (udg_unit_array [dummyAlch], udg_unit_array [dummyHero], goldDamage, false, false, ATTACK_TYPE_NORMAL, DAMAGE_TYPE_NORMAL, WEAPON_TYPE_WHOKNOWS) // check if parameters are alright
+  //
+  // FLOATING TEXT HERE
+  //
+  
+  set dummy = null
+  
+endfunction
+
+function Equivalent_Exchange_Dummy takes nothing returns nothing
+
+// FINISH THIS
+
+endfunction
+
+// CONDITION
+
+function Equivalent_Exchange_Cast_Condition takes nothing returns boolean
+  local boolean b = false
+  if GetSpellAbilityId == 'TransmuteId' and GetUnitType (GetTriggerUnit(), UNIT_TYPE_HERO) then
+    set b = true
+  endif
+  return b
+endfunction
+
+function Equivalent_Exchange_Hit_Condition takes nothing returns boolean
+  local boolean b = false
+  local integer alchId = udg_Transmute_Dummy_Alchemist [GetUnitUserData (GetTriggerUnit () ) ]
+  if GetTriggerUnitType() == 'TransmuteId' and GetKillingUnit() == udg_unit_array[alchId] then
+    set b = true
+  endif
+  return b
+endfunction
+
+// TRIGGER
+function InitTrig_Equivalent_Exchange takes nothing returns nothing
+
+local trigger cast      = CreateTrigger()
+local trigger hit       = CreateTrigger()
+local trigger periodic  = CreateTrigger() 
+
+call TriggerRegisterAnyUnitEventBj (cast, EVENT_PLAYER_UNIT_SPELL_EFFECT)
+call TriggerRegisterAnyUnitEventBj (hit,  EVENT_PLAYER_UNIT_DEATH)
+
+call TriggerRegisterTimerEventPeriodic(periodic, 0.5 )
+
+call TriggerAddCondition (cast, Condition (function EqExchange_Cast_Condition) )
+call TriggerAddCondition (hit,  Condition (function EqExchange_Hit_Condition ) )
+
+
+call TriggerAddAction (cast,     function Equivalent_Exchange_Cast  )
+call TriggerAddAction (hit,      function Equivalent_Exchange_Hit   )
+call TriggerAddAction (periodic, function Equivalent_Exchange_Dummy )
+
+set cast     = null
+set hit      = null
+set periodic = null
+
+endfunction
