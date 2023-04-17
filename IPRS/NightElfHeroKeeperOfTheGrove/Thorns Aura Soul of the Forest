@@ -1,0 +1,65 @@
+// Whenever a unit attacks an enemy unit affected by Thorns Aura, within said Thorns Aura raiuds, it will receive a debuff
+// If this unit exists the Aura perimeter while affected by the debuff, it will either be affected by a short duration Entangling Roots or be bodyblocked by a Treant
+// The Entangling Roots buff duration scales with the Thorns level (a different ability for each level), 
+// while the actual root and trean duration scales with the Keeper's own Roots and Force of Nature levels, respectively
+
+// Additionaly... roots also affect Treants and Ancients, with a bonus damage return
+
+// PENDING: EVERYTHING, I got lazy
+
+globals
+  group udg_Thorns_Group = CreateGroup ()
+  integer array udg_which_Keeper
+endglobals
+
+// ACTIONS -----------------------------------------------------
+function ForestSoul_attacked takes nothing returns nothing
+  
+  local unit attacker = GetAttackingUnit()
+  local unit attacked = GetTriggerUnit  ()
+  local unit temp
+  
+  local integer playerId = GetPlayerd ( GetOwningPlayer (attacked) )
+  local real x = GetUnitX (attacker)
+  local real y = GetUnitY (attacker)
+  
+  
+  
+  set attacker = null
+  set attacked = null
+  set temp = null
+  
+endfunction
+
+// CONDITIONS --------------------------------------------------
+
+function ForestSoul_Condition takes nothing returns boolean
+  local boolean b = false
+  if GetUnitAbilityLevel (GetTriggerUnit, 'thornsbuffid') > 0 then
+    set b = true
+  endif
+  return b
+endfunction
+
+// TRIGGERS ----------------------------------------------------
+function InitTrig_Soul_of_the_Forest takes nothing returns nothing
+
+  local trigger attack = CreateTrigger ()
+  local trigger escape = CreateTrigger ()
+  local trigger spikes = CreateTrigger ()
+  
+  call TriggerRegisterAnyUnitEventBj     (attack, EVENT_PLAYER_UNIT_ATTACKED)
+  call TriggerRegisterTimerEventPeriodic (escape, 0.5)
+  call TriggerRegisterTimerEventPeriodic (spikes,  2)
+
+  call TriggerAddCondition (attack, Condition (function ForestSoul_Condition) )
+  
+  call TriggerAddAction (attack, function ForestSoul_attacked)
+  call TriggerAddAction (escape, function ForestSoul_escaping)
+  call TriggerAddAction (spikes, function ForestSoul_spikes  )
+
+  set attack = null
+  set escape = null
+  set spikes = null
+
+endfunction
