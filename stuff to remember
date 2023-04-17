@@ -3,3 +3,5 @@
  - a single trigger that creates the triggers for all other spells
  - a single trigger that initializes all hashtables and other crap that must be initialized
  - a trigger that makes dispel effects dispel other spell buffs from trigger spells that wouldnt be able to be dispelled normally (auras etc.)
+
+ - create all periodic functions inside their own spell triggers/files whatever, but make it so they are all fired from a single periodic trigger at the very end
