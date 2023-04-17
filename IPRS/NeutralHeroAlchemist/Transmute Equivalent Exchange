@@ -7,6 +7,8 @@
 globals
   integer array udg_Transmute_Dummy_Hero
   integer array udg_Transmute_Dummy_Alchemist
+  group         udg_Transmute_Group = CreateGroup()
+  
 endglobals
 
 // ACTIONS
@@ -36,6 +38,8 @@ function Equivalent_Exchange_Cast takes nothing returns nothing  // Test if abil
   call IssueTargetOrder   (caster, 'transmute', dummy) // Set Correct ability Id
   call UnitAddAbility     (dummy, 'Aloc')
   call UnitApplyTimedLife (dummy, 'BTLF', 15)
+  
+  call GroupAddUnit (udg_Transmute_Group, dummy) 
   
   set caster = null
   set target = null
@@ -67,13 +71,28 @@ function Equivalent_Exchange_Hit takes nothing returns nothing
   // FLOATING TEXT HERE
   //
   
+  call GroupRemoveUnit (udg_Transmute_Group, dummy)
   set dummy = null
   
 endfunction
 
-function Equivalent_Exchange_Dummy takes nothing returns nothing
 
-// FINISH THIS
+function Equivalent_Exchange_Dummy takes nothing returns nothing // TEST THIS?
+
+local integer count = BlzGroupGetSize(udg_Transmute_Group)
+local heroId
+local dummyId
+local real x
+local real y
+loop 
+  exitwhen count == 0
+  set dummyId = GetUnitUserData (BlzGroupUnitAt (udg_Transmute_Group, count))
+  set heroId  = udg_Transmute_Dummy_Hero [dummyId]
+  call SetUnitX (BlzGroupUnitAt (udg_Transmute_Group, count), GetUnitX (udg_unit_array[heroId]) )
+  call SetUnitY (BlzGroupUnitAt (udg_Transmute_Group, count), GetUnitY (udg_unit_array[heroId]) )
+  
+  set count = count - 1
+endloop
 
 endfunction
 
