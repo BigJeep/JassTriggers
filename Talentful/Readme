@@ -1,0 +1,75 @@
+Altered Melee Map
+  - Hots-like Talent System for heroes
+  - New Units for each race
+  - New abilities and upgrades for existing units
+  - Naval stuff
+  - Dynamic Starting Points
+  - Colored Items
+
+For now I'll just call it "Talentful", as in Talentful Armies, Talenful Heroes... talent something something, still undecided
+
+
+////////////////////////////////////////////
+Heroes
+  Heroes start with all their 3 main skills already learned at level 1, and are automatically leveled up at levels 4 and 8
+  Level 1 abilities also cost less mana than vanilla to make up for "forcing" the player to have all three at once
+  
+  The "Hero Abilities" is now a "Talent Tree" button, opening it will show 3 talents for each ability, and two ultimate abilities in the 4th column
+  Something like this:
+  
+  A1  | B1  | C1  | D1
+  A2  | B2  | C2  | E1
+  A3  | B3  | C3  |
+  
+  letters are different abilities, and numbers its "tier" or power level or whatever
+  
+  Picking a talent consumes a hero skill point and grants a new effect, described in its tooltip, for an ability.
+  Talents in the first row are available at level 1, the ones in the second row are available at level 3, and the ones in the last at level 5
+  Talents in the second and third row also levels up the respective ability
+  
+  The player can choose only one of the two available ultimates, one being the vanilla one, and the other being a new one made by me
+  The vanilla ultimate will also come with a "Talent", that is, a new effect bound to the ability so that it has as much novelty appeal as a new ultimate
+  Some new ultimates might intentionally have a lower power level than the vanilla + talent one, which I will make up for it allowing it to be learned at level 5 intead of 6
+  
+  Tome of Retraining can be used to unlean all talents, refund spent skill points and revert abilities level back.
+  HOWEVER, while the ultimate might be unlearned, the other won't become available again. Picking an ultimate makes the hero bound to it for that match.
+  
+  At the end of this file, I will write down the talents and ultimates I already came up with
+  
+////////////////////////////////////////////
+New Units
+  Human
+    Markswoman: Same as IPRS, a light ranged unit trained at Arcane Santum, which is now available at tier 1 (without the other units).
+                Can Alternate between magic type attacks and piercing type attacks that deal additional damage to magic immune enemies.
+                NEW: It might have a new ability, Lightmeld, unlocked at Tier 3 or something, which hides nearby allies and reveals enemies.
+    Ram Rider: Same as IPRS, trained at Barracks at tier 2, weaker than Knight but with a powerful knockback on its attacks and siege type damage.
+    Dynamiter: A truly new unit, a Gnome Rogue trained at Workshop. The idea is make it particularly effective against workers and armored target, and also buildings of course.
+               Can become invisible, either with reduced movement speed or idk you must pay gold for it
+  Orc
+    Warlock: Same as IPRS, a powerful tier 3 caster trained at the Spirit Lodge, dealing damage to the building after this process!
+             Can't attack nor regenerate mana, but has heavy armor, a big health pool and resistant skin. Regenerates mana by dealing damage to itself through Life Tap.
+             Has Fear, which causes an unit to run scared from the Warlock; Demonic Circle, which creates a stationary unit that can teleport allies to itself (but damaging them),
+             and Demonology, which either spends its mana to summon a personal demon to attack an enemy, or spends its mana AND health in an attempt to take control of another demon
+    Ogre:    New unit as well (as in it is not in IPRS), or should I say two units in one! Inspired in Cho'Gall, Ogres are super strong tier 3 units trained at Barracks.
+             Selecting the unit selects two, with the second one (the other head) being an, I don't know, abstract unit? Anyway, both heads share the same mana pool, and
+             have different abilities. Unsure about its abilities so far, but the ones I sorta planned already are Eye of Kilrogg, a locust unit with true sight that 
+             roams an area around the Ogre; a Magic Immune for this unit that must be activated by the second head; and some sort of synergy/interaction with other high
+             food cost units, such as Taurens (which would probably get shafted as orcs get another costly unit)
+  
+  Undead
+    Val'kyr Twins: A powerful unit, maybe trained in the Boneyard, but a player can have only two at once.
+    ???
+  
+  Night Elf
+    ???
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
