@@ -4,7 +4,7 @@ Altered Melee Map
   - New abilities and upgrades for existing units
   - Naval stuff
   - Dynamic Starting Points
-  - Colored Items
+  - New and Colored Items
 
 For now I'll just call it "Talentful", as in Talentful Armies, Talenful Heroes... talent something something, still undecided
 
@@ -127,20 +127,50 @@ Naval
   Orc
     Transport Ship: Less wood than Goblin Sloops
     Destroyer: a bit more resistant
-    Juggernaut: 
-    War Zeppelin:
+    Juggernaut: fires a single overpowered shot
+    Zeppelin: Just a Zeppelin
   
   UD
-    Sky Barge
-    Corvette
-    Dreadnought
-    Ghost Ship
+    Sky Barge: Flies with same stats as Sloop, but is slower on land
+    Corvette: drains life
+    Dreadnought: Raises enemy ships as Corvettes, Shipyards summons skeletons whenever a crewed ship is defeated by these
+    Ghost Ship: Flies on land, stealthed on water. Summons skeletons on land and tornados/thunderstorms on water
 
   NE
-    Schooner
-    some other ship name I'm forgetting
-    Brigantine
+    Schooner: Shadowmeld, loaded wisps heal
+    some other ship name I'm forgetting: Stronger vs air
+    Brigantine:
     Water Ancient or Turtle Ancient
+
+////////////////////////////////////////////    
+Dynamic starting points
+
+  The map might be large with many player starting poins... BUT!
+  If there is only a low player count, say, 1v1 or 1v1v1 or 2v2 etc. the starting points will be adjusted via triggers, positioning them more on the
+  center of the map to "simulate" the smaller skirmish maps.
+  This means that a single map can be played on 1v1 and such without players having to worry being shuffled across a map with a ton of possible starting points and
+  expos such as Divide and Conquer
+  
+////////////////////////////////////////////
+Items
+  
+  All units start with a single-slot backpack, and the backpack upgrade now grants additional slots
+  
+  A new item will be added for each race shop, which are just the same as IPRS:
+    Conjurer's Amulet: Summons a poisonous Scorpid that can grab enemies and burrow
+    Warlock's Charm: Summons poisonous spiders that can leap onto enemies and ensnare targets
+    Gorefiend's Rune: Creates a whirlwind at the target location, pulling enemies towards its center
+    Ancient Sapling: Same as Ivory Tower, but summons an Ancient Protector
+    
+  But the important one, which is also coming from IPRS, are the items with colored name.
+  Colored name items are randomly dropped by any neutral unit on the map. 
+  These items simply mimic common spells used by units and heroes, such as inner fire and bloodlust, but can only be used on non-heroes and are mostly permanent effects
+  If a non-hero unit picks up one of these items, however, the item will be automatically used on it
+  
+  ...
+  
+////////////////////////////////////////////
+  
 
 
 
