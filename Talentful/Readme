@@ -8,6 +8,12 @@ Altered Melee Map
 
 For now I'll just call it "Talentful", as in Talentful Armies, Talenful Heroes... talent something something, still undecided
 
+I don't want player to having to re-learn how to play a melee match for a single map, therefore all additions are just that, additions, without interfering on the players'
+core strategy if they're willing to only play like that, allowing them to just reap the benefit of added bonuses, without preventing them to get out of their way to make use of 
+new stuff to give them the edge
+
+Inspirations for new stuff, such as units, abilities, techs, name, etc. obviously came from blizzard's many games, but I would also like to point out that many are
+also from early development stuff that got cut and helped me a ton to come up with cool new ideas
 
 ////////////////////////////////////////////
 Heroes
@@ -38,7 +44,7 @@ Heroes
   
 ////////////////////////////////////////////
 New Units
-  Human
+  HU
     Markswoman: Same as IPRS, a light ranged unit trained at Arcane Santum, which is now available at tier 1 (without the other units).
                 Can Alternate between magic type attacks and piercing type attacks that deal additional damage to magic immune enemies.
                 NEW: It might have a new ability, Lightmeld, unlocked at Tier 3 or something, which hides nearby allies and reveals enemies.
@@ -56,20 +62,94 @@ New Units
              roams an area around the Ogre; a Magic Immune for this unit that must be activated by the second head; and some sort of synergy/interaction with other high
              food cost units, such as Taurens (which would probably get shafted as orcs get another costly unit)
   
-  Undead
-    Val'kyr Twins: A powerful unit, maybe trained in the Boneyard, but a player can have only two at once.
+  UD
+    Val'kyr Twins: A powerful flying caster that can also land, maybe trained in the Boneyard, but a player can have only two at once.
     ???
   
-  Night Elf
+  NE
     ???
+////////////////////////////////////////////
+Techs
+  Most, if not all, will have NO RESOURCE COST, but may have some lengthy research durations
   
+  HU
+    Flare: Available at Barracks, now also allows Riflemen to use at with limited range
+    Demolition Squad: Upgrade that allows Mortar Team and Dynamiters to Self-destruct, dealing heavy damage. After a short interval the sacrificed unit will be revived at its owner base
+    Steam Engine morph: Allows Steam Engines to upgrade into its beta Wrecking Ball version, permanently making it a melee unit, but able to carry units inside. Riflemen can shoot from within and peasants can repair.
+  Orc
+    A nameless ability rather than an upgrade: Spirit Lodges can toggle how much health will be sacrificed upon training Warlocks, granting them additional mana while the higher hit point sacrifice is enabled
+    Upgrade that allows Ogres to be trained at Altar!
+    Tauren renamed to Tauren Bulls, and Pulverize comes researched already
+  UD
+    Dirt Eater: Cannibalize comes researched already, and researching Dirt Eater makes dying ghouls to summon a Dirt Eater, a sick/poisonous ghoul with lifespan increased according to how much the dying ghoul cannibalized
+    Ability that allows Ghouls and other crap to "fuse" into an Abomination
+    Corpse Explosion: Abomination Self-destruct, empowered by how much it cannibalized while alive
+    Psychic Scream: Upgrade that causes Banshees to scream upon death, scaring enemies and making them run away from the point where they die
+    Greater Summon Building: Undecided whether I'm giving Necromancers this shit or not. The idea is give the Necromancers their early development purpose, being the
+                             actual builder of the faction, also allowing me to make use of cool structures I can't fit anywhere else such as Gargoyle Spire
+    Necromancer ghost as an alternative unit for Greater Summon Building
+    Spire: Gargoyles and Carrion Birds
+    Tree of Woe: ??? something to do with Cold Wraiths?
+    Heunting (a building I guess): ???
+  NE
+    Mark of the Wild: Same as IPRS, Huntress Hall upgrade that unlocks a new beast form for druids. Both drain mana while morph
+    Moonkin Form: Druid of the Talon new morph with strong magic attacks that gain different buffs at day and night
+    Cat Form: Druid of the Claw new morph with permanent invisibility, can pounce at targets and deal damage based on their maximum hit points
   
+////////////////////////////////////////////
+Naval
   
+  NON-SHIPS
+  Some race units are now amphibious, more for the flavour rather than balance:
+    Sorceress
+    Ethereal Spirit Walker
+    Shade
+    Mounaint Giant (I will need a new model)
+  Some heroes are now amphibious as well. Any hero other than Sea Witch gets a movement penalty:
+    Death Knight and Lich (only if I can make a water freezing visual effect)
+    Demon Hunter?
+    Sea Witch
+    Pit Lord (will require a new model)
+    
+  SHIPS AND SHIPYARDS
+  Invulnerable Neutral Goblin Shipyards are spread across the water, with Goblin Sloops for hire. 
+  However, these also "sell" upgrades to itself into player-owned, vulnerable shipyard building for each race.
+  Each race shipyard allows training unique ships, while also allowing allies to hire transport ships. Destroying a shipyard reverts it back to a neutral Goblin Shipyard instead 
   
+  I might just change the names to generic ones such as "Transport Ship" and "Battleship"
   
+  HU
+    Caravel: Less gold than Goblin Sloops
+    Frigate: a bit faster
+    Galleon: can fire at all directions and spreads its damage (divides among targets, a single target will be toast)
+    Submarine: Scout
   
+  Orc
+    Transport Ship: Less wood than Goblin Sloops
+    Destroyer: a bit more resistant
+    Juggernaut: 
+    War Zeppelin:
   
-  
-  
-  
-  
+  UD
+    Sky Barge
+    Corvette
+    Dreadnought
+    Ghost Ship
+
+  NE
+    Schooner
+    some other ship name I'm forgetting
+    Brigantine
+    Water Ancient or Turtle Ancient
+
+
+
+
+
+
+
+
+
+
+
+
