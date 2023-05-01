@@ -1,0 +1,60 @@
+// ...I want a new job
+
+// test how to set up timers before testing
+
+globals
+
+  // change values here, I don't think I'll change that much but whatever
+  
+  /* invasion hero increase interval */ integer udg_invHero_time = 60
+  /* invasion hero increase weight   */ integer udg_invHero_time = 1
+  /* invasion army strength weight   */ integer udg_invHero_time = 1
+  /* invasion grace period           */ integer udg_invHero_time = 900
+  /* invasion attacker cooldown      */ integer udg_invHero_time = 60
+  
+  //
+  
+  timer array udg_Attacker_Grace_Period       // Time before a player can be invaded again
+  timer array udg_Attacked_Invasion_Cooldown  // Interval between invasions triggered by a player base
+  boolean array udg_invadable                 // boolean changed by grace period
+  boolean array udg_invasion_on_cd            // boolean changed by attacked invasion cooldown
+  
+  integer array udg_player_tier_1             // how many town, great hall, necropolis and Tree of life a player has
+  integer array udg_player_tier_2             // how many keep, stronghold, Halls of the Dead and Tree of ages a player has
+  integer array udg_player_tier_3             // how many Castle, Fortress, Black Citadel and Tree of Eternity a player has
+  integer array udg_invasion_army_strength    // number used to determine how many units will invade a player, increased by their total hero experience
+  integer array udg_invasion_hero_strength    // number used to determine the invading heroes' experience, increased over time minus how small their army might be
+  
+endglobals
+
+
+
+// TRIGGERS
+
+function InitTrig takes nothing returns nothing
+
+  local trigger baseAttacked = CreateTrigger()  // trigger that detects a player being attacked in order to trigger all the invasion crap
+  local trigger newTownHall  = CreateTrigger()  // trigger for whenever a player creates or upgrades a town hall
+  local trigger desTownHall  = CreateTrigger()  // trigger for whenever a player loses a town hall
+  local trigger heroStrength = CreateTrigger()  // overall invasion hero strength increase over time
+  local trigger heroDrops    = CreateTrigger()  // strong item drops on death for invasion 
+  
+  call TriggerRegisterAnyUnitEventBj     (baseAttacked, EVENT_PLAYER_UNIT_ATTACKED )
+  call TriggerRegisterAnyUnitEventBj     (newTownHall,  EVENT_PLAYER_UNIT_CONSTRUCT_FINISH )
+  call TriggerRegisterAnyUnitEventBj     (desTownHall,  EVENT_PLAYER_UNIT_DEATH )
+  call TriggerRegisterTimerEventPeriodic (heroStrength, udg_invHero_time )
+  
+  call TriggerAddCondition (baseAttacked, Condition ( function Invasion_Condition ) )
+  call TriggerAddCondition (newTownHall,  Condition ( function NewTownHall ) )
+  call TriggerAddCondition (desTownHall,  Condition ( function DesTownHall ) )
+  
+  call TriggerAddAction ( baseAttacked, function StartInvasion
+  call TriggerAddAction (
+  
+  
+  set baseAttacked = null
+  set newTownHall  = null
+  set desTownHall  = null
+  set heroStrength = null
+  
+endfunction
