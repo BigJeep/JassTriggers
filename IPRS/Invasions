@@ -2,15 +2,17 @@
 
 // test how to set up timers before testing
 
+
 globals
 
   // change values here, I don't think I'll change that much but whatever
   
-  /* invasion hero increase interval */ integer udg_invHero_time = 60
-  /* invasion hero increase weight   */ integer udg_invHero_time = 1
-  /* invasion army strength weight   */ integer udg_invHero_time = 1
-  /* invasion grace period           */ integer udg_invHero_time = 900
-  /* invasion attacker cooldown      */ integer udg_invHero_time = 60
+  /* invasion hero increase interval */ integer udg_invHero_time   = 60
+  /* invasion hero increase weight   */ integer udg_invHero_weight = 1
+  /* invasion army strength weight   */ integer udg_invArmy_weight = 1
+  /* invasion grace period           */ integer udg_invGrace_time  = 900
+  /* invasion attacker cooldown      */ integer udg_inv_cooldown   = 60
+  /* invasion trigger radius         */ real    udg_invRadius      = 2000
   
   //
   
@@ -25,11 +27,62 @@ globals
   integer array udg_invasion_army_strength    // number used to determine how many units will invade a player, increased by their total hero experience
   integer array udg_invasion_hero_strength    // number used to determine the invading heroes' experience, increased over time minus how small their army might be
   
+  integer array udg_finished_townHall         // for flagging town halls that are finished buildings, so that the tiers count don't go down whenever a town hall under construction is destroyed
+  
 endglobals
 
+// ACTIONS ----------------------------------------------
 
+// DO THE FUNCTIONS
 
-// TRIGGERS
+// CONDITIONS -------------------------------------------
+
+function Invasion_Condition takes nothing returns boolean
+  local boolean b = false
+  local integer attackerPlayer = GetPlayerId (GetOwningPlayer (GetAttacker()   )
+  local integer attackedPlayer = GetPlayerId (GetOwningPlayer (GetTriggerUnit())
+  local real attackPointX = GetUnitX (GetTriggerUnit())
+  local real attackPointY = GetUnitY (GetTriggerUnit())
+  local real startPointX  = GetStartLocationX (attackedPlayer)
+  local real startPointY  = GetStartLocationX (attackedPlayer)
+  
+  local real x = attackPointX - startPointX
+  local real y = attackPointY - startPointY
+  
+  /*
+  if
+  IsUnitType  (GetTriggerUnit(), UNIT_TYPE_BUILDING ) and
+  IsUnitEnemy (GetTriggerUnit(), GetOwningPlayer (GetAttacker()) and not
+  udg_invasion_on_cd [GetOwningPlayer (GetTriggerUnit())] and
+  udg_invadable [GetOwningPlayer (GetAttacker)] and
+  x < udg_invRadius and
+  y < udg_invRadius
+  then
+    set b = true
+    
+    // START TIMERS! (here, right?)
+    
+  endif
+  */
+  
+  return b
+endfunction
+
+function NewTownHall takes nothing returns boolean
+
+// FINISH THIS
+
+return false
+endfunction
+
+function DesTownHall takes nothing returns boolean
+
+// FINISH THIS
+
+return false
+endfunction
+
+// TRIGGERS -------------------------------------------
 
 function InitTrig takes nothing returns nothing
 
@@ -41,20 +94,24 @@ function InitTrig takes nothing returns nothing
   
   call TriggerRegisterAnyUnitEventBj     (baseAttacked, EVENT_PLAYER_UNIT_ATTACKED )
   call TriggerRegisterAnyUnitEventBj     (newTownHall,  EVENT_PLAYER_UNIT_CONSTRUCT_FINISH )
+  call TriggerRegisterAnyUnitEventBj     (newTownHall,  EVENT_PLAYER_UNIT_UPGRADE_FINISH   )
   call TriggerRegisterAnyUnitEventBj     (desTownHall,  EVENT_PLAYER_UNIT_DEATH )
   call TriggerRegisterTimerEventPeriodic (heroStrength, udg_invHero_time )
+  call TriggerRegisterAnyUnitEventBj     (heroDrops,    EVENT_PLAYER_UNIT_DEATH )
   
   call TriggerAddCondition (baseAttacked, Condition ( function Invasion_Condition ) )
   call TriggerAddCondition (newTownHall,  Condition ( function NewTownHall ) )
   call TriggerAddCondition (desTownHall,  Condition ( function DesTownHall ) )
+  call TriggerAddContition (heroDrops,    Condition ( function Invasion_hero_check) )
   
-  call TriggerAddAction ( baseAttacked, function StartInvasion
-  call TriggerAddAction (
-  
+  call TriggerAddAction ( baseAttacked, function StartInvasion)
+  call TriggerAddAction ( heroStrength, function Invasion_Hero_Power_Increase)
+  call TriggerAddAction ( heroDrops,    function Invasion_Hero_Drops)
   
   set baseAttacked = null
   set newTownHall  = null
   set desTownHall  = null
   set heroStrength = null
+  set heroDrops    = null
   
 endfunction
