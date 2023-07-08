@@ -1,0 +1,164 @@
+Another readme for good measure, with the most updated info I can remember.
+WIP doesn't necessarily means I started
+
+
+HEROES
+  HUMAN
+    ARCHMAGE
+      Brilliance Aura: Make it so whenever someone targets him with a spell, it some mana is either refunded or burnt for allies and enemies respectively
+    PALADIN
+      Done
+    MOUNTAIN KING
+      Avatard Dwarves still bugged
+    BLOOD MAGE
+      Flame Strike: nothing yet
+      Banish idea: Causes the unit to restore/drain mana from other nearby units, then explode at the end depending on how much mana was stolen
+      Siphon Mana iirc is fine and done already
+      Phoenix WIP, mana spent or drained by the hero heals the phoenix, and increases the hp of the next egg
+
+  ORC
+    BLADEMASTER
+      no idea
+    FAR SEER
+      Chain Lightning requires something new, and will probably require being recreated via triggers
+      Feral Spirit is finished, but I'm planning on doing something new, such as just making them, upon death, repeat the last spell the Far Seer casted, before being summoned, including another feral spirit.
+    SHADOW HUNTER
+      Healing Wave is done
+      Hex still WIP and must be finished before the map is published for the first time
+      Serpent Ward no idea
+      BBV WIP Wards repeat the spell
+    TAUREN CHIEFTAIN
+      Shockwave is done
+      War Stomp must be reworked in order to add a interval between each repeated stomp
+      Endurance Aura WIP Mortal Strike thing
+      Reincarnation WIP leaving ghost behind thing, will probably require a lot of testing
+
+  UNDEAD
+    CRYPT LORD
+      Impale WIP Burrow blink/charge while on cooldown
+      Carrion Beetles WIP buffed upon summoning the 5th beetle
+      Spiked Carapace WIP burrow
+      Locust Swarm no idea
+    DEATH KNIGHT
+      Death Coil WIP Death Grip half-finished, not pulling anything yet
+      Death Pact done
+      Unholy Aura Done
+      Animate Dead WIP Army of the Dead thing
+    DREADLORD
+      Carrion Swarm WIP invisibility + Bat return thing
+      Sleep WIP Soul Preservation 
+      Vampiric Aura Dark Conversion done
+      Inferno WIP global + 50% Rain of Chaos
+    LICH
+      Frost Nova WIP Hitting n or more targets summons a Frost Wyrm
+      Frost Armor WIP casts Frost Nova on an ally already affected by Frost Armor
+      Dark ritual WIP explodes the target, dealing damage increased by their food cost and radius by its hp. Units within such radius will also explode upon death. Exploding targets may leave an additional corpse
+      Death and Decay WIP no idea
+
+  NIGHT ELF
+    DEMON HUNTER
+      Mana Burn WIP Silences and Magic Devours if target's mana is above 1/2. If immolation is active, bounces to an additional target by immolation level
+      Immolation WIP Every n seconds, causes the next Immolation activation to cast Chaos Nova, which slows enemies next to the DH, or stuns if he is morphed. Does something every n damaged caused while active
+      Evasion WIP can now be activated to give DH an evasion aura for a minute or so
+      Metamorphosis WIP passively leeches and randomly fears demons. Want to add something else
+
+    KEEPER OF THE GROVE
+      Entangling Roots WIP Causes the target to spawn a treant upon death, stackable. Enemies that die while rooted spread the effect to a nearby enemy
+      Force of Nature WIP "Bloodlusts" all friendly treants and ancients in the map. Reset treants within the cast area and refund mana for every treant not summoned
+      Thorns Aura WIP Enemies that hit an ally and attempt to get out of the aura range will be automatically rooted
+      Tranquility WIP Summons a copy of itself with improved abilities while casting
+
+    PRIESTESS OF THE MOON
+      Scout WIP
+      Searing Arrows WIP
+      Trueshot Aura WIP
+      Starfall WIP
+
+    WARDEN
+      Fan of Knives WIP
+      Blink WIP
+      Shadow Strike WIP
+      Avatar of Vengeance WIP
+
+  NEUTRAL
+    ALCHEMIST
+      Healing Spray WIP
+      Acid Bomb WIP
+      Chemical Rage WIP
+      Transmute WIP
+
+    BEASTMASTER
+      Summon Bear WIP
+      Summon Boar WIP
+      Summon Hawk WIP
+      Stampede WIP
+
+    DARK RANGER
+      Silence WIP
+      Black Arrows WIP
+      Life Drain WIP
+      Charm WIP
+
+    FIRELORD
+      Soul Burn WIP
+      Summon Lava Spawn WIP
+      Incinerate WIP
+      Volcano WIP
+
+    NAGA SEA WITCH
+      Forked Lightning WIP
+      Frost Arrows WIP
+      Mana Siphon WIP
+      Tornado WIP
+
+    PANDAREN BREWMASTER
+      Breath of Fire WIP
+      Drunken Haze WIP
+      Drunken Brawler WIP
+      EWF WIP
+
+    PIT LORD
+      Rain of Fire WIP
+      Howl of Terror WIP
+      Cleaving attack WIP
+      Doom WIP
+
+    TINKER
+      Cluster Rockets WIP
+      Pocket Factory WIP
+      Engineering Upgrade WIP
+      Robo-goblin WIP
+
+TECHS AND UNITS
+    HUMAN MARKSWOMEN WIP
+      must finish the main building and attempt a better system for the alternate attack thing
+      no trained  voice line
+      no decay animation
+    HUMAN RAM RIDER WIP
+      no decay animation
+      no trained voice line
+      edit model (with permission) to give it a hammer instead of an axe
+
+    ORC WARLOCK
+      Fear done?
+      Demonic Circle done
+      Demonology WIP
+      Life Tap WIP
+      no trained voice line
+      spirit lodge hp sacrifice
+    ORC OGRE
+      pending ideas
+
+    UNDEAD DEATHRATTLE
+      WIP WIP WIP losta things to do
+      Acolyte Shade spawn/Creates blight/Grants hp
+      Ghoul explodes/buffs/???
+      Skeletons respawn/???
+    UNDEAD VAL'KYRS
+
+    NIGHT ELF MARK OF THE WILD
+    NIGHT ELF NATURE'S BLESSING
+
+INVASIONS
+
+OTHER
