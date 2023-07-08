@@ -1,0 +1,131 @@
+// A 40-second timer will go off once Animate Dead is cast, the same time as the animated dead duration, summoning random undead near the
+// DK over the course of this timer
+// At the end of it, if all 6 Animated Dead survived, Animate Dead will be cast for free again if any corpses are nearby, and this will
+// go on as long as each Animate Dead have 6 animated dead surviving for the whole 40-second timer
+
+// however, for such ability to work, I'll probably have to recreate Animate Dead through triggers...
+
+// TEST: see if it works first, that is, if this new version of animate dead really targets the corpses with highest food cost and keeps their original stored
+
+globals
+  integer array udg_dead_army_dk
+endglobals
+
+// FUNCTIONS
+
+function Get_Foodiest takes nothing returns integer
+
+endfunction
+
+// ACTIONS
+
+// I have no idea how Animate Dead chooses its targets, but for this new one I'm gonna make it so it so it targets the ones with highest food cost
+function Animate_Dead_effect takes nothing returns nothing
+
+  local unit caster = GetTriggerUnit()
+  local unit temp
+  local unit dummy
+  local unit array foodiest
+
+  local real caster_x
+  local real caster_y
+  local real food_x
+  local real food_y
+
+  local integer array deadCount
+  local integer count = 0
+  local integer forCount
+  
+
+  if IsUnitIdType (caster, 'udk') then
+    set caster = GetTriggerUnit()
+    set caster_x = GetUnitX (caster)
+    set caster_y = GetUnitY (caster)
+  else
+    // if a dummy is the caster, it should have its original death knight id stored, then this else will make such dk the caster even though he isn't the triggering unit
+  endif
+  
+  // grab Animate Dead default range thing
+  call GroupEnumUnitsInRange (udg_generic_group, x, y, radius, null)
+
+  // gathers all nearby corpses ------------------------------------------------
+  loop
+    set temp = FirstOfGroup (udg_generic_group)
+    exitwhen temp = null
+
+    if IsUnitType (temp, UNIT_TYPE_DEAD) then
+      set deadCount [count] = GetUnitUserData (temp)
+    endif
+
+    call GroupRemoveUnit (udg_generic_group, temp)
+    set count = count + 1
+  endloop
+  //------------------------------------------------------------------------------------------------
+
+  set count = 0
+  // selects the 6 fattest units for reanimating ******************************
+  loop
+    set temp = udg_integer_array [deadCount(count)]
+    exitwhen temp == null
+    if foodiest [count] == null and count < 6 then
+      set foodiest [count] = temp
+    else
+      set forCount = 5
+      // a for loop to see if the current temp is any fatter than the 6 current units within the array
+      loop
+        exitwhen forCount == -1
+        if GetFoodUsed (GetUnitTypeId (temp)) > GetFoodUsed (GetUnitTypeId(foodiest [count])) then
+          set foodiest [count] = temp
+        endif
+        set forCount = forCount - 1
+      endloop
+    endif
+    set count = count + 1
+  endloop
+  // ******************************************************************************************
+
+  // and now it animates ____________________________________________________
+  set count = 5
+
+  loop
+    exitwhen count = -1
+    set temp = foodiest [count]
+    set udg_dead_army_dk [GetUnitUserData(temp)] = GetUnitUserData (caster)
+    set food_x = GetUnitX (temp)
+    set food_y = GetUnitY (temp)
+    set dummy = CreateUnit (GetOwningUnit (caster), 'h001', food_x, food_y, 0)
+    call UnitAddAbility (dummy, 'animatedeaddummything')
+    call UnitApplyTimedLife (dummy, 'BTLF', 3)
+    call IssueImmediateOrder(dummy, "animatedead")
+    set count = count - 1
+  endloop
+  // ________________________________________________________________________________________________________
+
+  set caster = null
+  set temp = null
+  set dummy = null
+  set foodiest = null
+
+endfunction
+
+// CONDITIONS
+
+function Animate_Dead_cast_Condition takes nothing returns boolean
+  return GetSpellAbilityId()  == 'new animate id'
+endfunction
+
+// TRIGGER
+
+function InitTrig_Army_of_the_Dead takes nothing returns nothing
+
+  local trigger cast = CreateTrigger()
+
+  call TriggerRegisterAnyUnitEventBJ (cast, EVENT_PLAYER_UNIT_SPELL_EFFECT)
+
+  call TriggerAddCondition (cast, Condition (Animate_Dead_cast_Condition) )
+
+  call TriggerAddAction    (cast, function Animate_Dead_effect)
+
+  set cast = null
+
+endfunction
