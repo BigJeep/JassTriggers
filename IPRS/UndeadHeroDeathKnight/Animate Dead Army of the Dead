@@ -5,8 +5,6 @@
 
 // https://www.hiveworkshop.com/threads/request-unit-animation-backwards.266085/
 
-// REMINDER TO CREATE THE NEW DUMMY UNIT AND DUMMY SPELLZ
-
 
 globals
   integer array udg_dead_army_dk
@@ -20,21 +18,23 @@ endglobals
 
 function Army_of_the_Dead takes integer ownerId, integer dkId, real x, real y returns nothing
 
-  local unit dk_dummy = CreateUnit (Player(ownerId), 'newDummy', x, y, 0)
+  local unit dk_dummy = CreateUnit (Player(ownerId), 'h00G', x, y, 0)
   set udg_dead_army_alive [dkId] = 0
   call BlzSetUnitName      (dk_dummy, I2S (dkId))
-  call ApplyTimedLife      (dk_dummy, 'BTLF', 4     )
+  call UnitApplyTimedLife  (dk_dummy, 'BTLF', 4     )
   call IssueImmediateOrder (dk_dummy, "animatedead" )
 
+  call BJDebugMsg ( "Dummy Name: " + GetUnitName(dk_dummy))
   
-  if udg_dead_army_timer [casterId] == null then
-    set udg_dead_army_timer [casterId] = CreateTimer()
+  if udg_dead_army_timer [dkId] == null then
+    set udg_dead_army_timer [dkId] = CreateTimer()
   endif
 
-  call TimerStart (udg_dead_army_timer [casterId], 39, false, null) // must check if this works with an existing but expired timer
+  call TimerStart (udg_dead_army_timer [dkId], 39, false, null) // must check if this works with an existing but expired timer
   
   set dk_dummy = null
 endfunction
+
 
 // ACTIONS =============================================================================================
 
@@ -42,17 +42,24 @@ function Animate_Dead_Death takes nothing returns nothing
 
   local unit dyingDead = GetTriggerUnit()
 
-  local integer dkId   = GetUnitUserData (dyingDead)
+  local integer deadId  = GetUnitUserData (dyingDead)
+  local integer ownerId = GetPlayerId (GetOwningPlayer(dyingDead))
+  local integer dkId = udg_dead_army_dk [deadId]
   local unit dk = udg_unit_array [dkId]
   local real x = GetUnitX (dk)
   local real y = GetUnitY (dk)
   
+  
+  
   if TimerGetRemaining (udg_dead_army_timer [dkId]) > 0 then
     set udg_dead_army_bool [dkId] = false
+	call BJDebugMsg ( "Reanimated died! " + I2S(udg_dead_army_alive [dkId]) + " reanimated remaining for DK " + I2S(dkId))
     // set udg_dead_army_alive [dkId] = 0 // udg_dead_army_alive [dkId] - 1
-  elseif udg_dead_army_alive [dkId] > 0 then
+  elseif udg_dead_army_alive [dkId] > 1 then
+	call BJDebugMsg ( "Reanimated died! " + I2S(udg_dead_army_alive [dkId]) + " reanimated remaining for DK " + I2S(dkId))
     set udg_dead_army_alive [dkId] = udg_dead_army_alive [dkId] - 1
   else
+	call BJDebugMsg ( "All reanimated survived! repeating spell for DK " + I2S(dkId))
     call Army_of_the_Dead (ownerId, dkId, x, y)
   endif
 
@@ -61,7 +68,7 @@ function Animate_Dead_Death takes nothing returns nothing
 endfunction
 
 
-function Animate_Dead_Indexing takes nothing returns nothing
+function Animate_Dead_Indexing takes nothing returns nothing // saves/stores the DK id for each summoned animated dead
   local unit anDead    = GetSummonedUnit()
   local integer deadId = GetUnitUserData (anDead)
   local integer dkId   = S2I (GetUnitName (GetSummoningUnit()))
@@ -69,10 +76,13 @@ function Animate_Dead_Indexing takes nothing returns nothing
   set udg_has_owning_dk [deadId] = true
   set udg_dead_army_alive [dkId] = udg_dead_army_alive [dkId] + 1
   
+  call BJDebugMsg ( "DK ID for new Animated Dead: " + I2S (dkId))
+  call BJDebugMsg ( "ID Stored for " + GetUnitName(anDead) + ": "+ I2S (udg_dead_army_dk  [deadId]))
+  
   set anDead = null
 endfunction
 
-function Animate_Dead_Create_Dummy takes nothing returns nothing
+function Animate_Dead_Create_Dummy takes nothing returns nothing // Creates the first dummy to cast AD, it is named after the DK id integer
 
   local unit caster = GetTriggerUnit()
   local integer casterId = GetUnitUserData (caster)
@@ -80,24 +90,26 @@ function Animate_Dead_Create_Dummy takes nothing returns nothing
   local real x = GetUnitX(caster)
   local real y = GetUnitY(caster)
 
-  call Army_of_the_Dead (casterId, dkId, x, y)
-
+  call Army_of_the_Dead (ownerId, casterId, x, y)
+	
+	call BJDebugMsg ( "DK ID at cast: " + I2S (casterId))
+	
   set caster = null
 
 endfunction
 
 // CONDITIONS ==========================================================================================
 
-function Animate_Dead_Death takes nothing returns boolean
+function Animate_Dead_dying_condition takes nothing returns boolean
   return udg_has_owning_dk [GetUnitUserData(GetTriggerUnit ())]
 endfunction
 
 function Animate_Dead_dummy_Condition takes nothing returns boolean
-  return IsUnitIdType (GetSummoningUnit(), 'newDummy')
+  return GetUnitTypeId(GetSummoningUnit()) == 'h00G'
 endfunction
 
 function Animate_Dead_cast_Condition takes nothing returns boolean
-  return GetSpellAbilityId()  == 'new animate id'
+  return GetSpellAbilityId()  == 'AUan'
 endfunction
 
 // TRIGGER ============================================================================================
@@ -112,9 +124,9 @@ function InitTrig_Army_of_the_Dead takes nothing returns nothing
   call TriggerRegisterAnyUnitEventBJ (dummySpawn, EVENT_PLAYER_UNIT_SUMMON      )
   call TriggerRegisterAnyUnitEventBJ (death,       EVENT_PLAYER_UNIT_DEATH      )
 
-  call TriggerAddCondition (cast,       Condition (Animate_Dead_cast_Condition ))
-  call TriggerAddCondition (dummySpawn, Condition (Animate_Dead_dummy_Condition))
-  call TriggerAddCondition (death,      Condition (Animate_Dead_dying_condition )
+  call TriggerAddCondition (cast,       Condition (function Animate_Dead_cast_Condition ))
+  call TriggerAddCondition (dummySpawn, Condition (function Animate_Dead_dummy_Condition))
+  call TriggerAddCondition (death,      Condition (function Animate_Dead_dying_condition))
 
   call TriggerAddAction    (cast,       function Animate_Dead_Create_Dummy)
   call TriggerAddAction    (dummySpawn, function Animate_Dead_Indexing    )
