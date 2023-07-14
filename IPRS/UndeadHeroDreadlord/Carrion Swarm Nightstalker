@@ -7,6 +7,7 @@ globals
   integer array udg_nightstalker_dreadlord
   integer array udg_nightstalker_swarm
   timer   array udg_nightstalker_timer
+  trigger       udg_carrion_swarm_trigger
 endglobals
 
 // ACTION --------------------------------------------------
@@ -16,27 +17,28 @@ function Nightstalker_cast takes nothing returns nothing
   local player p = GetOwningPlayer(caster)
   local integer casterId = GetUnitUserData(caster)
   local integer swarmId
-  //
-  // MATHS HERE (to find the end of the trajectory
-  //
-  local real x = 
-  local real y = 
+  local real caster_x = GetUnitX(caster)
+  local real caster_y = GetUnitY(caster)
+	local real radian_angle = Atan2(GetSpellTargetY() - caster_y, GetSpellTargetX() - caster_x)
+  local real target_x = caster_x + (distance * (Cos(radian_angle)))
+  local real target_y = caster_y + (distance * (Sin(radian_angle)))
+	  
   
-  set temp    = CreateUnit (p, 'carrionswarmdummy', x, y, 0)
+  set temp    = CreateUnit (p, 'carrionswarmdummy', target_x, target_y, 0)
   set swarmId = GetUnitUserData (temp)
   set udg_nightstalker_swarm [swarmId] = casterId
-  set udg_nightstalker_timer [swarmId] = // set timer here
-  //
-  // timer stuff here
-  //
+  set udg_nightstalker_timer [swarmId] = CreateTimer()
+
+  call TimerStart (udg_nightstalker_timer [swarmId], 6, false, null)
+  call TriggerRegisterTimerExpireEvent (udg_carrion_swarm_trigger, udg_nightstalker_timer [swarmId])
+
   call UnitAddAbility      (temp, 'Aloc') // added later so it can adquire a custom value
   call UnitApplyTimedLife  (temp, 'BTLF', 10)
   call SetUnitAbilityLevel (temp, 'carrionswarm', GetUnitAbilityLevel (caster, 'carrionswarm') // set correct id
-  
-  //
-  // add invisibility to the dreadlord here!
-  //
-  
+
+  call UnitAddAbility (caster, 'invisibility here')
+  call UnitAddAbility (caster, 'Bash here')
+
   set caster = null
   set temp   = null
   set p      = null
@@ -55,17 +57,11 @@ endfunction
 
 // CONDITION -----------------------------------------------
 function Nightstalker_cast_condition takes nothing returns boolean
-local boolean b = false
-if GetSpellAbilityId() == 'carrion swarm' then
-  set b = true
-endif
-return b
+  return GetSpellAbilityId() == 'carrion swarm'
 endfunction
 
 function Nightstalker_recast_condition takes nothing returns nothing
-local boolean b = false
-// timer running out is ...
-return b
+  return GetAbilityLevel
 endfunction
 
 //
@@ -76,24 +72,21 @@ endfunction
 // TRIGGER -------------------------------------------------
 function InitTrig_Nightstalker takes nothing returns nothing
   
-  local trigger cast   = CreateTrigger()
-  local trigger recast = CreateTrigger()
-  local trigger stab   = CreateTrigger()
+  local trigger cast = CreateTrigger()
+  local trigger stab = CreateTrigger()
+  
 
   call TriggerRegisterAnyUnitEventBj   (cast,   EVENT_PLAYER_UNIT_SPELL_EFFECT)
-  call TriggerRegisterTimerExpireEvent (recast, // ???)
-  call TriggerRegisterAnyUnitEventBj   (stab,   EVENT_PLAYER_UNIT_ATTACKED)
+  call TriggerRegisterAnyUnitEventBj   (stab,   EVENT_PLAYER_UNIT_DAMAGED)
   
   call TriggerAddCondition (cast,   Condition (function Nightstalker_cast_condition  ) )
-  call TriggerAddCondition (recast, Condition (function Nightstalker_recast_condition) )
   call TriggerAddCondition (stab,   Condition (function Nightstalker_stab_condition  ) )
   
   call TriggerAddAction (cast,   function Nightstalker_cast  )
-  call TriggerAddAction (recast, function Nightstalker_recast)
+  call TriggerAddAction (udg_carrion_swarm_trigger, function Nightstalker_recast)
   call TriggerAddAction (stab,   function Nightstalker_stab  )
   
   set cast   = null
-  set recast = null
-  set stan   = null
+  set stab   = null
 
 endfunction
