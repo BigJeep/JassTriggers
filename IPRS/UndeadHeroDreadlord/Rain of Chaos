@@ -45,11 +45,7 @@ function RainOfChaos takes nothing returns nothing
 endfunction
 
 function RainOfChaos_Condition takes nothing returns boolean
-  local boolean b = false
-  if GetSpellAbilityId() == 'InfernoId' then //set correct id
-    set b = true
-  endif
-  return b
+  return GetSpellAbilityId() == 'InfernoId' then //set correct id
 endfunction
 
 function InitTrig_Rain_Of_Chaos takes nothing returns nothing
