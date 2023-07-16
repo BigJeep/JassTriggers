@@ -1,3 +1,5 @@
+ - prefix variables according to their type (i_, r_, u_, p_ etc.)
+ - functions described in comment lines at the top of a file
  - create the least amount of (global?) groups and reuse them instead of creating new temp groups
  - the same thing could be said about units and other leaking handles maybe?
  - a single trigger that creates the triggers for all other spells
