@@ -1,5 +1,5 @@
 
-ACTIONS ==================================================
+// ACTIONS ==================================================
 
 function Eye_Beam takes nothing returns nothing
 endfunction
@@ -9,7 +9,7 @@ function Eye_Beam_Condition takes nothing returns boolean
   return GetSpellAbilityId () == eyebeam
 endfunction
 
-TRIGGER ==================================================
+// TRIGGER ==================================================
 function InitTrig_Eye_Beam takes nothing returns nothing
 
   local trigger cast = CreateTrigger()
