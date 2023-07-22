@@ -1,0 +1,81 @@
+
+function Revive_Hero_A takes nothing returns nothing
+
+  local unit caster = GetTriggerUnit()
+  local unit otherCaster
+  local unit heroReviving
+
+  local integer casterOwner = GetPlayerId (GetOwningUnit (caster))
+
+  local real caster_x = GetUnitX (caster)
+  local real caster_y = GetUnitY (caster)
+  local real otherCaster_x
+  local real otherCaster_y
+  local real revivingHero_x
+  local real revivingHero_y
+  local real revivePoint
+
+  local count = 0
+  
+
+  loop
+    
+    exitwhen count > udg_index or heroReviving != null
+    
+    if GetOwningPlayer (udg_unit_array [count]) == Player (casterOwner) and IsUnitType (udg_unit_array [count], UNIT_TYPE_HERO) and IsUnitType (udg_unit_array [count], UNIT_TYPE_DEAD) then
+      set heroReviving = udg_unit_array [count]
+    endif
+    
+    set count = count + 1
+
+  endloop
+
+  set count = 0
+
+  loop
+    exitwhen count > udg_index or otherCaster != null
+    if  GetOwningPlayer (udg_unit_array [count]) == Player and 
+        udg_unit_array [count] != caster and
+        GetUnitTypeId (udg_unit_array [count]) == Valkyr1 or 
+        GetUnitTypeId (udg_unit_array [count]) == Valkyr1air or 
+        GetUnitTypeId (udg_unit_array [count]) == Valkyr2 or 
+        GetUnitTypeId (udg_unit_array [count]) == Valkyr2air then
+  // sort this ///////////////////////////////////////////////////
+      set otherCaster = udg_unit_array [count]
+      set otherCaster_x = GetUnitX (otherCaster)
+      set otherCaster_y = GetUnitY (otherCaster)
+    endif
+    
+    set count = count + 1
+
+  endloop
+
+  set revivingHero_x = caster_x - otherCaster_x
+  set revivingHero_x = caster_x - otherCaster_x
+  /////////// HERE
+
+  if heroReviving != null and then
+    
+  endif
+
+  set caster = null
+  set otherCaster = null
+  set heroReviving = null
+
+endfunction
+
+function Revive_Hero_C takes nothing returns boolean
+  return GetSpellAbilityId() == valkyrrevive
+endfunction
+
+function InitTrig_Revive_Hero takes nothing returns nothing
+
+  local trigger t = CreateTrigger()
+
+  call TriggerRegisterAnyUnitEventBJ (t, EVENT_PLAYER_UNIT_SPELL_EFFECT)
+  call TriggerAddCondition (t, Condition (function Revive_Hero_C)
+  call TriggerAddFunction  (t, function Revive_Hero_A)
+
+  set t = null
+
+endfunction
