@@ -1,4 +1,6 @@
+/*
 //============================================================================
+
 // Randomization API
 native GetRandomInt takes integer lowBound, integer highBound returns integer
 native GetRandomReal takes real lowBound, real highBound returns real
@@ -23,3 +25,118 @@ native ChooseRandomItemEx       takes itemtype whichType, integer level returns 
 native SetRandomSeed            takes integer seed returns nothing
 
 //============================================================================
+*/
+
+globals
+  hashtable udg_Food_Table = InitHashtable ()
+  hashtable udg_Evolve_Duration = InitHashtable ()
+endglobals
+
+function UnitFoodGroups takes nothing returns nothing
+  // Food 0
+  call SaveInteger (udg_Food_Table, 0, 0, '')
+
+  // Food 1
+  call SaveInteger (udg_Food_Table, 1, 0, '') // Peasant
+  call SaveInteger (udg_Food_Table, 1, 1, '') // Flying Machine
+  call SaveInteger (udg_Food_Table, 1, 2, '') // Peon ...
+
+  // Food 2
+  call SaveInteger (udg_Food_Table, 2, 0, '')
+
+  // Food 3
+  call SaveInteger (udg_Food_Table, 3, 0, '')
+
+  // Food 4
+  call SaveInteger (udg_Food_Table, 4, 0, '')
+
+  // Food 5
+  call SaveInteger (udg_Food_Table, 5, 0, '')
+
+  // Food 6
+  call SaveInteger (udg_Food_Table, 6, 0, '')
+
+  // Food 7
+  call SaveInteger (udg_Food_Table, 7, 0, '')
+
+  // Food 8
+  call SaveInteger (udg_Food_Table, 8, 0, '')
+
+endfunction
+
+//==============================================================================
+//==============================================================================
+//==============================================================================
+
+function EvolveUnit takes unit target, integer evolveAmount, real duration, boolean healTarget returns nothing
+
+  local integer rngInt = GetRandomInt
+  local integer targetFood = GetFoodUsed (target)
+  local integer newTypeId = LoadInteger (udg_Food_Table, targetFood, GetRandomInt (0, highboundhere) )
+
+  
+
+endfunction
+
+
+
+//==============================================================================
+//==============================================================================
+//==============================================================================
+
+// ACTIONS
+
+// level 1 evolves up to 4 food
+// level 2 evolves up to 5
+// level 3 evolves up to 6
+
+
+function Hex_Evolve_A takes nothing returns nothing
+
+  local unit caster = GetTriggerUnit()
+  local unit target = GetSpellTargetUnit()
+
+  local real duration = 120
+  local integer evolveAmount = 1
+  local boolean willHeal = false
+
+  local integer casterOwner = GetPlayerId (GetOwningPlayer (caster))
+  local integer targetOwner = GetPlayerId (GetOwningPlayer (target))
+
+  local boolean isTargetAlly = IsUnitAlly (target, Player (casterOwner))
+  local boolean isNotHero = not IsUnitType (target, UNIT_TYPE_HERO)
+  
+  local integer maxFood = 3 + GetUnitAbilityLevel (caster, hex)
+
+  if isTargetAlly then
+    if isNotHero and GetFoodUsed (target) < maxFood then
+
+      call EvolveUnit (target, evolveAmount, duration, willHeal)
+      
+    else 
+      call IssueImmediateOrder (caster, "stop")
+    endif
+
+  endif
+
+  set caster = null
+  set target = null
+
+endfunction
+
+
+//==============================================================================
+// CONDITIONS
+
+function Hex_Evolve_C takes nothing returns boolean
+  return GetSpellAbilityId () == hex
+endfunction
+
+//==============================================================================
+// TRIGGERS
+
+function InitTrig_Evolve takes nothing returns nothing
+
+  local trigger t = CreateTrigger()
+
+endfunction
