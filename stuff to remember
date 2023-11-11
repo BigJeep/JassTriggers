@@ -1,3 +1,7 @@
+ - function for damage and healing triggers
+ - function for buffs
+ - function for hidden evasion, block and magic resistance (just maybe)
+ - function for damage types?
  - prefix variables according to their type (i_, r_, u_, p_ etc.)
  - functions described in comment lines at the top of a file
  - create the least amount of (global?) groups and reuse them instead of creating new temp groups
