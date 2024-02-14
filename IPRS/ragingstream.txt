@@ -1,22 +1,4 @@
-Muito bem, no ritmo que estou eu vou demorar uma COTA para completar, mas não quero esperar até estar completo ou sequer quase completo para publicar no map development, então vou fazer uma listinha das coisas que quero que estejam preparadas antes de eu publicar no development. Elas devem demonstrar os essenciais e vender o que o mapa tem a oferecer
-
-Invasões (quase) prontas
-Itens prontos
-Techs: Warlock concluído, Markswoman e Ram rider quase prontos (edicao de modelos pendente), Druidas prontos ao máximo que eu puder, Val'Kyrs com pelo menos alguns Deathrattles
-Heróis prontos:
-		
-	Death Knight
-	Dreadlord
-	Keeper of the Grove
-	Demon Hunter
-	Alchemist
-	Naga Sea Witch
-
-Ideias que provavelmente só levarei para o próximo mapa:
-		Upgrades Workshop (Mortar Team suicida, Gnomos de dinamite, Tanque de transporte)
-		Ogros
-		Cold Wraith (e outras coisas undead do Alpha)
-		Arquidruida
+Muitas coisas foram removidas. Irei deixar apenas os talentos e o sistema de invasão. Esse documento pode não ser necessariamente o mais atualizado pois estou anotando progresso em uma planilha agora. Irei tentar fazer uma limpeza nesse arquivo aqui, mas capaz de deixar informação errada ou outra passar
 
 
 Marcar com WIP as habilidades ainda não concluídas
@@ -58,12 +40,12 @@ Sistema de invasões:
 Recompensas de invasão
 	
 	Dropados por não heróis (não por unidades, apenas dado ao jogador ao fim de uma invasão)
-		Restoriation Rune
+		Restoration Rune
 		Healing Rune
 		Mana Rune
 		Res Rune
 		Rune of Speed
-		Conjurer's Amulet, Warlock's Charm, Gorefiend's Rune, Cenarian Protector.
+		Conjurer's Amulet, Warlock's Charm, Gorefiend's Rune, Cenarion Ward. (ler sobre abaixo)
 		Tome of Power
 	
 	Charged:
@@ -118,152 +100,16 @@ Os itens abaixo são mais raros e excepcionalmente fortes. Apenas um pode existi
 	Diamond of Summoning (nerfado)
 	
 
-Atualização deste documento:
-	
+
+Atualização da primeira versão do mapa:
 	Efeitos bônus agora se chamam talentos, estão disponíveis desde o primeiro nível, e foram reworkados e balanceados de acordo.
-	Unidades começam com um backpack de 1 único slot, e upgrade do backpack expande para 2 (ou 3?)
-	Unidades neutras podem dropar itens com nome colorido que, quando adquiridos por uma unidade não-heroi, faz o item ser usado automaticamente nela
 	Invasões agora ocorrem na base do player atacante ao invés do player atacado. 
-	Latent Powers, habilidades extras para casters que precisam ser desbloqueados de alguma forma
-	
-	Humanos recebem duas unidades novas: Markswomen e Ram Rider
-		Markswomen é uma nova unidade disponível no Arcane Sanctum, ambos disponíveis no Tier 1. Possuem alto dano e podem alternar entre ataques mágicos e ataques físicos com bônus contra inimigos resistentes, mas são frágeis e não possuem upgrades de dano
-		Ram Rider são iguais a Knights, possuindo menos dano em troca de ataques que repelem inimigos, além de dano de cerco (ou demolish)
-	
-	Orcs continuam com o Warlock, reworkado:
-		Life Tap é um Autocast que converte 75 pontos de vida em 100 pontos de mana
-		Fear faz uma unidade fugir na direção oposta do Warlock. Dano não quebra o efeito
-		Demonic Circle é uma unidade imóvel de 320 pontos de vida que pode teleportar uma unidade aliada até ela, causando 100 de dano a ambos. É possível clicar com o botão direito no círculo para forçar ele a usar a habilidade na unidade selecionada.
-		Demonology gasta todo o mana do Warlock para evocar um demônio para atacar um alvo, com o demônio variando do tipo de alvo e poder variando de acordo com o mana gasto. Pode ser usado em outros demônios para tentar tomar controle deles ao invés disso
-	
-		Ogre (nome pendente), duas unidades em uma, inspirado em Cho'Gall do Heroes of the Storm, recrutado no Barracks e custa 6 food.
-		Selecionar essa unidade selecionará uma segunda automaticamente, como se fosse a segunda cabeça.
-		Algumas de suas habilidades incluem Olho de Kilrogg, tipo um Scout não controlável; Ogremancy, alguma coisa relacionada a evocar esqueletos de Orc Grunts e outros Ogros; e alguma habilidade relacionada a buff para aliados relativo a seus custos de comida
-		E um ou outra habilidade relacionadas a uma cabeça buffar a outra
-		Suas skins alternam entre ogros amarelos e azuis
-	
-	
-	Undead
-		Deathrattle (fazer ícone!): upgrade gratuito que concede habilidades às unidades morta-vivas que são utilizadas apenas no momento da morte delas
-			Acolyte: 
-				Call of Naxxramas: Blighta o chão. Se já estiver, spawna um Shade temporário
-				Dredge: Mesmo que acima, exceto que cura aliados ao invés de spawnar um shade
-			Shade:
-				Haunt: Assombra um inimigo, revelando-o. Se ele morrer, o shade respawna com o mesmo Deathrattle
-				???: Blighta e revela a área
-			Ghoul: 
-				Grave Strength: Buffa aliados próximos
-				???: O próximo undead terrestre que evocado ou treinado pelo jogador será acompanhado de um Ghoul ou Geist
-				???: Casta o deathrattle de um cadáver canibalizado
-			C.Fiend: 
-				Nerubian Egg: Deixa um ovo para trás que, se sobreviver por uma cota, irá evocar um Nerubian aleatório
-				Spider alguma coisa: alguma coisa relacionada a aranhas e Web
-			Gargoyle: 
-				Vira estátua ao morrer
-			Banshee: 
-				Windrunner: Charm temporário
-				Lament: Silence em área, também casta Psychic Scream se estiver desbloqueado
-			Necro: 
-				Advanced Necromancy: O próximo inimigo morto pelo jogador evoca um Skeleton Warrior e um Skeleton Mage
-				Spectral Harvester: Vira um fantasma que não pode atacar mas pode usar as mesmas magias
-			Abomination: 
-				Explode ao morrer, jogando projeteis em todas as direções
-				???: Casta todos os Deathrattles de unidades canibalizadas
-			Meat Wagon: 
-				Evoca o minion de um dos cadáveres que estavam armazenados
-				Plagued Grain: Cria uma nuvem de Disease Cloud e faz com que os próximos inimigos mortos sob efeito de Disease Cloud spawnem Zombies ou Ghouls aleatóriamente
-			Obsidian Statue: 
-				Despicable Priest: destrói um inimigo aleatório que custe 3 food
-				Dark Pharaoh: Spawna um destroyer terrestre
-			Destroyer: 
-				Obsidian Tol'Vir: evoca beetlezinhos
-				Tomb Defender: Revive com 10% de vida restante
-			Frost Wyrm:
-				Shatter: Causa dano a todos os inimigos gelados ou congelados próximos, incluindo estruturas
-				
-				
-			Skeleton (todos):
-				Eternal Servitude: 50% de chance de respawnar ao morrer. Chance é reduzida pela metade toda vez que revive.
-				Eternal Knight: Buffa o próximo Skeleton evoccado pelo player
-			Skeleton Warrior:
-				Skeletal Sidekick: Quando o próximo Skeleton Warrior for evocado, um Skeleton Archer será evocado junto a ele
-				???: Quando o próximo Skeleton Warrior for evocado, um Giant Skeleton Warrior irá substituí-lo
-			Skeleton Mage:
-				Hunger for Vengeance/Scarlet something: ? referencia ao Thalnos, precisa ser algo simples
-				Basic Necromancy: Faz com que a próxima unidade que o jogador matar evoque um Skeleton Warrior
-			Skeleton Archer:
-				Bone and Marrow: Quando o próximo Skeleton Archer for evocado, um Skeletal Marksman irá substituí-lo
-			Giant Skeleton Warrior:
-				Burning Archer: Quando o próximo Giant Skeleton Warrior for evocado, um Burning Archer será evocado junto a ele
-			Skeletal Marksman e Burning Archer
-				Necromancy Amplifier: Extende o Timed Life de todos os esqueletos do jogador
-				
-				
-			
-		Val'Kyr (Twins): Caster voadora E terrestre recrutada no Bone yard ou Temple of the Damned. 
-			Limitadas a apenas duas por jogador, e cada uma possuirá habilidades diferentes. Suas habilidades são voltadas a evocação e sinergia com deathrattles.
-			A primeira possuirá as seguintes habilidades: 
-				seleciona um cadáver para reviver, aliado ou inimigo, sem consumir o corpo. Contudo, se a unidade selecionada custar mais de 3 de comida, um outro undead específico será evocado
-				faz com que o deathrattle do alvo ative duas vezes
-			A segunda:
-				dano e cura imediato respectivamente, a todos os inimigos e aliados posicionados em blighted ground
-				ativa o deathrattle de um aliado sem matá-lo
-			Ambas possuem duas habilidades em comum: Flight, que as permite voar, e uma outra que, se estiverem juntas, as sacrifica para reviver um herói!
-		
-		
-		
-			
-	Night Elf
-		Night Warrior removido
-		Mark of the Wild: upgrade gratuito disponível no Huntress Hall, permitindo, depois de pesquisado, que Druidas se transformem em poderosas unidades alternativas além das originais, com efeitos adicionais imediatos no momento da transformação.
-		Moonkin Form (Druid of the Talon)
-			Unidade de longo alcance com dano tipo mágico com habilidades que alternam entre dia e noite, dependendo do momento em que se transformou
-		Cat Form (Druid of the Claw)
-			Unidade que causa dano adicional equivalente a vida máxima do alvo, além de bonus contra unarmoreds, fica invisivel no momento da transformação, permitindo dar um backstab que ou causa sangramento (de vida máxima) ou talvez stunne
-		Nature's Blessing concede habilidades ao Ancients
-			Tree of Life e seus upgrades é relacionado a Wisps, sei lá
-			Ancient of War casta Roar
-			Ancient of Lore casta Abolish e Rejuvenation
-			Ancient of Wind casta Cyclone, e voaria também se eu tivesse um modelo
-			Ancient of Wonder ?
-			Ancient Protector tem ataques com knockback
-			
-			
-Super Pendentes
-	
-	fazer os Computer usar as tech novas
-
-outras ideias:
-	Ram Riders atropelarem
-	Trocar o modelo do Warlock por aquele maneirão do necrolyte na Hive
-	inimigos neutros que spawnam e respawnam pelo mapa
-	Wyrmtongue rodando o mapa, vendendo itens de nome colorido
-
-
-Ideias que irei intencionalmente deixar para meu próximo mapa mas podia ter colocado aqui:
-
-	Unidades
-		??? (Gnomo de dinamite): posso mudar de ideia de acordo com o repertório de modelos disponíveis, mas por enquanto a ideia é uma espécie de gnomo rogue que pode usar stealth e usar explosivos, além de explodir ao morrer. Treinado na Workshop
-		Ogre: Duas unidades em uma, inspirado no Cho'Gall. Ao selecionar a unidade a "segunda cabeça" é selecionada, e cada cabeça possui suas próprias habilidades. 
-			Como é um exagero colocar outra unidade "pesada" quando Orcs já possuem Tauren, eu quero que ele possua uma sinergia direta com eles, talvez algum buff relacionado a unidades que custam mais de 3 ou 4 de comida
-			Também possuem um upgrade que permitam que sejam recrutados no fucking altar
-		Twin Val'kyrs: Uma caster voadora poderosa, porém limitada a apenas duas por jogador (preferencialmente com medidas que impeçam o jogador de exploitar e tirar uma terceira do rabo). Algumas ideias incluem as habilidades delas mudarem se o jogador possuir só uma ou ambas.
-			Treinadas no Temple of the Damned ou no Boneyard, com upgrade que não só permita que elas também sejam treinadas no altar, mas que o altar treine as duas de uma vez.
-		??? para nelves...
-	
-	Upgrades:
-	
-		Flare de curto alcance para Riflemen. Upgrade movido para Barracks (ainda serve para mortar team)
-		Demolition Squad, upgrade que permite Mortar Team, Siege Engine e Gnomos explodirem ao morrer, causando dano a inimigos.
-		
-		Dirt Eater. Algum upgrade para Canibalize, além de Canibalize já vir desbloqueado por padrão (outra referencia ao alpha)
-		
-	Outros
-	
-	Un-siege Tank, ou algum nome menos tosco, que permite tanques virarem aquela versão com bola de demolição e ataques melee, mas permitindo que unidades sejam carregadas dentro, com Riflemen atacando e Peasants consertando
-	Tauren renomeado para Tauren Bull porque eu quero
-	Evocação de Abominations fundindo diversos Ghouls
-	Greater Summon Building para alguma unidade dos undead, que permita a contrução de Spires, Nerubian Towers e Tree of Woe
+	Não há mais techs novas. Estive desenvolvendo um pouco para cada raça, mas decidi descartar e manter os talentos e invasões do mapa como único apelo
+	Haverá um item novo no shop de cada raça:
+		Conjurer's Amulet: Evoca um escorpião capaz de segurar unidades e envenena-las com um veneno que drena mana
+		Warlock's Charm: Evoca uma aranha que salta nos alvos para ataca-los, envenena, e também pode lançar teias
+		Gorefiend's Rune: Cria um tornado na área alvo que puxa todos os inimigos para o centro
+		Cenarion Ward: Constrói um Ancient Protector a la Ivory Tower
 	
 	
 Talentos do Raging Stream. Os que ainda não foram concluídos colocarei um WIP na descrição
@@ -272,31 +118,31 @@ Talentos do Raging Stream. Os que ainda não foram concluídos colocarei um WIP 
 	// HUMAN
 
 	Paladin 	Holy Light 		Excesso de cura ou dano é distribuído a unidades próximas ao alvo. Aliados afetados tem mana restaurado e inimigos possuem mana queimado
-	Paladin		Divine Shield	Também aplica Divine Shield a unidades aliadas "encostadas" no Paladin
-	Paladin		Devotion Aura	Heróis aliados afetados que entrarem em combate recebem um buff temporário de atributos
-	Paladin		Res				Ressucitar uma unica unidade reseta o cooldown
+	Paladin		Divine Shield		Também aplica Divine Shield a unidades aliadas "encostadas" no Paladin
+	Paladin		Devotion Aura		Heróis aliados afetados que entrarem em combate recebem um buff temporário de atributos
+	Paladin		Res			Reduz cd e retorna mana para cada aliado revivido abaixo do limite
 	Archmatge	Blizzard		Recebe um Anti-Magic Shell temporário enquanto estiver castando Blizzard
-	Archmage 	Water Elemental Ensnare em inimigos próximos, isso é, um root que também derruba voadores. Inimigos derrotados enquanto enraizados evocarão elementais adicionais para o Archmage
-	Archmage	B. Aura			Desbloqueia os Latent Power de Casters afetados pela Aura
-	Archmage	Mass Teleport	Deixa uma cópia temporária do Archmage para trás
+	Archmage 	Water Elemental 	Ensnare em inimigos próximos (derruba flyers). Inimigos derrotados enquanto enraizados evocarão elementais adicionais para o Archmage
+	Archmage	B. Aura			(WIP)
+	Archmage	Mass Teleport		Deixa uma cópia temporária do Archmage para trás
 	M.King		Bolt			afeta inimigos no caminho, com efeito reduzido
-	M.King		Thunder Clap	(re-)stunna inimigos stunados
+	M.King		Thunder Clap		(re-)stunna inimigos stunados
 	M.King		Bash			Atacar um inimigo stunado repele todos os outros proximos ao mk
 	M.King		Avatar			(WIP) Aplica Avatar em todos os anões aliados próximos também
 	B. Mage		Flamestrike		(WIP)
 	B. Mage		Banish			(WIP)
-	B. Mage		Mana Siphon		(WIP?) evoca um golem com stats proporcionais ao menor percentual de mana entre a vítima e o BM
+	B. Mage		Mana Siphon		(WIP) 
 	B. Mage		Phoenix			(WIP) Mana gasto ou recuperado pelo Blood Mage cura a Fênix e aumenta a vida do próximo ovo. Quando a Fenix renascer, o Blood Mage recebe um buff proporcional a vida restante do ovo
 	
 	// ORC
 
-	Blademaster Wind Walk 		(WIP) ainda revela inimigos com duração relativa a nível da habilidade. 
-	Blademaster Mirror Image 	(WIP) clicar com o botão direto em uma ilusão troca as posições do Blademaster e da ilusão
-	Blademaster Critical Strike	(WIP) 
-	Blademaster Bladestorm 		(WIP) Ilusões castam Bladestorm também
+	Blademaster 	Wind Walk 		(WIP) ainda revela inimigos com duração relativa a nível da habilidade. 
+	Blademaster 	Mirror Image 		(WIP) clicar com o botão direto em uma ilusão troca as posições do Blademaster e da ilusão
+	Blademaster 	Critical Strike		(WIP) matar um inimigo faz o dano excedente ser direcionado para o herói inimigo mais próximo
+	Blademaster 	Bladestorm 		(WIP) Ilusões castam Bladestorm também
 	Far Seer 	Chain L.	 	(WIP)
 	Far Seer 	Far Sight 		Causa dano a inimigos no centro, não aumenta com nível
-	Far Seer 	Spirit Wolves 	Concede ao lobos um buff relacionado a última habilidade: Chain Lightning ao morrer, True Sight e movespeed bonus pelo Far Sight e Duração permanente com bonus de vida e demolish pelo Earthquake
+	Far Seer 	Spirit Wolves 		Concede ao lobos um buff relacionado a última habilidade: Chain Lightning ao morrer, Far Sight: T. Sight e movespeed, Earthquake: permanente + bonus de vida + demolish
 	Far Seer	Earthquake		Evoca um Rock ou Granite Golem ao destruir uma estrutura, vida da estrutura determina o Golem
 	Tauren C.	Shockwave 		Explode no final, causando dano extra com slow
 	Tauren C.	War Stomp 		(WIP) Repetido uma vez adicional à frente do TC, e mais uma vez por nível da habilidade
@@ -379,13 +225,3 @@ Talentos do Raging Stream. Os que ainda não foram concluídos colocarei um WIP 
 	Beastmaster Stampede		(WIP) 
 	
 	
-(*) novas spells
-	Priest: 			Silence em alvo unico
-	Sorceress: 			Splitting Image. Casta Illusion em uma unidade aliada, ou melhor, Mirror Image, pois o alvo também irá deslocar no local. Para apelo maior, a ilusão também causará dano.
-	Shaman: 			Earth Shield, igual Lightning Shield só que repele
-	Witch Doctor: 		Devolve (transforma em unidade inferior, mantem hp)
-	Spirit Walker: 		Astral Recall. Igual Staff of Sanctuary, mas se for usado com uma unidade que estiver sob o efeito ela trocará de lugar com a nova
-	Necromancer: 		? Dark Transformation. Transforma um undead em outro undead aleatório
-	Banshee: Fear. 		Psychic Scream. AoE Fear
-	Druid of the Claw: 	Barkskin. Resistant + Hardened Skin para um aliado.
-	Druid of the Talon: Innervate. Mana para um aliado
