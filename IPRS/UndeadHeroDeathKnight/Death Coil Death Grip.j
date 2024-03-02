@@ -31,7 +31,8 @@ function Grip_cdCheck takes nothing returns nothing
 	
 	call BlzUnitHideAbility  (caster, 'AUdc', false)
 	call BlzUnitHideAbility  (caster, 'A01H', true )
-		
+	
+	call FlushChildHashtable (dks_with_death_grip_hash, 0) 
 	call PauseTimer   (t)
 	call DestroyTimer (t)
 	set t = null
