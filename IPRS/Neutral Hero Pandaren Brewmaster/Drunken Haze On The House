@@ -1,0 +1,81 @@
+// While on cooldown, Drunken Haze is replaced with On the House
+// On the house is like a preservation effect, but transports the unit to a Tavern.
+
+globals
+
+  timer array udg_onthehouse_cd_timer
+  hashtable brewmaster_onthehouse_hashtable = InitHashtable()
+
+endglobals
+
+// FUNCTIONS
+
+function Action_On_The_House takes nothing returns nothing
+ // do stuff here
+endfunction
+
+function On_The_House_cdCheck takes nothing returns nothing
+
+	local timer t = GetExpiredTimer ()
+	local integer casterId = LoadInteger(brewmaster_onthehouse_hashtable, 0, GetHandleId(GetExpiredTimer()))
+	local unit caster = udg_unit_array [casterId]
+	
+	call BJDebugMsg ( R2S (casterId) )
+	
+	call BlzUnitHideAbility  (caster, '', false)
+	call BlzUnitHideAbility  (caster, '', true )
+	
+	call FlushChildHashtable (brewmaster_onthehouse_hashtable, 0) 
+	call PauseTimer   (t)
+	call DestroyTimer (t)
+	set t = null
+	set caster = null
+endfunction
+
+// ACTIONS
+
+function Action_Haze_To_House takes nothing returns nothing
+ 	local unit caster = GetTriggerUnit()
+	local integer casterId = GetUnitUserData (caster)
+	
+  call BlzUnitHideAbility  (caster, '', true )
+	call BlzUnitHideAbility  (caster, '', false )
+	call UnitAddAbility      (caster, '')
+	call SetUnitAbilityLevel (caster, '', coilLevel)
+	
+	set udg_onthehouse_cd_timer [casterId] = CreateTimer()
+	call SaveInteger(brewmaster_onthehouse_hashtable, 0, GetHandleId(udg_onthehouse_cd_timer [casterId]), casterId)
+	call TimerStart (udg_onthehouse_cd_timer [casterId], 6, false, function On_The_House_cdCheck)
+	
+	set caster = null
+endfunction
+
+// CONDITIONS
+
+function Condition_On_The_House takes nothing returns boolean
+  return GetSpellAbilityId() = 'NBdh' // just guessing, must check if this id is the right one
+endfunction
+
+function Condition_Haze_To_House takes nothing returns boolean
+  return GetSpellAbilityId() = '' // new spell effect
+endfunction
+
+// TRIGGERS
+function InitTrig_On_the_house takes nothing returns nothing
+
+  local trigger haze_cast = CreateTrigger()
+  local trigger onthehouse = CreateTigger()
+  
+  call TriggerRegisterAnyUnitEventBJ (haze_cast, EVENT_PLAYER_UNIT_SPELL_EFFECT)
+  call TriggerRegisterAnyUnitEventBJ (onthehouse, EVENT_PLAYER_UNIT_SPELL_EFFECT)
+  
+  call TriggerAddCondition (haze_cast, Condition (function Condition_Haze_To_House))
+  call TriggerAddCondition (onthehouse, Condition (function Condition_On_The_House))
+
+  call TriggerAddAction (onthehouse, funcion Action_On_The_House)
+  call TriggerAddAction (haze_cast, funcion Action_Haze_To_House)
+
+  set haze_cast = null
+  set onthehouse = null
+
+endfunction
